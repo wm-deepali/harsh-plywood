@@ -32,6 +32,17 @@
 
                 <div class="card-body">
 
+                    {{-- Validation Errors --}}
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form id="blogForm" method="POST" enctype="multipart/form-data"
                         action="{{ route('admin.blogs.update', $blog->id) }}">
 
@@ -41,40 +52,78 @@
                         <!-- Title -->
                         <div class="form-group">
                             <label>Title *</label>
-                            <input type="text" name="title" id="title" class="form-control"
-                                value="{{ $blog->title }}" required>
+
+                            <input type="text"
+                                   name="title"
+                                   id="title"
+                                   class="form-control @error('title') is-invalid @enderror"
+                                   value="{{ old('title', $blog->title) }}"
+                                   required>
+
+                            @error('title')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Slug -->
                         <div class="form-group mt-3">
                             <label>Slug</label>
-                            <input type="text" name="slug" id="slug" class="form-control"
-                                value="{{ $blog->slug }}">
+
+                            <input type="text"
+                                   name="slug"
+                                   id="slug"
+                                   class="form-control @error('slug') is-invalid @enderror"
+                                   value="{{ old('slug', $blog->slug) }}">
+
+                            @error('slug')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Image -->
                         <div class="form-group mt-3">
                             <label>Image</label>
-                            <input type="file" name="image" class="form-control">
+
+                            <input type="file"
+                                   name="image"
+                                   class="form-control @error('image') is-invalid @enderror">
+
+                            @error('image')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
 
                             @if($blog->image)
-                                <!-- ⚠️ FIXED PATH -->
-                                <img src="{{ asset('storage/' . $blog->image) }}" width="120" class="mt-2">
+                                <img src="{{ asset('storage/' . $blog->image) }}"
+                                    width="120" class="mt-2">
                             @endif
                         </div>
 
                         <!-- Short Description -->
                         <div class="form-group mt-3">
                             <label>Short Description</label>
-                            <textarea name="short_description" class="form-control"
-                                rows="3">{{ $blog->short_description }}</textarea>
+
+                            <textarea name="short_description"
+                                      class="form-control @error('short_description') is-invalid @enderror"
+                                      rows="3">{{ old('short_description', $blog->short_description) }}</textarea>
+
+                            @error('short_description')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Content -->
                         <div class="form-group mt-3">
                             <label>Content *</label>
-                            <textarea name="content" class="form-control"
-                                rows="6" required>{{ $blog->content }}</textarea>
+
+                            <textarea name="content"
+                                      id="content"
+                                      class="form-control @error('content') is-invalid @enderror"
+                                      rows="6"
+                                      required>{{ old('content', $blog->content) }}</textarea>
+
+                            @error('content')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- 🔥 SEO Section -->
@@ -84,24 +133,40 @@
 
                         <div class="form-group">
                             <label>Meta Title</label>
-                            <input type="text" name="meta_title" id="meta_title" class="form-control"
-                                value="{{ $blog->meta_title }}">
+
+                            <input type="text"
+                                   name="meta_title"
+                                   id="meta_title"
+                                   class="form-control @error('meta_title') is-invalid @enderror"
+                                   value="{{ old('meta_title', $blog->meta_title) }}">
+
+                            @error('meta_title')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="form-group mt-3">
                             <label>Meta Description</label>
-                            <textarea name="meta_description" id="meta_description"
-                                class="form-control"
-                                rows="3">{{ $blog->meta_description }}</textarea>
+
+                            <textarea name="meta_description"
+                                      id="meta_description"
+                                      class="form-control @error('meta_description') is-invalid @enderror"
+                                      rows="3">{{ old('meta_description', $blog->meta_description) }}</textarea>
+
+                            @error('meta_description')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Checkbox -->
                         <div class="form-group mt-3">
 
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="show_home" id="show_home"
-                                    class="custom-control-input"
-                                    {{ $blog->show_home ? 'checked' : '' }}>
+                                <input type="checkbox"
+                                       name="show_home"
+                                       id="show_home"
+                                       class="custom-control-input"
+                                       {{ $blog->show_home ? 'checked' : '' }}>
 
                                 <label class="custom-control-label" for="show_home">
                                     Show on Home Page
@@ -109,9 +174,11 @@
                             </div>
 
                             <div class="custom-control custom-checkbox mt-2">
-                                <input type="checkbox" name="status" id="status"
-                                    class="custom-control-input"
-                                    {{ $blog->status ? 'checked' : '' }}>
+                                <input type="checkbox"
+                                       name="status"
+                                       id="status"
+                                       class="custom-control-input"
+                                       {{ $blog->status ? 'checked' : '' }}>
 
                                 <label class="custom-control-label" for="status">
                                     Active
@@ -147,8 +214,9 @@
 </div>
 
 @include('admin.footer')
-
+<script src="https://cdn.ckeditor.com/4.25.1/standard/ckeditor.js"></script>
 <script>
+        CKEDITOR.replace('content');
     // ✅ Auto slug
     document.getElementById('title').addEventListener('keyup', function () {
         let slug = this.value

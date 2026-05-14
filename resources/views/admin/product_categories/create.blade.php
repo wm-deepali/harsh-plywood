@@ -13,25 +13,25 @@
                         <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a href="{{ route('admin.blogs.index') }}">Manage Blogs</a>
+                        <a href="{{ route('admin.product-categories.index') }}">Manage Categories</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        Add Blog
+                        Add Category
                     </li>
                 </ol>
             </div>
         </div>
 
         <div class="content-wrapper pb-4">
+
             <div class="card shadow-sm">
 
                 <div class="card-header">
-                    <strong>Add Blog</strong>
+                    <strong>Add Category</strong>
                 </div>
 
                 <div class="card-body">
 
-                    {{-- Validation Errors --}}
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">
@@ -42,28 +42,28 @@
                         </div>
                     @endif
 
-                    <form id="blogForm" method="POST" enctype="multipart/form-data"
-                        action="{{ route('admin.blogs.store') }}">
+                    <form id="categoryForm"
+                          method="POST"
+                          enctype="multipart/form-data"
+                          action="{{ route('admin.product-categories.store') }}">
 
                         @csrf
 
-                        <!-- Title -->
                         <div class="form-group">
-                            <label>Title *</label>
+                            <label>Category Name *</label>
 
                             <input type="text"
-                                   name="title"
-                                   id="title"
-                                   class="form-control @error('title') is-invalid @enderror"
-                                   value="{{ old('title') }}"
+                                   name="name"
+                                   id="name"
+                                   class="form-control @error('name') is-invalid @enderror"
+                                   value="{{ old('name') }}"
                                    required>
 
-                            @error('title')
+                            @error('name')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <!-- Slug -->
                         <div class="form-group mt-3">
                             <label>Slug</label>
 
@@ -78,9 +78,45 @@
                             @enderror
                         </div>
 
-                        <!-- Image -->
                         <div class="form-group mt-3">
-                            <label>Image</label>
+                            <label>Heading</label>
+
+                            <input type="text"
+                                   name="heading"
+                                   class="form-control @error('heading') is-invalid @enderror"
+                                   value="{{ old('heading') }}">
+
+                            @error('heading')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label>Sub Heading</label>
+
+                            <input type="text"
+                                   name="sub_heading"
+                                   class="form-control @error('sub_heading') is-invalid @enderror"
+                                   value="{{ old('sub_heading') }}">
+
+                            @error('sub_heading')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label>Short Description</label>
+
+                            <textarea name="short_description"
+                                      class="form-control @error('short_description') is-invalid @enderror">{{ old('short_description') }}</textarea>
+
+                            @error('short_description')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label>Category Image</label>
 
                             <input type="file"
                                    name="image"
@@ -91,40 +127,11 @@
                             @enderror
                         </div>
 
-                        <!-- Short Description -->
-                        <div class="form-group mt-3">
-                            <label>Short Description</label>
-
-                            <textarea name="short_description"
-                                      class="form-control @error('short_description') is-invalid @enderror"
-                                      rows="3">{{ old('short_description') }}</textarea>
-
-                            @error('short_description')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- Content -->
-                        <div class="form-group mt-3">
-                            <label>Content *</label>
-
-                            <textarea name="content"
-                                      id="content"
-                                      class="form-control @error('content') is-invalid @enderror"
-                                      rows="6"
-                                      required>{{ old('content') }}</textarea>
-
-                            @error('content')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-
-                        <!-- 🔥 SEO Section -->
                         <hr class="mt-4">
 
-                        <h5 class="mb-3">SEO Settings</h5>
+                        <h5>SEO Settings</h5>
 
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <label>Meta Title</label>
 
                             <input type="text"
@@ -142,30 +149,17 @@
                             <label>Meta Description</label>
 
                             <textarea name="meta_description"
-                                      id="meta_description"
-                                      class="form-control @error('meta_description') is-invalid @enderror"
-                                      rows="3">{{ old('meta_description') }}</textarea>
+                                      class="form-control @error('meta_description') is-invalid @enderror">{{ old('meta_description') }}</textarea>
 
                             @error('meta_description')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
 
-                        <!-- Checkbox -->
                         <div class="form-group mt-3">
 
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox"
-                                       name="show_home"
-                                       id="show_home"
-                                       class="custom-control-input">
 
-                                <label class="custom-control-label" for="show_home">
-                                    Show on Home Page
-                                </label>
-                            </div>
-
-                            <div class="custom-control custom-checkbox mt-2">
                                 <input type="checkbox"
                                        name="status"
                                        id="status"
@@ -175,20 +169,26 @@
                                 <label class="custom-control-label" for="status">
                                     Active
                                 </label>
+
                             </div>
 
                         </div>
 
-                        <!-- Buttons -->
                         <div class="mt-4">
 
-                            <button type="submit" id="saveBtn" class="btn btn-success">
-                                <i class="fa-solid fa-save"></i>
-                                Save Blog
+                            <button type="submit"
+                                    id="saveBtn"
+                                    class="btn btn-success">
+
+                                Save Category
+
                             </button>
 
-                            <a href="{{ route('admin.blogs.index') }}" class="btn btn-secondary">
+                            <a href="{{ route('admin.product-categories.index') }}"
+                               class="btn btn-secondary">
+
                                 Cancel
+
                             </a>
 
                         </div>
@@ -198,6 +198,7 @@
                 </div>
 
             </div>
+
         </div>
 
     </div>
@@ -205,12 +206,11 @@
 </div>
 
 @include('admin.footer')
-<script src="https://cdn.ckeditor.com/4.25.1/standard/ckeditor.js"></script>
-<script>
-        CKEDITOR.replace('content');
 
-    // ✅ Auto slug
-    document.getElementById('title').addEventListener('keyup', function () {
+<script>
+
+    document.getElementById('name').addEventListener('keyup', function () {
+
         let slug = this.value
             .toLowerCase()
             .replace(/ /g, '-')
@@ -218,26 +218,19 @@
 
         document.getElementById('slug').value = slug;
 
-        // ✅ Auto meta title if empty
         if (!document.getElementById('meta_title').value) {
             document.getElementById('meta_title').value = this.value;
         }
     });
 
-    // ✅ Auto meta description from content (first 150 chars)
-    document.querySelector('textarea[name="content"]').addEventListener('keyup', function () {
-        let content = this.value.replace(/<\/?[^>]+(>|$)/g, "");
-        let shortText = content.substring(0, 150);
+    document.getElementById('categoryForm').addEventListener('submit', function () {
 
-        if (!document.getElementById('meta_description').value) {
-            document.getElementById('meta_description').value = shortText;
-        }
-    });
-
-    // ✅ Prevent double submit
-    document.getElementById('blogForm').addEventListener('submit', function () {
         let btn = document.getElementById('saveBtn');
+
         btn.disabled = true;
-        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Saving...';
+
+        btn.innerHTML = 'Saving...';
+
     });
+
 </script>

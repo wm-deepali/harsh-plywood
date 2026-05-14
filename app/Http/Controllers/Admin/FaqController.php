@@ -27,19 +27,19 @@ class FaqController extends Controller
     {
 
         $request->validate([
-            'question'=>'required',
-            'answer'=>'required'
+            'question' => 'required',
+            'answer' => 'required'
         ]);
 
         Faq::create([
 
-            'question'=>$request->question,
+            'question' => $request->question,
 
-            'answer'=>$request->answer,
+            'answer' => $request->answer,
 
-            'show_home'=>$request->show_home ? 1:0,
+            'show_home' => $request->show_home ? 1 : 0,
 
-            'status'=>$request->status ? 1:0
+            'status' => $request->status ? 1 : 0
 
         ]);
 
@@ -60,17 +60,22 @@ class FaqController extends Controller
     public function update(Request $request,$id)
     {
 
+        $request->validate([
+            'question' => 'required',
+            'answer' => 'required'
+        ]);
+
         $faq = Faq::findOrFail($id);
 
         $faq->update([
 
-            'question'=>$request->question,
+            'question' => $request->question,
 
-            'answer'=>$request->answer,
+            'answer' => $request->answer,
 
-            'show_home'=>$request->show_home ? 1:0,
+            'show_home' => $request->show_home ? 1 : 0,
 
-            'status'=>$request->status ? 1:0
+            'status' => $request->status ? 1 : 0
 
         ]);
 

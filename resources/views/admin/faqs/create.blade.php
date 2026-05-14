@@ -39,6 +39,17 @@
 
                 <div class="card-body">
 
+                    {{-- Validation Errors --}}
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form id="faqForm" method="POST" action="{{ route('admin.faqs.store') }}">
 
                         @csrf
@@ -48,7 +59,15 @@
 
                             <label>Question *</label>
 
-                            <input type="text" name="question" class="form-control" required>
+                            <input type="text"
+                                   name="question"
+                                   class="form-control @error('question') is-invalid @enderror"
+                                   value="{{ old('question') }}"
+                                   required>
+
+                            @error('question')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
 
                         </div>
 
@@ -57,7 +76,14 @@
 
                             <label>Answer *</label>
 
-                            <textarea name="answer" rows="5" class="form-control" required></textarea>
+                            <textarea name="answer"
+                                      rows="5"
+                                      class="form-control @error('answer') is-invalid @enderror"
+                                      required>{{ old('answer') }}</textarea>
+
+                            @error('answer')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
 
                         </div>
 
@@ -66,7 +92,10 @@
 
                             <div class="custom-control custom-checkbox">
 
-                                <input type="checkbox" name="show_home" id="show_home" class="custom-control-input">
+                                <input type="checkbox"
+                                       name="show_home"
+                                       id="show_home"
+                                       class="custom-control-input">
 
                                 <label class="custom-control-label" for="show_home">
                                     Show on Home Page
@@ -77,7 +106,11 @@
 
                             <div class="custom-control custom-checkbox mt-2">
 
-                                <input type="checkbox" name="status" id="status" class="custom-control-input" checked>
+                                <input type="checkbox"
+                                       name="status"
+                                       id="status"
+                                       class="custom-control-input"
+                                       checked>
 
                                 <label class="custom-control-label" for="status">
                                     Active
