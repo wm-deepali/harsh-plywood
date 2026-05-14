@@ -95,6 +95,21 @@
                         Awards & Certifications
                     </a>
                 </li>
+                <li class="{{ request()->routeIs('admin.contact-us.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.contact-us.index') }}">
+                        Contact Us
+                    </a>
+                </li>
+                <li class="{{ request()->routeIs('admin.brands.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.brands.index') }}">
+                        Our Brands
+                    </a>
+                </li>
+                <li class="{{ request()->routeIs('admin.teams.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.teams.index') }}">
+                        Our Team
+                    </a>
+                </li>
             </ul>
         </li>
 

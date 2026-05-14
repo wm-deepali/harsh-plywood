@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\HrbIntroFeature;
-use App\Models\HrbPage;
+use App\Models\HiStyleIntroFeature;
+use App\Models\HiStylePage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class HrbController extends Controller
+class HiStyleController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -18,7 +18,7 @@ class HrbController extends Controller
 
     public function index()
     {
-        return view('admin.hrb.index');
+        return view('admin.hi_style.index');
     }
 
     /*
@@ -29,9 +29,9 @@ class HrbController extends Controller
 
     public function heroEdit()
     {
-        $hrb = HrbPage::first();
+        $hi_style = HiStylePage::first();
 
-        return view('admin.hrb.hero-edit', compact('hrb'));
+        return view('admin.hi_style.hero-edit', compact('hi_style'));
     }
 
     public function heroUpdate(Request $request)
@@ -52,33 +52,33 @@ class HrbController extends Controller
 
         ]);
 
-        $hrb = HrbPage::first();
+        $hi_style = HiStylePage::first();
 
-        if (!$hrb) {
+        if (!$hi_style) {
 
-            $hrb = new HrbPage();
+            $hi_style = new HiStylePage();
 
         }
 
-        $heroImage = $hrb->hero_image;
+        $heroImage = $hi_style->hero_image;
 
         if ($request->hasFile('hero_image')) {
 
-            if ($hrb->hero_image) {
+            if ($hi_style->hero_image) {
 
                 Storage::disk('public')
-                    ->delete($hrb->hero_image);
+                    ->delete($hi_style->hero_image);
 
             }
 
             $heroImage = $request->file('hero_image')
-                ->store('hrb', 'public');
+                ->store('hi_style', 'public');
 
         }
 
-        HrbPage::updateOrCreate(
+        HiStylePage::updateOrCreate(
 
-            ['id' => $hrb->id ?? null],
+            ['id' => $hi_style->id ?? null],
 
             [
 
@@ -112,12 +112,12 @@ class HrbController extends Controller
 
     public function introEdit()
     {
-        $hrb = HrbPage::first();
+        $hi_style = HiStylePage::first();
 
-        $features = HrbIntroFeature::latest()->get();
+        $features = HiStyleIntroFeature::latest()->get();
 
-        return view('admin.hrb.intro-edit', compact(
-            'hrb',
+        return view('admin.hi_style.intro-edit', compact(
+            'hi_style',
             'features'
         ));
     }
@@ -138,48 +138,48 @@ class HrbController extends Controller
 
         ]);
 
-        $hrb = HrbPage::first();
+        $hi_style = HiStylePage::first();
 
-        if (!$hrb) {
+        if (!$hi_style) {
 
-            $hrb = new HrbPage();
+            $hi_style = new HiStylePage();
 
         }
 
-        $image1 = $hrb->intro_image_1;
-        $image2 = $hrb->intro_image_2;
+        $image1 = $hi_style->intro_image_1;
+        $image2 = $hi_style->intro_image_2;
 
         if ($request->hasFile('intro_image_1')) {
 
-            if ($hrb->intro_image_1) {
+            if ($hi_style->intro_image_1) {
 
                 Storage::disk('public')
-                    ->delete($hrb->intro_image_1);
+                    ->delete($hi_style->intro_image_1);
 
             }
 
             $image1 = $request->file('intro_image_1')
-                ->store('hrb', 'public');
+                ->store('hi_style', 'public');
 
         }
 
         if ($request->hasFile('intro_image_2')) {
 
-            if ($hrb->intro_image_2) {
+            if ($hi_style->intro_image_2) {
 
                 Storage::disk('public')
-                    ->delete($hrb->intro_image_2);
+                    ->delete($hi_style->intro_image_2);
 
             }
 
             $image2 = $request->file('intro_image_2')
-                ->store('hrb', 'public');
+                ->store('hi_style', 'public');
 
         }
 
-        HrbPage::updateOrCreate(
+        HiStylePage::updateOrCreate(
 
-            ['id' => $hrb->id ?? null],
+            ['id' => $hi_style->id ?? null],
 
             [
 
@@ -218,7 +218,7 @@ class HrbController extends Controller
 
         ]);
 
-        HrbIntroFeature::create([
+        HiStyleIntroFeature::create([
 
             'title' => $request->title,
 
@@ -235,7 +235,7 @@ class HrbController extends Controller
 
     public function introFeatureDelete($id)
     {
-        $feature = HrbIntroFeature::findOrFail($id);
+        $feature = HiStyleIntroFeature::findOrFail($id);
 
         $feature->delete();
 
@@ -252,9 +252,9 @@ class HrbController extends Controller
 
     public function contactEdit()
     {
-        $hrb = HrbPage::first();
+        $hi_style = HiStylePage::first();
 
-        return view('admin.hrb.contact-edit', compact('hrb'));
+        return view('admin.hi_style.contact-edit', compact('hi_style'));
     }
 
     public function contactUpdate(Request $request)
@@ -271,17 +271,17 @@ class HrbController extends Controller
 
         ]);
 
-        $hrb = HrbPage::first();
+        $hi_style = HiStylePage::first();
 
-        if (!$hrb) {
+        if (!$hi_style) {
 
-            $hrb = new HrbPage();
+            $hi_style = new HiStylePage();
 
         }
 
-        HrbPage::updateOrCreate(
+        HiStylePage::updateOrCreate(
 
-            ['id' => $hrb->id ?? null],
+            ['id' => $hi_style->id ?? null],
 
             [
 

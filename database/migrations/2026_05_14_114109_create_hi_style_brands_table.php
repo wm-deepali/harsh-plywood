@@ -10,8 +10,16 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('hrb_sections', function (Blueprint $table) {
-            $table->string('page')->default('hrb'); // hrb / hi_style
+        Schema::create('hi_style_brands', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('brand_name')->nullable();
+
+            $table->string('brand_logo')->nullable();
+
+            $table->boolean('status')->default(1);
+
+            $table->timestamps();
         });
     }
 
@@ -20,8 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('hrb_sections', function (Blueprint $table) {
-            $table->dropColumn('page');
-        });
+        Schema::dropIfExists('hi_style_brands');
     }
 };

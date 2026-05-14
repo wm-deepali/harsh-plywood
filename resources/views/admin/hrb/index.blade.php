@@ -1,151 +1,290 @@
+{{-- resources/views/admin/hrb/index.blade.php --}}
+
 @include('admin.top-header')
 
 <div class="main-section">
+
     @include('admin.header')
 
-    <div class="app-content container-fluid">
+    <div class="app-content content container-fluid">
 
-        <div class="breadcrumbs-top bg-light mb-3">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">HRB Page</li>
-            </ol>
+        {{-- Breadcrumb --}}
+        <div class="breadcrumbs-top d-flex align-items-center bg-light mb-3">
+
+            <div class="breadcrumb-wrapper">
+
+                <ol class="breadcrumb bg-transparent mb-0">
+
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('admin.dashboard') }}">
+                            Dashboard
+                        </a>
+                    </li>
+
+                    <li class="breadcrumb-item active">
+                        HRB Page Management
+                    </li>
+
+                </ol>
+
+            </div>
+
         </div>
 
+        {{-- Content --}}
         <div class="content-wrapper pb-4">
 
-            <!-- HERO -->
-            <div class="card mb-3">
-                <div class="card-header"><strong>Hero Section</strong></div>
-                <div class="card-body">
+            <div class="card shadow-sm">
 
-                    <form method="POST" action="{{ route('admin.hrb.update', 'hero') }}">
-                        @csrf
-
-                        <input type="text" name="heading" class="form-control mb-2" placeholder="Heading"
-                            value="{{ $hero->heading ?? '' }}">
-
-                        <input type="text" name="sub_heading" class="form-control mb-2" placeholder="Sub Heading"
-                            value="{{ $hero->sub_heading ?? '' }}">
-
-                        <textarea name="short_description"
-                            class="form-control mb-2">{{ $hero->short_description ?? '' }}</textarea>
-
-                        <input type="text" name="button_text" class="form-control mb-2" placeholder="Button Text"
-                            value="{{ $hero->button_text ?? '' }}">
-
-                        <button class="btn btn-success">Save</button>
-
-                    </form>
-
+                <div class="card-header">
+                    <strong>Manage HRB Sections</strong>
                 </div>
-            </div>
 
-            <!-- DETAIL 1 -->
-            <div class="card mb-3">
-                <div class="card-header"><strong>Detail Section</strong></div>
-                <div class="card-body">
+                <div class="card-body p-0">
 
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('admin.hrb.update', 'detail') }}">
-                        @csrf
+                    <div class="table-responsive">
 
-                        <textarea name="content" id="detail"
-                            class="form-control mb-2">{{ $detail->content ?? '' }}</textarea>
+                        <table class="table table-bordered table-hover mb-0">
 
-                        <input type="file" name="image" class="form-control mb-2">
+                            <thead class="thead-light">
 
-                        @if(!empty($detail->image))
-                            <img src="{{ asset('storage/' . $detail->image) }}" width="120">
-                        @endif
+                                <tr>
 
-                        <button class="btn btn-success mt-2">Save</button>
+                                    <th width="80">
+                                        #
+                                    </th>
 
-                    </form>
+                                    <th width="250">
+                                        Section
+                                    </th>
 
-                </div>
-            </div>
+                                    <th>
+                                        Details
+                                    </th>
 
-            <!-- DETAIL 2 -->
-            <div class="card mb-3">
-                <div class="card-header"><strong>Detail 2 Section</strong></div>
-                <div class="card-body">
+                                    <th width="150">
+                                        Action
+                                    </th>
 
-                    <form method="POST" enctype="multipart/form-data"
-                        action="{{ route('admin.hrb.update', 'detail2') }}">
-                        @csrf
+                                </tr>
 
-                        <textarea name="content" id="detail2"
-                            class="form-control mb-2">{{ $detail2->content ?? '' }}</textarea>
+                            </thead>
 
-                        <input type="file" name="image" class="form-control mb-2">
+                            <tbody>
 
-                        @if(!empty($detail2->image))
-                            <img src="{{ asset('storage/' . $detail2->image) }}" width="120">
-                        @endif
+                                {{-- HERO SECTION --}}
+                                <tr>
 
-                        <button class="btn btn-success mt-2">Save</button>
+                                    <td>1</td>
 
-                    </form>
+                                    <td>
+                                        <strong>Hero Section</strong>
+                                    </td>
 
-                </div>
-            </div>
+                                    <td>
+                                        Heading,
+                                        Sub Heading,
+                                        Short Description,
+                                        Button Text,
+                                        Hero Image
+                                    </td>
 
-            <!-- AFFILIATIONS -->
-            <div class="card">
-                <div class="card-header"><strong>Our Affiliations</strong></div>
-                <div class="card-body">
+                                    <td>
 
-                    <form method="POST" enctype="multipart/form-data"
-                        action="{{ route('admin.hrb.affiliation.store') }}">
-                        @csrf
+                                        <a href="{{ route('admin.hrb.hero.edit') }}" class="btn btn-sm btn-primary">
 
-                        <input type="file" name="image" class="form-control mb-2">
-                        <input type="text" name="title" placeholder="Title" class="form-control mb-2">
+                                            Edit
 
-                        <button class="btn btn-primary">Add</button>
+                                        </a>
 
-                    </form>
+                                    </td>
 
-                    <hr>
+                                </tr>
 
-                    <div class="d-flex flex-wrap">
+                                {{-- INTRODUCTION --}}
+                                <tr>
 
-                        @foreach($affiliations as $a)
-                            <div id="aff{{ $a->id }}" class="text-center mr-3 mb-3">
+                                    <td>2</td>
 
-                                <img src="{{ asset('storage/' . $a->image) }}" width="100"><br>
+                                    <td>
+                                        <strong>Introduction Section</strong>
+                                    </td>
 
-                                <strong>{{ $a->title }}</strong><br>
+                                    <td>
+                                        2 Images,
+                                        Sub Title,
+                                        Heading,
+                                        Detail Content,
+                                        Features with Icons
+                                    </td>
 
-                                <button onclick="deleteAff({{ $a->id }})" class="btn btn-danger btn-sm mt-1">Delete</button>
+                                    <td>
 
-                            </div>
-                        @endforeach
+                                        <a href="{{ route('admin.hrb.intro.edit') }}" class="btn btn-sm btn-primary">
+
+                                            Edit
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                {{-- WHAT WE OFFER --}}
+                                <tr>
+
+                                    <td>3</td>
+
+                                    <td>
+                                        <strong>What We Offer</strong>
+                                    </td>
+
+                                    <td>
+                                        Title,
+                                        Short Content,
+                                        Icon,
+                                        Image
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{{ route('admin.hrb-offers.index') }}" class="btn btn-sm btn-success">
+
+                                            Manage
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                {{-- WHY CHOOSE US --}}
+                                <tr>
+
+                                    <td>4</td>
+
+                                    <td>
+                                        <strong>Why Choose Us</strong>
+                                    </td>
+
+                                    <td>
+                                        Image/Icon,
+                                        Title,
+                                        Short Content
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{{ route('admin.hrb-why-choose.index') }}"
+                                            class="btn btn-sm btn-success">
+
+                                            Manage
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                {{-- FEATURES / COUNTER --}}
+                                <tr>
+
+                                    <td>5</td>
+
+                                    <td>
+                                        <strong>Features / Counter</strong>
+                                    </td>
+
+                                    <td>
+                                        Heading,
+                                        Sub Heading,
+                                        Counter Icon,
+                                        Counter Value,
+                                        Counter Text
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{{ route('admin.hrb.counter.edit') }}"
+                                            class="btn btn-sm btn-primary">
+
+                                            Edit
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                {{-- CONTACT SECTION --}}
+                                <tr>
+
+                                    <td>6</td>
+
+                                    <td>
+                                        <strong>Contact Section</strong>
+                                    </td>
+
+                                    <td>
+                                        Contact Heading,
+                                        Contact Description,
+                                        Phone,
+                                        Email
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{{ route('admin.hrb.contact.edit') }}" class="btn btn-sm btn-primary">
+
+                                            Edit
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                {{-- OUR BRANDS --}}
+                                <tr>
+
+                                    <td>7</td>
+
+                                    <td>
+                                        <strong>Our Brands</strong>
+                                    </td>
+
+                                    <td>
+                                        Brand Logo,
+                                        Brand Name,
+                                        Multiple Brands
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{{ route('admin.hrb-brands.index') }}" class="btn btn-sm btn-success">
+
+                                            Manage
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
 
                     </div>
 
                 </div>
+
             </div>
 
         </div>
+
     </div>
 
-    @include('admin.footer')
+</div>
 
-    <script src="https://cdn.ckeditor.com/4.25.1/standard/ckeditor.js"></script>
-
-    <script>
-        CKEDITOR.replace('detail');
-        CKEDITOR.replace('detail2');
-
-        function deleteAff(id) {
-            $.ajax({
-                url: "/admin/hrb-affiliation/" + id,
-                type: "DELETE",
-                data: { _token: "{{ csrf_token() }}" },
-                success: function () {
-                    $("#aff" + id).remove();
-                }
-            });
-        }
-    </script>
+@include('admin.footer')
