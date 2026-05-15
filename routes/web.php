@@ -40,6 +40,16 @@ use App\Http\Controllers\Admin\HiStyleWhyChooseController;
 Route::controller(FrontController::class)->group(function () {
 
     Route::get('/', 'home')->name('home');
+    Route::get('/about-us', 'about')->name('about-us');
+    Route::get('/products', 'products')->name('products');
+    Route::get('/gallery', 'gallery')->name('gallery');
+    Route::get('/blogs', 'blogs')->name('blogs');
+    Route::get('/blog-details', 'blogDetails')->name('blog-details');
+    Route::get('/faq', 'faq')->name('faq');
+    Route::get('hrb-plywood', 'hrbPlywood')->name('hrb-plywood');
+    Route::get('our-brands', 'brands')->name('our-brands');
+    Route::get('contact-us', 'contact')->name('contact-us');
+    Route::get('products-details', 'productDetails')->name('products-details');
 
 });
 
@@ -184,10 +194,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('pages', PageController::class);
 
-        Route::resource('gallery-categories',GalleryCategoryController::class);
+        Route::resource('gallery-categories', GalleryCategoryController::class);
         Route::resource('galleries', GalleryController::class);
 
-        Route::resource('hero-sliders',HeroSliderController::class);
+        Route::resource('hero-sliders', HeroSliderController::class);
 
         Route::get('sales-enquiries', [SalesEnquiryController::class, 'index'])->name('sales_enquiries.index');
         Route::delete('sales-enquiries/{id}', [SalesEnquiryController::class, 'destroy']);

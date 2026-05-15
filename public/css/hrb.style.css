@@ -1,0 +1,421 @@
+/* HRB LANDING PAGE CUSTOM STYLES */
+:root {
+    --wood-primary: #6B4F3A;
+    --wood-secondary: #E8D9C5;
+    --wood-accent: #C28B4E;
+    --wood-bg: #F7F5F2;
+    --wood-text: #2B2B2B;
+}
+
+.hrb-landing-page {
+    background-color: #F7F5F2;
+    color: #2B2B2B;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Typography Overrides */
+.hrb-landing-page h1,
+.hrb-landing-page h2,
+.hrb-landing-page h3,
+.hrb-landing-page h4,
+.hrb-landing-page h5,
+.hrb-landing-page h6 {
+    color: #6B4F3A;
+}
+
+.hrb-text-accent {
+    color: #C28B4E !important;
+}
+
+.hrb-bg-primary {
+    background-color: #6B4F3A !important;
+    color: #fff !important;
+}
+
+/* Hero */
+.hrb-landing-page .ultra-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: #111;
+    overflow: hidden;
+}
+
+.hrb-landing-page @keyframes panImage {
+    0% {
+        transform: scale(1) translateX(0);
+    }
+
+    100% {
+        transform: scale(1.05) translateX(15px);
+    }
+}
+
+.hrb-landing-page .ultra-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(107, 79, 58, 0.9) 0%, rgba(107, 79, 58, 0.5) 50%, rgba(43, 43, 43, 0.6) 100%);
+    z-index: 1;
+}
+
+.hrb-landing-page .ultra-hero-content {
+    position: relative;
+    z-index: 2;
+    padding-top: 100px;
+}
+
+.hrb-landing-page .ultra-badge {
+    background: rgba(232, 217, 197, 0.15);
+    border: 1px solid rgba(194, 139, 78, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 8px 20px;
+    border-radius: 4px;
+    color: #E8D9C5;
+    letter-spacing: 2px;
+    font-size: 12px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 25px;
+}
+
+.hrb-landing-page .ultra-title {
+    font-size: 4rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 25px;
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.hrb-landing-page .ultra-desc {
+    font-size: 1.2rem;
+    color: #E8D9C5;
+    max-width: 550px;
+    margin-bottom: 40px;
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+.hrb-landing-page .ultra-btn {
+    background: #C28B4E;
+    color: #fff;
+    padding: 15px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(194, 139, 78, 0.3);
+    border: 2px solid #C28B4E;
+    display: inline-block;
+}
+
+.hrb-landing-page .ultra-btn:hover {
+    background: #6B4F3A;
+    border-color: #6B4F3A;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(107, 79, 58, 0.3);
+}
+
+/* About */
+.hrb-landing-page .about-grid {
+    position: relative;
+}
+
+.hrb-landing-page .img-main {
+    width: 85%;
+    border-radius: 8px;
+    box-shadow: 0 20px 40px rgba(43, 43, 43, 0.2);
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(107, 79, 58, 0.1);
+}
+
+.hrb-landing-page .img-float {
+    position: absolute;
+    bottom: -15%;
+    right: 0;
+    width: 50%;
+    border-radius: 8px;
+    border: 8px solid #F7F5F2;
+    box-shadow: 0 25px 50px rgba(43, 43, 43, 0.2);
+    z-index: 2;
+}
+
+.hrb-landing-page .about-text-box {
+    padding: 40px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 15px 40px rgba(43, 43, 43, 0.05);
+    position: relative;
+    border: 1px solid rgba(232, 217, 197, 0.5);
+}
+
+.hrb-landing-page .about-text-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100px;
+    background: #C28B4E;
+    border-top-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Products */
+.hrb-landing-page .product-modern-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(107, 79, 58, 0.1);
+    transition: 0.4s ease;
+    position: relative;
+}
+
+.hrb-landing-page .product-modern-img {
+    height: 280px;
+    width: 100%;
+    object-fit: cover;
+    transition: 0.7s ease;
+}
+
+.hrb-landing-page .product-modern-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(107, 79, 58, 0.15);
+    border-color: #C28B4E;
+}
+
+.hrb-landing-page .product-modern-card:hover .product-modern-img {
+    transform: scale(1.05);
+}
+
+.hrb-landing-page .product-modern-content {
+    padding: 35px 30px;
+    position: relative;
+    background: #fff;
+    z-index: 2;
+}
+
+.hrb-landing-page .product-modern-icon {
+    position: absolute;
+    top: -25px;
+    right: 30px;
+    width: 55px;
+    height: 55px;
+    background: #F7F5F2;
+    color: #C28B4E;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 10px 20px rgba(43, 43, 43, 0.1);
+    border: 2px solid #C28B4E;
+    transition: 0.3s;
+}
+
+.hrb-landing-page .product-modern-card:hover .product-modern-icon {
+    background: #C28B4E;
+    color: #fff;
+}
+
+/* Legacy */
+.hrb-landing-page .legacy-section {
+    background: linear-gradient(135deg, #2B2B2B 0%, #1A1A1A 100%);
+    color: #E8D9C5;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+    border-top: 5px solid #C28B4E;
+}
+
+.hrb-landing-page .legacy-pattern {
+    position: absolute;
+    inset: 0;
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat;
+    opacity: 0.1;
+}
+
+.hrb-landing-page .legacy-card {
+    background: rgba(232, 217, 197, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(194, 139, 78, 0.2);
+    border-radius: 8px;
+    padding: 45px 30px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.hrb-landing-page .legacy-card:hover {
+    border-color: #C28B4E;
+    transform: translateY(-5px);
+    background: rgba(232, 217, 197, 0.1);
+}
+
+.hrb-landing-page .legacy-stat {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #C28B4E;
+    margin-bottom: 5px;
+    font-family: serif;
+}
+
+/* Contact */
+.hrb-landing-page .contact-ultra-wrapper {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 30px 60px rgba(107, 79, 58, 0.1);
+    overflow: hidden;
+    /* margin-top: -80px; */
+    position: relative;
+    z-index: 10;
+    border: 1px solid rgba(232, 217, 197, 0.5);
+}
+
+.hrb-landing-page .contact-ultra-info {
+    background: url('https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&w=1920&q=80') center/cover;
+    position: relative;
+    padding: 60px 40px;
+    color: #fff;
+    height: 100%;
+}
+
+.hrb-landing-page .contact-ultra-info::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #6B4F3A 0%, rgba(107, 79, 58, 0.9) 100%);
+}
+
+.hrb-landing-page .contact-ultra-info-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hrb-landing-page .ultra-input {
+    border: none;
+    border-bottom: 1px solid #E8D9C5;
+    border-radius: 0;
+    padding: 15px 0;
+    font-size: 16px;
+    transition: 0.3s;
+    background: transparent;
+    color: #2B2B2B;
+}
+
+.hrb-landing-page .ultra-input:focus {
+    box-shadow: none;
+    border-bottom: 2px solid #C28B4E;
+    background: transparent;
+}
+
+.hrb-landing-page .ultra-label {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #6B4F3A;
+    margin-bottom: 0;
+}
+
+/* Why Choose Us Feature Cards */
+.hrb-landing-page .feature-card {
+    background: #fff;
+    border: 1px solid #E8D9C5;
+    border-radius: 8px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: 0.4s;
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(43, 43, 43, 0.05);
+}
+
+.hrb-landing-page .feature-card:hover {
+    transform: translateY(-10px);
+    border-color: #C28B4E;
+    box-shadow: 0 15px 35px rgba(107, 79, 58, 0.15);
+}
+
+.hrb-landing-page .feature-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: #F7F5F2;
+    color: #C28B4E;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 25px;
+    transition: 0.3s;
+    border: 1px solid rgba(194, 139, 78, 0.3);
+}
+
+.hrb-landing-page .feature-card:hover .feature-icon-wrapper {
+    background: #C28B4E;
+    color: #fff;
+}
+
+@media (max-width: 991px) {
+    .hrb-landing-page .ultra-title {
+        font-size: 2.8rem;
+    }
+}
+
+
+/* Clients / Brands */
+.hrb-landing-page .client-logo-box {
+    font-size: 28px;
+    font-weight: 800;
+    color: #6B4F3A;
+    opacity: 0.5;
+    transition: 0.4s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+}
+
+.hrb-landing-page .client-logo-box:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    color: #C28B4E;
+    text-shadow: 0 5px 15px rgba(107, 79, 58, 0.2);
+}
+
+
+
+.hrb-landing-page .ultra-btn-outline {
+    background: #ffffff;
+    color: #C28B4E;
+    padding: 15px 40px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(194, 139, 78, 0.3);
+    border: 2px solid #C28B4E;
+    display: inline-block;
+}
+
+
+.footer_wrapper {
+    padding: 60px 0;
+    padding-bottom: 0 !important;
+    background: #664b37 !important;
+}
+
+.footer_links a {
+    background: #765d4a !important;
+
+}
+
+
+.localtioncard ul li i {
+    margin-right: 12px;
+    color: #ffffff !important;
+}
