@@ -12,31 +12,28 @@ class AboutController extends Controller
 {
     public function index()
     {
-        $intro = AboutSection::where('type', 'introduction')->first();
+        return view('admin.about.index');
+    }
 
-        $history = AboutSection::where('type', 'history')->first();
+    /*
+    |--------------------------------------------------------------------------
+    | INTRODUCTION
+    |--------------------------------------------------------------------------
+    */
 
-        $vision = AboutSection::where('type', 'vision')->first();
-
-        $mission = AboutSection::where('type', 'mission')->first();
-
-        $team = AboutSection::where('type', 'team')
-            ->latest()
-            ->get();
+    public function editIntroduction()
+    {
+        $section = AboutSection::firstOrCreate([
+            'type' => 'introduction'
+        ]);
 
         return view(
-            'admin.about.index',
-            compact(
-                'intro',
-                'history',
-                'vision',
-                'mission',
-                'team'
-            )
+            'admin.about.introduction.edit',
+            compact('section')
         );
     }
 
-    public function updateSection(Request $request, $type)
+    public function updateIntroduction(Request $request)
     {
         $request->validate([
 
@@ -49,7 +46,7 @@ class AboutController extends Controller
         ]);
 
         $section = AboutSection::firstOrCreate([
-            'type' => $type
+            'type' => 'introduction'
         ]);
 
         $section->update([
@@ -62,13 +59,176 @@ class AboutController extends Controller
 
         ]);
 
-        return back()->with(
-            'success',
-            ucfirst($type) . ' Updated Successfully'
+        return redirect()
+            ->route('admin.about.index')
+            ->with(
+                'success',
+                'Introduction Updated Successfully'
+            );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | HISTORY
+    |--------------------------------------------------------------------------
+    */
+
+    public function editHistory()
+    {
+        $section = AboutSection::firstOrCreate([
+            'type' => 'history'
+        ]);
+
+        return view(
+            'admin.about.history.edit',
+            compact('section')
         );
     }
 
-    // TEAM STORE
+    public function updateHistory(Request $request)
+    {
+        $request->validate([
+
+            'heading' => 'nullable|string|max:255',
+
+            'content' => 'nullable|string',
+
+        ]);
+
+        $section = AboutSection::firstOrCreate([
+            'type' => 'history'
+        ]);
+
+        $section->update([
+
+            'heading' => $request->heading,
+
+            'content' => $request->content,
+
+        ]);
+
+        return redirect()
+            ->route('admin.about.index')
+            ->with(
+                'success',
+                'History Updated Successfully'
+            );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | VISION
+    |--------------------------------------------------------------------------
+    */
+
+    public function editVision()
+    {
+        $section = AboutSection::firstOrCreate([
+            'type' => 'vision'
+        ]);
+
+        return view(
+            'admin.about.vision.edit',
+            compact('section')
+        );
+    }
+
+    public function updateVision(Request $request)
+    {
+        $request->validate([
+
+            'heading' => 'nullable|string|max:255',
+
+            'content' => 'nullable|string',
+
+        ]);
+
+        $section = AboutSection::firstOrCreate([
+            'type' => 'vision'
+        ]);
+
+        $section->update([
+
+            'heading' => $request->heading,
+
+            'content' => $request->content,
+
+        ]);
+
+        return redirect()
+            ->route('admin.about.index')
+            ->with(
+                'success',
+                'Vision Updated Successfully'
+            );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | MISSION
+    |--------------------------------------------------------------------------
+    */
+
+    public function editMission()
+    {
+        $section = AboutSection::firstOrCreate([
+            'type' => 'mission'
+        ]);
+
+        return view(
+            'admin.about.mission.edit',
+            compact('section')
+        );
+    }
+
+    public function updateMission(Request $request)
+    {
+        $request->validate([
+
+            'heading' => 'nullable|string|max:255',
+
+            'content' => 'nullable|string',
+
+        ]);
+
+        $section = AboutSection::firstOrCreate([
+            'type' => 'mission'
+        ]);
+
+        $section->update([
+
+            'heading' => $request->heading,
+
+            'content' => $request->content,
+
+        ]);
+
+        return redirect()
+            ->route('admin.about.index')
+            ->with(
+                'success',
+                'Mission Updated Successfully'
+            );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | TEAM
+    |--------------------------------------------------------------------------
+    */
+
+    public function teamIndex()
+    {
+        $team = AboutSection::where('type', 'team')
+            ->latest()
+            ->get();
+
+        return view(
+            'admin.about.team.index',
+            compact('team')
+        );
+    }
+
     public function storeTeam(Request $request)
     {
         $request->validate([
@@ -117,7 +277,6 @@ class AboutController extends Controller
         );
     }
 
-    // TEAM DELETE
     public function deleteTeam($id)
     {
         $team = AboutSection::findOrFail($id);

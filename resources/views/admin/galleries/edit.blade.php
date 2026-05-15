@@ -35,7 +35,7 @@
             <div class="card shadow-sm">
 
                 <div class="card-header">
-                    <strong>Edit Image</strong>
+                    <strong>Edit Gallery Image</strong>
                 </div>
 
                 <div class="card-body">
@@ -67,10 +67,50 @@
                         @csrf
                         @method('PUT')
 
-                        {{-- Title --}}
+                        {{-- Category --}}
                         <div class="form-group">
 
-                            <label>Title (Optional)</label>
+                            <label>
+                                Category *
+                            </label>
+
+                            <select name="gallery_category_id"
+                                    class="form-control @error('gallery_category_id') is-invalid @enderror"
+                                    required>
+
+                                <option value="">
+                                    Select Category
+                                </option>
+
+                                @foreach($categories as $category)
+
+                                    <option value="{{ $category->id }}"
+                                        {{ old('gallery_category_id', $gallery->gallery_category_id) == $category->id ? 'selected' : '' }}>
+
+                                        {{ $category->name }}
+
+                                    </option>
+
+                                @endforeach
+
+                            </select>
+
+                            @error('gallery_category_id')
+
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+                        </div>
+
+                        {{-- Title --}}
+                        <div class="form-group mt-3">
+
+                            <label>
+                                Title (Optional)
+                            </label>
 
                             <input type="text"
                                    name="title"
@@ -90,7 +130,9 @@
                         {{-- Image --}}
                         <div class="form-group mt-3">
 
-                            <label>Image</label>
+                            <label>
+                                Image
+                            </label>
 
                             <input type="file"
                                    name="image"

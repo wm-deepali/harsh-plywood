@@ -7,8 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Gallery extends Model
 {
     protected $fillable = [
+        'gallery_category_id',
         'title',
         'image',
-        'status'
+        'status',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(GalleryCategory::class, 'gallery_category_id');
+    }
 }

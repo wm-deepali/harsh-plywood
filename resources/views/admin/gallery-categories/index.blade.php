@@ -19,28 +19,20 @@
             </li>
 
             <li class="breadcrumb-item active">
-                Gallery
+                Gallery Categories
             </li>
 
         </ol>
 
     </div>
 
-    <div class="ml-auto mr-2 d-flex">
+    <div class="ml-auto mr-2">
 
-        <a href="{{ route('admin.gallery-categories.index') }}"
-           class="btn btn-dark mr-2">
-
-            <i class="fa fa-list"></i>
-            Categories
-
-        </a>
-
-        <a href="{{ route('admin.galleries.create') }}"
+        <a href="{{ route('admin.gallery-categories.create') }}"
            class="btn btn-primary">
 
             <i class="fa fa-plus"></i>
-            Add Image
+            Add Category
 
         </a>
 
@@ -66,16 +58,8 @@
         ID
     </th>
 
-    <th width="100">
-        Image
-    </th>
-
     <th>
-        Category
-    </th>
-
-    <th>
-        Title
+        Name
     </th>
 
     <th width="120">
@@ -92,43 +76,25 @@
 
 <tbody>
 
-@forelse($galleries as $g)
+@forelse($categories as $category)
 
-<tr id="row{{ $g->id }}">
+<tr id="row{{ $category->id }}">
 
 <td>
 
-    {{ $g->id }}
+    {{ $category->id }}
 
 </td>
 
 <td>
 
-    @if($g->image)
-
-        <img src="{{ asset('storage/' . $g->image) }}"
-             width="80"
-             class="rounded border">
-
-    @endif
+    {{ $category->name }}
 
 </td>
 
 <td>
 
-    {{ $g->category->name ?? '-' }}
-
-</td>
-
-<td>
-
-    {{ $g->title ?? '-' }}
-
-</td>
-
-<td>
-
-    @if($g->status)
+    @if($category->status)
 
         <span class="badge badge-success">
             Active
@@ -146,14 +112,14 @@
 
 <td>
 
-    <a href="{{ route('admin.galleries.edit', $g->id) }}"
+    <a href="{{ route('admin.gallery-categories.edit', $category->id) }}"
        class="btn btn-sm btn-dark">
 
         <i class="fa fa-pencil"></i>
 
     </a>
 
-    <button onclick="deleteGallery({{ $g->id }})"
+    <button onclick="deleteCategory({{ $category->id }})"
             class="btn btn-sm btn-danger">
 
         <i class="fa fa-trash"></i>
@@ -168,10 +134,10 @@
 
 <tr>
 
-<td colspan="6"
+<td colspan="4"
     class="text-center text-muted py-4">
 
-    No Gallery Images Found
+    No Categories Found
 
 </td>
 
@@ -183,7 +149,7 @@
 
 </table>
 
-{{ $galleries->links() }}
+{{ $categories->links() }}
 
 </div>
 
@@ -201,11 +167,11 @@
 
 <script>
 
-function deleteGallery(id)
+function deleteCategory(id)
 {
     Swal.fire({
 
-        title: 'Delete Image?',
+        title: 'Delete Category?',
 
         text: "This action cannot be undone.",
 
@@ -223,7 +189,7 @@ function deleteGallery(id)
 
             $.ajax({
 
-                url: "/admin/galleries/" + id,
+                url: "/admin/gallery-categories/" + id,
 
                 type: "DELETE",
 

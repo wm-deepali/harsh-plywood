@@ -8,8 +8,11 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\GalleryCategoryController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\HeaderFooterSettingController;
+use App\Http\Controllers\Admin\HeroSectionController;
+use App\Http\Controllers\Admin\HeroSliderController;
 use App\Http\Controllers\Admin\HiStyleBrandController;
 use App\Http\Controllers\Admin\HrbBrandController;
 use App\Http\Controllers\Admin\HrbController;
@@ -22,6 +25,7 @@ use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileSettingController;
 use App\Http\Controllers\Admin\SalesEnquiryController;
+use App\Http\Controllers\Admin\SeoSettingController;
 use App\Http\Controllers\Admin\SocialSettingController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\TestimonialController;
@@ -62,10 +66,43 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('header-footer-settings', [HeaderFooterSettingController::class, 'edit'])->name('settings.header');
         Route::post('header-footer-settings', [HeaderFooterSettingController::class, 'update']);
 
-        Route::get('about', [AboutController::class, 'index'])->name('about.index');
-        Route::post('about/{type}', [AboutController::class, 'updateSection'])->name('about.update');
-        Route::post('about-team', [AboutController::class, 'storeTeam'])->name('about.team.store');
-        Route::delete('about-team/{id}', [AboutController::class, 'deleteTeam'])->name('about.team.delete');
+        // Hero Sections
+        Route::get('/hero-sections', [HeroSectionController::class, 'index'])->name('settings.hero-sections.index');
+        Route::get('/hero-sections/edit/{id}', [HeroSectionController::class, 'edit'])->name('settings.hero-sections.edit');
+        Route::post('/hero-sections/update/{id}', [HeroSectionController::class, 'update'])->name('settings.hero-sections.update');
+
+        //SEO Settings
+        Route::get('/seo-settings', [SeoSettingController::class, 'index'])->name('settings.seo-settings.index');
+        Route::get('/seo-settings/edit/{id}', [SeoSettingController::class, 'edit'])->name('settings.seo-settings.edit');
+        Route::post('/seo-settings/update/{id}', [SeoSettingController::class, 'update'])->name('settings.seo-settings.update');
+
+
+        Route::prefix('about')->name('about.')->group(function () {
+
+            Route::get('/', [AboutController::class, 'index'])->name('index');
+
+            // Introduction
+            Route::get('/introduction/edit', [AboutController::class, 'editIntroduction'])->name('introduction.edit');
+            Route::post('/introduction/update', [AboutController::class, 'updateIntroduction'])->name('introduction.update');
+
+            //History
+            Route::get('/history/edit', [AboutController::class, 'editHistory'])->name('history.edit');
+            Route::post('/history/update', [AboutController::class, 'updateHistory'])->name('history.update');
+
+            // Vision
+            Route::get('/vision/edit', [AboutController::class, 'editVision'])->name('vision.edit');
+            Route::post('/vision/update', [AboutController::class, 'updateVision'])->name('vision.update');
+
+            // Mission
+            Route::get('/mission/edit', [AboutController::class, 'editMission'])->name('mission.edit');
+            Route::post('/mission/update', [AboutController::class, 'updateMission'])->name('mission.update');
+
+            // Team
+            Route::get('/team', [AboutController::class, 'teamIndex'])->name('team.index');
+            Route::post('/team/store', [AboutController::class, 'storeTeam'])->name('team.store');
+            Route::delete('/team/delete/{id}', [AboutController::class, 'deleteTeam'])->name('team.delete');
+
+        });
 
         Route::prefix('hrb')->name('hrb.')->group(function () {
 
@@ -128,7 +165,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('hi-style-offers', HiStyleOfferController::class);
         Route::resource('hi-style-why-choose', HiStyleWhyChooseController::class);
-         Route::resource('hi-style-brands', HiStyleBrandController::class);
+        Route::resource('hi-style-brands', HiStyleBrandController::class);
 
 
         Route::resource('awards', AwardController::class);
@@ -147,7 +184,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('pages', PageController::class);
 
+        Route::resource('gallery-categories',GalleryCategoryController::class);
         Route::resource('galleries', GalleryController::class);
+
+        Route::resource('hero-sliders',HeroSliderController::class);
 
         Route::get('sales-enquiries', [SalesEnquiryController::class, 'index'])->name('sales_enquiries.index');
         Route::delete('sales-enquiries/{id}', [SalesEnquiryController::class, 'destroy']);

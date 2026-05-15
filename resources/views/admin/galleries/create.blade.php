@@ -66,10 +66,50 @@
 
                     @csrf
 
-                    {{-- Title --}}
+                    {{-- Category --}}
                     <div class="form-group">
 
-                        <label>Title (Optional)</label>
+                        <label>
+                            Category *
+                        </label>
+
+                        <select name="gallery_category_id"
+                                class="form-control @error('gallery_category_id') is-invalid @enderror"
+                                required>
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            @foreach($categories as $category)
+
+                                <option value="{{ $category->id }}"
+                                    {{ old('gallery_category_id') == $category->id ? 'selected' : '' }}>
+
+                                    {{ $category->name }}
+
+                                </option>
+
+                            @endforeach
+
+                        </select>
+
+                        @error('gallery_category_id')
+
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+
+                        @enderror
+
+                    </div>
+
+                    {{-- Title --}}
+                    <div class="form-group mt-3">
+
+                        <label>
+                            Title (Optional)
+                        </label>
 
                         <input type="text"
                                name="title"
@@ -89,7 +129,9 @@
                     {{-- Image --}}
                     <div class="form-group mt-3">
 
-                        <label>Image *</label>
+                        <label>
+                            Image *
+                        </label>
 
                         <input type="file"
                                name="image"

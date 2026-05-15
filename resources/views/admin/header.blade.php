@@ -63,6 +63,18 @@
                     </a>
                 </li>
 
+                <li class="{{ request()->routeIs('admin.settings.hero-sections.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.settings.hero-sections.index') }}">
+                        Hero Sections
+                    </a>
+                </li>
+
+                <li class="{{ request()->routeIs('admin.settings.seo-settings.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.settings.seo-settings.index') }}">
+                        SEO Settings
+                    </a>
+                </li>
+
             </ul>
         </li>
 
@@ -164,11 +176,53 @@
             </a>
         </li>
 
-        <li class="{{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}">
-            <a href="{{ route('admin.galleries.index') }}">
+        <li class="{{ request()->routeIs('admin.galleries.*', 'admin.gallery-categories.*') ? 'active' : '' }}">
+
+            <a href="#">
                 <i class="fa-solid fa-image"></i> Gallery
             </a>
+
+            <ul>
+
+                <li class="{{ request()->routeIs('admin.gallery-categories.*') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.gallery-categories.index') }}">
+                        Categories
+                    </a>
+
+                </li>
+
+                <li class="{{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.galleries.index') }}">
+                        Gallery Images
+                    </a>
+
+                </li>
+
+            </ul>
+
         </li>
+
+        <li class="{{ request()->routeIs('admin.hero-sliders.*') ? 'active' : '' }}">
+
+    <a href="#">
+        <i class="fa-solid fa-images"></i> Hero Slider
+    </a>
+
+    <ul>
+
+        <li class="{{ request()->routeIs('admin.hero-sliders.index') ? 'active' : '' }}">
+
+            <a href="{{ route('admin.hero-sliders.index') }}">
+                Manage Slides
+            </a>
+
+        </li>
+
+    </ul>
+
+</li>
 
         <li class="{{ request()->routeIs('admin.sales_enquiries.*') ? 'active' : '' }}">
             <a href="{{ route('admin.sales_enquiries.index') }}">
