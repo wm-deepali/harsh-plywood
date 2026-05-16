@@ -13,154 +13,51 @@
 
             <div class="swiper-wrapper">
 
+                @foreach($sliders as $slider)
 
-                <!-- SLIDE 1 -->
+                    <div class="swiper-slide">
 
-                <div class="swiper-slide">
+                        <div class="hero-image">
 
-                    <div class="hero-image">
+                            <img src="{{ asset('storage/' . $slider->image) }}" alt="{{ $slider->heading }}">
 
-                        <img src="aimages/slide-1.jfif')}}">
+                        </div>
 
-                    </div>
+                        <div class="hero-overlay"></div>
 
-                    <div class="hero-overlay"></div>
+                        <div class="container hero-content">
 
-                    <div class="container hero-content">
+                            <div class="hero-text-wrap">
 
-                        <div class="hero-text-wrap">
+                                <div class="hero-subtitle">
+                                    {{ $slider->subtitle }}
+                                </div>
 
-                            <div class="hero-subtitle">
-                                PREMIUM PLYWOOD & INTERIOR SOLUTIONS
+                                <h1 class="hero-title">
+                                    {{ $slider->heading }}
+                                </h1>
+
+                                <p class="hero-desc">
+                                    {{ $slider->description }}
+                                </p>
+
+                                <a href="{{ $slider->button_link ?? '#' }}" class="hero-main-btn">
+
+                                    {{ $slider->button_text }}
+
+                                    <i class="fa-solid fa-arrow-right"></i>
+
+                                </a>
+
                             </div>
-
-                            <h1 class="hero-title">
-                                Strength & Style For Every Space
-                            </h1>
-
-                            <p class="hero-desc">
-
-                                Harsh Plywood offers premium plywood, laminates,
-                                hardware, wooden flooring, and modern interior
-                                solutions crafted for elegant living spaces.
-
-                            </p>
-
-                            <a href="#" class="hero-main-btn">
-
-                                Explore Products
-
-                                <i class="fa-solid fa-arrow-right"></i>
-
-                            </a>
 
                         </div>
 
                     </div>
 
-                </div>
-
-
-
-
-                <!-- SLIDE 2 -->
-
-                <div class="swiper-slide">
-
-                    <div class="hero-image">
-
-                        <img src="{{ asset('images/slide-2.webp')}}">
-
-                    </div>
-
-                    <div class="hero-overlay"></div>
-
-                    <div class="container hero-content">
-
-                        <div class="hero-text-wrap">
-
-                            <div class="hero-subtitle">
-                                MODERN INTERIOR COLLECTION
-                            </div>
-
-                            <h1 class="hero-title">
-                                Premium Designs With Lasting Quality
-                            </h1>
-
-                            <p class="hero-desc">
-
-                                Discover a complete range of decorative laminates,
-                                MDF panels, acrylic sheets, and modular kitchen
-                                accessories designed for modern interiors.
-
-                            </p>
-
-                            <a href="#" class="hero-main-btn">
-
-                                Discover More
-
-                                <i class="fa-solid fa-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-
-
-
-                <!-- SLIDE 3 -->
-
-                <div class="swiper-slide">
-
-                    <div class="hero-image">
-
-                        <img src="{{ asset('images/slide-3.jpg')}}">
-
-                    </div>
-
-                    <div class="hero-overlay"></div>
-
-                    <div class="container hero-content">
-
-                        <div class="hero-text-wrap">
-
-                            <div class="hero-subtitle">
-                                TRUSTED SINCE 1986
-                            </div>
-
-                            <h1 class="hero-title">
-                                Complete Interior Solutions Under One Roof
-                            </h1>
-
-                            <p class="hero-desc">
-
-                                From premium plywood to architectural hardware and
-                                wooden flooring, Harsh Plywood delivers trusted
-                                quality with modern elegance and durability.
-
-                            </p>
-
-                            <a href="#" class="hero-main-btn">
-
-                                View Collection
-
-                                <i class="fa-solid fa-arrow-right"></i>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                @endforeach
 
             </div>
-
 
 
             <!-- PAGINATION -->
@@ -543,235 +440,39 @@
 
             <div class="row g-4">
 
-                <!-- CARD 1 -->
+                @foreach($categories as $category)
 
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-3 col-md-6">
 
+                        <div class="service-card">
 
-                    <div class="service-card">
+                            <img src="{{ asset('storage/'.$category->image) }}" alt="{{ $category->name }}">
 
-                        <img src="{{ asset('images/p1.jpg')}}" alt="">
+                            <div class="overlay"></div>
 
-                        <div class="overlay"></div>
+                            <div class="card-content">
 
-                        <div class="card-content">
+                                <h3>{{ $category->name }}</h3>
 
-                            <h3>Plywood</h3>
+                                <div class="arrow-btn">
+                                    ↗
+                                </div>
 
-                            <div class="arrow-btn">
-                                ↗
                             </div>
 
-                        </div>
-                        <p>Plywood is an engineered wood panel made from thin layers of wood veneer—called plies—that
-                            are glued together</p>
-                    </div>
-
-                </div>
-
-
-
-                <!-- CARD 2 -->
-
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-
-
-                    <div class="service-card">
-
-                        <img src="{{ asset('images/p2.jpg')}}" alt="">
-
-                        <div class="overlay"></div>
-
-                        <div class="card-content">
-
-                            <h3>Architectural Hardware</h3>
-
-                            <div class="arrow-btn">
-                                ↗
-                            </div>
+                            <p>
+                                {{ $category->short_description }}
+                            </p>
 
                         </div>
-                        <p>Premium architectural hardware and ironmongery for modern design. Elevate your spaces with
-                            our meticulously crafted handles, locks, and fittings</p>
+
                     </div>
 
-                </div>
-
-
-
-                <!-- CARD 3 -->
-
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-
-
-                    <div class="service-card">
-
-                        <img src="{{ asset('images/p3.jfif')}}" alt="">
-
-                        <div class="overlay"></div>
-
-                        <div class="card-content">
-
-                            <h3>Laminates</h3>
-
-                            <div class="arrow-btn">
-                                ↗
-                            </div>
-
-                        </div>
-                        <p>Elevate Your Interiors with Durable Beauty Premium laminates designed for modern lifestyles.
-                            Scratch-resistant, stylish, and built to last</p>
-                    </div>
-
-                </div>
-
-
-
-                <!-- CARD 4 -->
-
-                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-
-
-                    <div class="service-card">
-
-                        <img src="{{ asset('images/p4.jpg')}}" alt="">
-
-                        <div class="overlay"></div>
-
-                        <div class="card-content">
-
-                            <h3>Acrylic Sheets</h3>
-
-                            <div class="arrow-btn">
-                                ↗
-                            </div>
-
-                        </div>
-                        <p>Discover our high-quality acrylic sheets (PMMA/Plexiglass), the perfect blend of
-                            crystal-clear transparency and superior strength. </p>
-                    </div>
-
-                </div>
+                @endforeach
 
             </div>
-            <div class="row g-4 pt-4">
 
-                <!-- CARD 1 -->
-
-                <div class="col-lg-3 col-md-6">
-
-                    <div class="service-card">
-
-                        <img src="{{ asset('images/p5.jpg')}}" alt="">
-
-                        <div class="overlay"></div>
-
-                        <div class="card-content">
-
-                            <h3>MDF Panel</h3>
-
-                            <div class="arrow-btn">
-                                ↗
-                            </div>
-
-                        </div>
-                        <p>
-                            MDF (Medium Density Fiberboard) panels are engineered wood products known for their smooth
-                            surface, durability, and versatility.
-                        </p>
-                    </div>
-
-                </div>
-
-
-
-                <!-- CARD 2 -->
-
-                <div class="col-lg-3 col-md-6">
-
-                    <div class="service-card">
-
-                        <img src="{{ asset('images/p6.jpg')}}" alt="">
-
-                        <div class="overlay"></div>
-
-                        <div class="card-content">
-
-                            <h3>Wooden Flooring</h3>
-
-                            <div class="arrow-btn">
-                                ↗
-                            </div>
-
-                        </div>
-                        <p>
-                            Wooden flooring adds warmth, elegance, and timeless beauty to any space. Designed for
-                            durability and style.
-                        </p>
-                    </div>
-
-                </div>
-
-
-
-                <!-- CARD 3 -->
-
-                <div class="col-lg-3 col-md-6">
-
-                    <div class="service-card">
-
-                        <img src="{{ asset('images/p7.jpg')}}" alt="">
-
-                        <div class="overlay"></div>
-
-                        <div class="card-content">
-
-                            <h3>Kitchen Accessories</h3>
-
-                            <div class="arrow-btn">
-                                ↗
-                            </div>
-
-                        </div>
-
-                        <p>
-                            Premium kitchen accessories designed for convenience, functionality, and modern living with
-                            stylish finishes.
-                        </p>
-                    </div>
-
-                </div>
-
-
-
-                <!-- CARD 4 -->
-
-                <div class="col-lg-3 col-md-6">
-
-                    <div class="service-card">
-
-                        <img src="{{ asset('images/p8.jpg')}}" alt="">
-
-                        <div class="overlay"></div>
-
-                        <div class="card-content">
-
-                            <h3>Kitchen Appliances</h3>
-
-                            <div class="arrow-btn">
-                                ↗
-                            </div>
-
-                        </div>
-                        <p>
-                            Modern kitchen appliances that combine smart functionality, efficiency, and elegant design
-                            for everyday convenience.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
+           
         </div>
 
     </section>
@@ -1001,8 +702,8 @@
     <!-- ========================= -->
 
     <!-- =========================
-         LIGHT GALLERY SECTION
-    ========================= -->
+                                 LIGHT GALLERY SECTION
+                            ========================= -->
 
     <section class="prodcts_wrapper">
 
@@ -1029,59 +730,52 @@
                     <!-- FILTER BUTTONS -->
 
                     <div class="category-slider-wrapper position-relative px-5">
+
                         <div class="swiper categorySwiper">
+
                             <div class="swiper-wrapper buttons_procuts">
+
+                                {{-- All Button --}}
                                 <div class="swiper-slide w-auto">
                                     <button class="filter-btn activebutton" data-filter="all">
-                                        All <sup>01</sup>
+                                        All
+                                        <sup>{{ str_pad($products->count(), 2, '0', STR_PAD_LEFT) }}</sup>
                                     </button>
                                 </div>
-                                <div class="swiper-slide w-auto">
-                                    <button class="filter-btn" data-filter="plywood">
-                                        Plywood <sup>02</sup>
-                                    </button>
-                                </div>
-                                <div class="swiper-slide w-auto">
-                                    <button class="filter-btn" data-filter="architectural">
-                                        Architectural Hardware <sup>03</sup>
-                                    </button>
-                                </div>
-                                <div class="swiper-slide w-auto">
-                                    <button class="filter-btn" data-filter="laminates">
-                                        Laminates <sup>04</sup>
-                                    </button>
-                                </div>
-                                <div class="swiper-slide w-auto">
-                                    <button class="filter-btn" data-filter="acrylic">
-                                        Acrylic Sheets <sup>05</sup>
-                                    </button>
-                                </div>
-                                <div class="swiper-slide w-auto">
-                                    <button class="filter-btn" data-filter="mdf">
-                                        MDF Panel <sup>06</sup>
-                                    </button>
-                                </div>
-                                <div class="swiper-slide w-auto">
-                                    <button class="filter-btn" data-filter="wooden">
-                                        Wooden Flooring <sup>07</sup>
-                                    </button>
-                                </div>
-                                <div class="swiper-slide w-auto">
-                                    <button class="filter-btn" data-filter="kitchen">
-                                        Kitchen Accessories <sup>08</sup>
-                                    </button>
-                                </div>
-                                <div class="swiper-slide w-auto">
-                                    <button class="filter-btn" data-filter="appliances">
-                                        Kitchen Appliances <sup>09</sup>
-                                    </button>
-                                </div>
+
+                                {{-- Dynamic Categories --}}
+                                @foreach($categories as $category)
+
+                                    <div class="swiper-slide w-auto">
+
+                                        <button class="filter-btn"
+                                            data-filter="{{ \Illuminate\Support\Str::slug($category->name) }}">
+
+                                            {{ $category->name }}
+
+                                            <sup>
+                                                {{ str_pad($category->products->count(), 2, '0', STR_PAD_LEFT) }}
+                                            </sup>
+
+                                        </button>
+
+                                    </div>
+
+                                @endforeach
+
                             </div>
+
                         </div>
 
                         <!-- Navigation Buttons -->
-                        <div class="swiper-button-next category-next"><i class="fa-solid fa-chevron-right"></i></div>
-                        <div class="swiper-button-prev category-prev"><i class="fa-solid fa-chevron-left"></i></div>
+                        <div class="swiper-button-next category-next">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </div>
+
+                        <div class="swiper-button-prev category-prev">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </div>
+
                     </div>
 
                 </div>
@@ -1090,53 +784,32 @@
 
 
             <!-- GALLERY -->
-
             <div class="gallery-wrapper">
 
                 <div class="row g-4">
 
-                    <!-- ITEM -->
+                    @foreach($products as $product)
 
-                    <div class="col-lg-3 col-md-6 gallery-item plywood">
+                        <div class="col-lg-3 col-md-6 gallery-item {{ $product->category->slug }}">
 
-                        <div class="gallery-card">
+                            <div class="gallery-card">
 
-                            <img src="https://images.unsplash.com/photo-1700973408133-b45276ec8feb?q=80&w=379&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
+                                <img src="{{ asset('storage/' . $product->images->first()->image ?? 'assets/images/default.png') }}"
+                                    alt="{{ $product->name }}">
 
-                            <div class="gallery-overlay">
-                                <div class="gallery-plus-icon">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <div class="gallery-content">
+                                <div class="gallery-overlay">
 
-                                    <h3>Plywood</h3>
+                                    <div class="gallery-plus-icon">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </div>
 
-                                    <span>Modern Interior</span>
+                                    <div class="gallery-content">
 
-                                </div>
+                                        <h3>{{ $product->category->name }}</h3>
 
-                            </div>
+                                        <span>{{ $product->name }}</span>
 
-                        </div>
-
-                    </div>
-                    <div class="col-lg-3 col-md-6 gallery-item plywood">
-
-                        <div class="gallery-card">
-
-                            <img src="https://images.unsplash.com/photo-1617873229215-11589e502703?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
-
-                            <div class="gallery-overlay">
-                                <div class="gallery-plus-icon">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <div class="gallery-content">
-
-                                    <h3>Plywood</h3>
-
-                                    <span>Modern Interior</span>
+                                    </div>
 
                                 </div>
 
@@ -1144,245 +817,8 @@
 
                         </div>
 
-                    </div>
+                    @endforeach
 
-                    <!-- ITEM -->
-
-                    <div class="col-lg-3 col-md-6 gallery-item architectural ">
-
-                        <div class="gallery-card">
-
-                            <img src="https://images.unsplash.com/photo-1776417078345-7a33d7a3860a?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
-
-                            <div class="gallery-overlay">
-                                <div class="gallery-plus-icon">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <div class="gallery-content">
-
-                                    <h3>Hardware</h3>
-
-                                    <span>Luxury Design</span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ITEM -->
-
-                    <div class="col-lg-3 col-md-6 gallery-item laminates">
-
-                        <div class="gallery-card">
-
-                            <img src="https://plus.unsplash.com/premium_photo-1683129627035-e5a145c3d705?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
-
-                            <div class="gallery-overlay">
-                                <div class="gallery-plus-icon">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <div class="gallery-content">
-
-                                    <h3>Laminates</h3>
-
-                                    <span>Classic Design</span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ITEM -->
-
-                    <div class="col-lg-3 col-md-6 gallery-item acrylic">
-
-                        <div class="gallery-card">
-
-                            <img src="https://plus.unsplash.com/premium_photo-1681426287829-28ae351f4b77?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
-
-                            <div class="gallery-overlay">
-                                <div class="gallery-plus-icon">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <div class="gallery-content">
-
-                                    <h3>Acrylic Sheets</h3>
-
-                                    <span>Premium Interior</span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ITEM -->
-
-                    <div class="col-lg-3 col-md-6 gallery-item mdf">
-
-                        <div class="gallery-card">
-
-                            <img src="https://images.unsplash.com/photo-1701421048959-1e8108509834?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
-
-                            <div class="gallery-overlay">
-                                <div class="gallery-plus-icon">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <div class="gallery-content">
-
-                                    <h3>MDF Panel</h3>
-
-                                    <span>Modern Kitchen</span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ITEM -->
-
-                    <div class="col-lg-3 col-md-6 gallery-item wooden ">
-
-                        <div class="gallery-card">
-
-                            <img src="https://images.unsplash.com/photo-1560185008-b033106af5c3?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
-
-                            <div class="gallery-overlay">
-                                <div class="gallery-plus-icon">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <div class="gallery-content">
-
-                                    <h3>Wooden Flooring</h3>
-
-                                    <span>Elegant Style</span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ITEM -->
-
-                    <div class="col-lg-3 col-md-6 gallery-item kitchen ">
-
-                        <div class="gallery-card">
-
-                            <img src="https://images.unsplash.com/photo-1556910602-38f53e68e15d?q=80&w=725&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
-
-                            <div class="gallery-overlay">
-                                <div class="gallery-plus-icon">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <div class="gallery-content">
-
-                                    <h3>Kitchen Accessories</h3>
-
-                                    <span>Luxury Kitchen</span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 gallery-item kitchen ">
-
-                        <div class="gallery-card">
-
-                            <img src="https://images.unsplash.com/photo-1681718601850-dc32bcf68ad8?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
-
-                            <div class="gallery-overlay">
-                                <div class="gallery-plus-icon">
-                                    <i class="fa-solid fa-plus"></i>
-                                </div>
-                                <div class="gallery-content">
-
-                                    <h3>Kitchen Accessories</h3>
-
-                                    <span>Luxury Kitchen</span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <!-- ITEM -->
-
-                    <div class="col-lg-3 col-md-6 gallery-item appliances">
-
-                        <div class="gallery-card">
-
-                            <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=968&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
-
-                            <div class="gallery-overlay">
-
-                                <div class="gallery-content">
-
-                                    <h3>Kitchen Appliances</h3>
-
-                                    <span>Smart Home</span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="col-lg-3 col-md-6 gallery-item appliances">
-
-                        <div class="gallery-card">
-
-                            <img src="https://images.unsplash.com/photo-1596552183299-000ef779e88d?q=80&w=464&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="">
-
-                            <div class="gallery-overlay">
-
-                                <div class="gallery-content">
-
-                                    <h3>Kitchen Appliances</h3>
-
-                                    <span>Smart Home</span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
                 </div>
 
             </div>
@@ -1780,15 +1216,15 @@
 
             <!-- <div class="client-heading">
 
-                <div class="client-mini-title">
-                    Trusted Clients
-                </div>
+                                        <div class="client-mini-title">
+                                            Trusted Clients
+                                        </div>
 
-                <h2 class="client-title">
-                    Brands We Worked With
-                </h2>
+                                        <h2 class="client-title">
+                                            Brands We Worked With
+                                        </h2>
 
-            </div> -->
+                                    </div> -->
 
 
 

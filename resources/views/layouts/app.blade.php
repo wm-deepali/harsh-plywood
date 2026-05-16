@@ -42,7 +42,7 @@
 
                 <div class="logo-wrapper">
 
-                    <a href="#" class="logo-box">
+                    <a href="{{ route('home') }}" class="logo-box">
 
                         <img src="{{ asset('/images/top-logo.jpeg')}}" alt="logo">
 
@@ -91,14 +91,14 @@
                     <ul class="navbar-nav align-items-lg-center">
 
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="{{ route('home') }}">
                                 Home
                             </a>
                         </li>
 
                         <li class="nav-item dropdown">
 
-                            <a class="nav-link" href="about-us.html">
+                            <a class="nav-link" href="{{ route('about-us') }}">
                                 About Us
                             </a>
 
@@ -128,7 +128,7 @@
 
                         <li class="nav-item dropdown">
 
-                            <a class="nav-link" href="products.html">
+                            <a class="nav-link" href="{{ route('products') }}">
                                 Products
                             </a>
 
@@ -174,24 +174,24 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="hrb-plywood.html">
+                            <a class="nav-link" href="{{ route('hrb-plywood') }}">
                                 HRB Plywood </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="our-brands.html">
+                            <a class="nav-link" href="{{ route('our-brands') }}">
                                 Our Brands
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="Gallery.html">
+                            <a class="nav-link" href="{{ route('gallery') }}">
                                 Gallery
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">
+                            <a class="nav-link" href="{{ route('contact-us') }}">
                                 Contact
                             </a>
                         </li>
@@ -239,7 +239,7 @@
         <ul class="mobile-menu">
 
             <li>
-                <a href="index.html">
+                <a href="{{ route('home') }}">
                     Home
                 </a>
             </li>
@@ -250,7 +250,7 @@
 
                 <div class="mobile-dropdown-head">
 
-                    <a href="about-us.html">
+                    <a href="{{ route('about-us') }}">
                         About Us
                     </a>
 
@@ -288,7 +288,7 @@
 
                 <div class="mobile-dropdown-head">
 
-                    <a href="#">
+                    <a href="{{ route('products') }}">
                         Products
                     </a>
 
@@ -312,25 +312,25 @@
             </li>
 
             <li>
-                <a href="hrb-plywood.html">
+                <a href="{{ route('hrb-plywood') }}">
                     HRB Plywood
                 </a>
             </li>
 
             <li>
-                <a href="our-brands.html">
+                <a href="{{ route('our-brands') }}">
                     Our Brands
                 </a>
             </li>
 
             <li>
-                <a href="Gallery.html">
+                <a href="{{ route('gallery') }}">
                     Gallery
                 </a>
             </li>
 
             <li>
-                <a href="contact.html">
+                <a href="{{ route('contact-us') }}">
                     Contact
                 </a>
             </li>
@@ -383,12 +383,12 @@
                         </h4>
 
                         <ul class="footer-menu-list">
-                            <li><a href="index.html"><span class="link-icon">→</span> Home</a></li>
-                            <li><a href="about-us.html"><span class="link-icon">→</span> About</a></li>
-                            <li><a href="products.html"><span class="link-icon">→</span> Products</a></li>
-                            <li><a href="Gallery.html"><span class="link-icon">→</span> Gallery</a></li>
-                            <li><a href="blog.html"><span class="link-icon">→</span> Blog</a></li>
-                            <li><a href="faq.html"><span class="link-icon">→</span> FAQ</a></li>
+                            <li><a href="{{ route('home') }}"><span class="link-icon">→</span> Home</a></li>
+                            <li><a href="{{ route('about-us') }}"><span class="link-icon">→</span> About</a></li>
+                            <li><a href="{{ route('products') }}"><span class="link-icon">→</span> Products</a></li>
+                            <li><a href="{{ route('gallery') }}"><span class="link-icon">→</span> Gallery</a></li>
+                            <li><a href="{{ route('blogs') }}"><span class="link-icon">→</span> Blog</a></li>
+                            <li><a href={{ route('faq') }}><span class="link-icon">→</span> FAQ</a></li>
                         </ul>
 
                     </div>
@@ -410,7 +410,7 @@
                             <li><a href="hrb-plywood.html"><span class="link-icon">→</span> HRB Plywood</a></li>
                             <li><a href="products.html"><span class="link-icon">→</span> MDF Panel</a></li>
                             <li><a href="products.html"><span class="link-icon">→</span> Wooden Flooring</a></li>
-                            <li><a href="our-brands.html"><span class="link-icon">→</span> Our Brands</a></li>
+                            <li><a href="{{ route('our-brands') }}"><span class="link-icon">→</span> Our Brands</a></li>
                         </ul>
 
                     </div>

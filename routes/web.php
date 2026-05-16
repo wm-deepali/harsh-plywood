@@ -42,6 +42,7 @@ Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/about-us', 'about')->name('about-us');
     Route::get('/products', 'products')->name('products');
+    Route::get('/products/{slug}', 'productDetails')->name('product.details');
     Route::get('/gallery', 'gallery')->name('gallery');
     Route::get('/blogs', 'blogs')->name('blogs');
     Route::get('/blog-details', 'blogDetails')->name('blog-details');
@@ -49,7 +50,6 @@ Route::controller(FrontController::class)->group(function () {
     Route::get('hrb-plywood', 'hrbPlywood')->name('hrb-plywood');
     Route::get('our-brands', 'brands')->name('our-brands');
     Route::get('contact-us', 'contact')->name('contact-us');
-    Route::get('products-details', 'productDetails')->name('products-details');
 
 });
 

@@ -32,7 +32,7 @@ class ProductCategoryController extends Controller
             'short_description' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'image' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $imageName = null;
@@ -98,7 +98,7 @@ class ProductCategoryController extends Controller
             'short_description' => 'nullable|string',
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+           'image' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $imageName = $category->image;

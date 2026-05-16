@@ -122,19 +122,21 @@
     <input type="file"
            name="image"
            class="form-control @error('image') is-invalid @enderror">
-
+ <small class="text-muted">
+                                Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+                            </small>
     @error('image')
         <span class="text-danger">{{ $message }}</span>
     @enderror
 
-    @if($category->image)
-
-        <img src="{{ asset('storage/' . $category->image) }}"
-             width="120"
-             class="mt-2 border rounded">
-
-    @endif
 </div>
+@if($category->image)
+
+    <img src="{{ asset('storage/' . $category->image) }}"
+         width="120"
+         class="mt-2 border rounded">
+
+@endif
 
 <hr class="mt-4">
 

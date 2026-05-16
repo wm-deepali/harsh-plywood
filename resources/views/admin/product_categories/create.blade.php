@@ -42,22 +42,17 @@
                         </div>
                     @endif
 
-                    <form id="categoryForm"
-                          method="POST"
-                          enctype="multipart/form-data"
-                          action="{{ route('admin.product-categories.store') }}">
+                    <form id="categoryForm" method="POST" enctype="multipart/form-data"
+                        action="{{ route('admin.product-categories.store') }}">
 
                         @csrf
 
                         <div class="form-group">
                             <label>Category Name *</label>
 
-                            <input type="text"
-                                   name="name"
-                                   id="name"
-                                   class="form-control @error('name') is-invalid @enderror"
-                                   value="{{ old('name') }}"
-                                   required>
+                            <input type="text" name="name" id="name"
+                                class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
+                                required>
 
                             @error('name')
                                 <span class="text-danger">{{ $message }}</span>
@@ -67,11 +62,8 @@
                         <div class="form-group mt-3">
                             <label>Slug</label>
 
-                            <input type="text"
-                                   name="slug"
-                                   id="slug"
-                                   class="form-control @error('slug') is-invalid @enderror"
-                                   value="{{ old('slug') }}">
+                            <input type="text" name="slug" id="slug"
+                                class="form-control @error('slug') is-invalid @enderror" value="{{ old('slug') }}">
 
                             @error('slug')
                                 <span class="text-danger">{{ $message }}</span>
@@ -81,10 +73,9 @@
                         <div class="form-group mt-3">
                             <label>Heading</label>
 
-                            <input type="text"
-                                   name="heading"
-                                   class="form-control @error('heading') is-invalid @enderror"
-                                   value="{{ old('heading') }}">
+                            <input type="text" name="heading"
+                                class="form-control @error('heading') is-invalid @enderror"
+                                value="{{ old('heading') }}">
 
                             @error('heading')
                                 <span class="text-danger">{{ $message }}</span>
@@ -94,10 +85,9 @@
                         <div class="form-group mt-3">
                             <label>Sub Heading</label>
 
-                            <input type="text"
-                                   name="sub_heading"
-                                   class="form-control @error('sub_heading') is-invalid @enderror"
-                                   value="{{ old('sub_heading') }}">
+                            <input type="text" name="sub_heading"
+                                class="form-control @error('sub_heading') is-invalid @enderror"
+                                value="{{ old('sub_heading') }}">
 
                             @error('sub_heading')
                                 <span class="text-danger">{{ $message }}</span>
@@ -108,7 +98,7 @@
                             <label>Short Description</label>
 
                             <textarea name="short_description"
-                                      class="form-control @error('short_description') is-invalid @enderror">{{ old('short_description') }}</textarea>
+                                class="form-control @error('short_description') is-invalid @enderror">{{ old('short_description') }}</textarea>
 
                             @error('short_description')
                                 <span class="text-danger">{{ $message }}</span>
@@ -118,9 +108,12 @@
                         <div class="form-group mt-3">
                             <label>Category Image</label>
 
-                            <input type="file"
-                                   name="image"
-                                   class="form-control @error('image') is-invalid @enderror">
+                            <input type="file" name="image" accept=".jpg,.jpeg,.png,.webp"
+                                class="form-control @error('image') is-invalid @enderror">
+
+                            <small class="text-muted">
+                                Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+                            </small>
 
                             @error('image')
                                 <span class="text-danger">{{ $message }}</span>
@@ -134,11 +127,9 @@
                         <div class="form-group mt-3">
                             <label>Meta Title</label>
 
-                            <input type="text"
-                                   name="meta_title"
-                                   id="meta_title"
-                                   class="form-control @error('meta_title') is-invalid @enderror"
-                                   value="{{ old('meta_title') }}">
+                            <input type="text" name="meta_title" id="meta_title"
+                                class="form-control @error('meta_title') is-invalid @enderror"
+                                value="{{ old('meta_title') }}">
 
                             @error('meta_title')
                                 <span class="text-danger">{{ $message }}</span>
@@ -149,7 +140,7 @@
                             <label>Meta Description</label>
 
                             <textarea name="meta_description"
-                                      class="form-control @error('meta_description') is-invalid @enderror">{{ old('meta_description') }}</textarea>
+                                class="form-control @error('meta_description') is-invalid @enderror">{{ old('meta_description') }}</textarea>
 
                             @error('meta_description')
                                 <span class="text-danger">{{ $message }}</span>
@@ -160,11 +151,7 @@
 
                             <div class="custom-control custom-checkbox">
 
-                                <input type="checkbox"
-                                       name="status"
-                                       id="status"
-                                       class="custom-control-input"
-                                       checked>
+                                <input type="checkbox" name="status" id="status" class="custom-control-input" checked>
 
                                 <label class="custom-control-label" for="status">
                                     Active
@@ -176,16 +163,13 @@
 
                         <div class="mt-4">
 
-                            <button type="submit"
-                                    id="saveBtn"
-                                    class="btn btn-success">
+                            <button type="submit" id="saveBtn" class="btn btn-success">
 
                                 Save Category
 
                             </button>
 
-                            <a href="{{ route('admin.product-categories.index') }}"
-                               class="btn btn-secondary">
+                            <a href="{{ route('admin.product-categories.index') }}" class="btn btn-secondary">
 
                                 Cancel
 

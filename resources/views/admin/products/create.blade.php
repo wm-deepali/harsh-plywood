@@ -65,10 +65,8 @@
 
                     @endif
 
-                    <form id="productForm"
-                          method="POST"
-                          enctype="multipart/form-data"
-                          action="{{ route('admin.products.store') }}">
+                    <form id="productForm" method="POST" enctype="multipart/form-data"
+                        action="{{ route('admin.products.store') }}">
 
                         @csrf
 
@@ -77,9 +75,8 @@
 
                             <label>Category *</label>
 
-                            <select name="category_id"
-                                    class="form-control @error('category_id') is-invalid @enderror"
-                                    required>
+                            <select name="category_id" class="form-control @error('category_id') is-invalid @enderror"
+                                required>
 
                                 <option value="">
                                     Select Category
@@ -87,8 +84,7 @@
 
                                 @foreach($categories as $c)
 
-                                    <option value="{{ $c->id }}"
-                                        {{ old('category_id') == $c->id ? 'selected' : '' }}>
+                                    <option value="{{ $c->id }}" {{ old('category_id') == $c->id ? 'selected' : '' }}>
 
                                         {{ $c->name }}
 
@@ -113,11 +109,8 @@
 
                             <label>Product Name *</label>
 
-                            <input type="text"
-                                   name="name"
-                                   class="form-control @error('name') is-invalid @enderror"
-                                   value="{{ old('name') }}"
-                                   required>
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                value="{{ old('name') }}" required>
 
                             @error('name')
 
@@ -135,8 +128,8 @@
                             <label>Product Info</label>
 
                             <textarea name="product_info"
-                                      class="form-control @error('product_info') is-invalid @enderror"
-                                      rows="4">{{ old('product_info') }}</textarea>
+                                class="form-control @error('product_info') is-invalid @enderror"
+                                rows="4">{{ old('product_info') }}</textarea>
 
                             @error('product_info')
 
@@ -156,12 +149,7 @@
                             {{-- Upload Box --}}
                             <div class="upload-box text-center p-4 border rounded position-relative bg-light">
 
-                                <input type="file"
-                                       id="images"
-                                       name="images[]"
-                                       multiple
-                                       accept="image/*"
-                                       class="d-none">
+                                <input type="file" id="images" name="images[]" multiple accept="image/*" class="d-none">
 
                                 <div id="uploadTrigger" style="cursor:pointer;">
 
@@ -172,7 +160,7 @@
                                     </h5>
 
                                     <p class="text-muted mb-0">
-                                        Click here to select images
+                                        Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
                                     </p>
 
                                 </div>
@@ -188,8 +176,7 @@
                             @enderror
 
                             {{-- Preview Area --}}
-                            <div id="previewContainer"
-                                 class="d-flex flex-wrap mt-3"></div>
+                            <div id="previewContainer" class="d-flex flex-wrap mt-3"></div>
 
                         </div>
 
@@ -198,11 +185,7 @@
 
                             <div class="custom-control custom-checkbox">
 
-                                <input type="checkbox"
-                                       name="status"
-                                       id="status"
-                                       class="custom-control-input"
-                                       checked>
+                                <input type="checkbox" name="status" id="status" class="custom-control-input" checked>
 
                                 <label class="custom-control-label" for="status">
                                     Active
@@ -215,17 +198,14 @@
                         {{-- Buttons --}}
                         <div class="mt-4">
 
-                            <button type="submit"
-                                    id="saveBtn"
-                                    class="btn btn-success">
+                            <button type="submit" id="saveBtn" class="btn btn-success">
 
                                 <i class="fa fa-save"></i>
                                 Save Product
 
                             </button>
 
-                            <a href="{{ route('admin.products.index') }}"
-                               class="btn btn-secondary">
+                            <a href="{{ route('admin.products.index') }}" class="btn btn-secondary">
 
                                 Cancel
 

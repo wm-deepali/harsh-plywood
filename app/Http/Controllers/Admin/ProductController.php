@@ -38,7 +38,7 @@ class ProductController extends Controller
 
             'product_info' => 'nullable|string',
 
-            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'images.*' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
 
         ]);
 
@@ -113,7 +113,7 @@ class ProductController extends Controller
 
             'product_info' => 'nullable|string',
 
-            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+           'images.*' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
 
         ]);
 

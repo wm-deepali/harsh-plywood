@@ -222,8 +222,8 @@
             </h5>
 
             <p class="text-muted mb-0">
-                Click here to select images
-            </p>
+    Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+</p>
 
         </div>
 
