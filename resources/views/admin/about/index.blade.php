@@ -175,33 +175,7 @@
 
                                 </tr>
 
-                                {{-- TEAM --}}
-                                <tr>
-
-                                    <td>5</td>
-
-                                    <td>
-                                        <strong>Our Team</strong>
-                                    </td>
-
-                                    <td>
-                                        Team Image,
-                                        Name,
-                                        Designation
-                                    </td>
-
-                                    <td>
-
-                                        <a href="{{ route('admin.about.team.index') }}"
-                                           class="btn btn-sm btn-success">
-
-                                            Manage
-
-                                        </a>
-
-                                    </td>
-
-                                </tr>
+                              
 
                             </tbody>
 

@@ -14,13 +14,11 @@ class HeroSectionController extends Controller
             'About Us',
             'Awards & Certifications',
             'Testimonial',
-            'HRB Plywood',
             'Category Page',
             'Product Listing Page',
             'Contact Us',
             'FAQ',
             'Blog',
-            'Blog Detail',
             'Gallery',
             'Brands',
         ];

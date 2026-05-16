@@ -9,9 +9,9 @@
         <div class="container">
             <div class="hp-hero-content">
                 <div class="hp-hero-subtitle">PREMIUM QUALITY</div>
-                <h1 class="hp-hero-title">Our Product Collection</h1>
-                <p class="hp-hero-desc">Discover the finest selection of plywood, laminates, and architectural hardware
-                    crafted for elegance and durability.</p>
+                <h1 class="hp-hero-title">{{ $heroSection->heading ?? 'Our Product Collection' }}</h1>
+                <p class="hp-hero-desc">{{ $heroSection->sub_heading ?? 'Discover the finest selection of plywood, laminates, and architectural hardware
+                        crafted for elegance and durability.'}}</p>
             </div>
         </div>
     </section>

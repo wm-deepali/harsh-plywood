@@ -13,12 +13,12 @@ class HrbBrandController extends Controller
     {
         $brands = HrbBrand::latest()->paginate(10);
 
-        return view('admin.hrb-brands.index', compact('brands'));
+        return view('admin.hrb-brand.index', compact('brands'));
     }
 
     public function create()
     {
-        return view('admin.hrb-brands.create');
+        return view('admin.hrb-brand.create');
     }
 
     public function store(Request $request)
@@ -59,7 +59,7 @@ class HrbBrandController extends Controller
     {
         $brand = HrbBrand::findOrFail($id);
 
-        return view('admin.hrb-brands.edit', compact('brand'));
+        return view('admin.hrb-brand.edit', compact('brand'));
     }
 
     public function update(Request $request, $id)

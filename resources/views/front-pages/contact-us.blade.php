@@ -18,14 +18,13 @@
 
                 <h1 class="hp-hero-title">
 
-                    Contact Harsh Plywood
+                    {{ $heroSection->heading ?? 'Contact Harsh Plywood' }}
 
                 </h1>
 
                 <p class="hp-hero-desc">
 
-                    Reach out for plywood, laminates, hardware, or interior project support. Our team is ready to help
-                    with quotes, showroom visits, and tailored solutions for your space.
+                    {{ $heroSection->sub_heading ?? 'Reach out for plywood, laminates, hardware, or interior project support.' }}
 
                 </p>
 
@@ -41,127 +40,252 @@
     <section class="contact-page-section">
         <div class="container">
             <!-- <div class="row mb-5">
-                <div class="col text-center">
-                    <span class="section-subtitle">Contact Us</span>
-                    <h2 class="section-title">Multiple locations, one quick way to reach us</h2>
-                    <p class="section-desc">Choose the nearest Harsh Plywood address and view the map, or send us a quick enquiry using the form below.</p>
-                </div>
-            </div> -->
+                            <div class="col text-center">
+                                <span class="section-subtitle">Contact Us</span>
+                                <h2 class="section-title">Multiple locations, one quick way to reach us</h2>
+                                <p class="section-desc">Choose the nearest Harsh Plywood address and view the map, or send us a quick enquiry using the form below.</p>
+                            </div>
+                        </div> -->
 
             <div class="row gy-4">
-                <div class="col-12" data-aos="fade-up" data-aos-delay="100">
 
-                    <div class="address-card p-4 bg-white rounded-4 shadow-sm">
-                        <div class="row g-4 align-items-center">
-                            <div class="col-lg-5">
-                                <span class="address-label">Head Office</span>
-                                <h3>Harsh Plywood Headquarters</h3>
-                                <p>Visit our main office for sales, design support, and interior consultation.</p>
-                                <ul class="contact-list list-unstyled">
-                                    <li><i class="fa-solid fa-location-dot"></i> I-Thum Tower, Sector 62, Noida</li>
-                                    <li><i class="fa-solid fa-phone"></i> +91 86567 89976</li>
-                                    <li><i class="fa-regular fa-envelope"></i> info@harshplywood.com</li>
-                                    <li><i class="fa-solid fa-clock"></i> Mon - Sat: 09:30 AM - 07:00 PM</li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="map-frame ratio ratio-16x9 rounded-4 overflow-hidden">
-                                    <iframe
-                                        src="https://maps.google.com/maps?q=I-Thum%20Tower%20Sector%2062%20Noida&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                                        style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                @foreach($contacts as $index => $contact)
+
+                    <div class="col-12">
+
+                        <div class="address-card p-4 bg-white rounded-4 shadow-sm">
+
+                            <div class="row g-4 align-items-center">
+
+                                <div class="col-lg-5">
+
+                                    <span class="address-label">
+
+                                        {{ $contact->type }}
+
+                                    </span>
+
+                                    <h3>
+
+                                        {{ $contact->title }}
+
+                                    </h3>
+
+                                    <p>
+
+                                        {{ $contact->description }}
+
+                                    </p>
+
+                                    <ul class="contact-list list-unstyled">
+
+                                        <li>
+                                            <i class="fa-solid fa-location-dot"></i>
+
+                                            {{ $contact->address }}
+                                        </li>
+
+                                        <li>
+                                            <i class="fa-solid fa-phone"></i>
+
+                                            {{ $contact->phone }}
+                                        </li>
+
+                                        <li>
+                                            <i class="fa-regular fa-envelope"></i>
+
+                                            {{ $contact->email }}
+                                        </li>
+
+                                        <li>
+                                            <i class="fa-solid fa-clock"></i>
+
+                                            {{ $contact->timing }}
+                                        </li>
+
+                                    </ul>
+
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-12" data-aos="fade-up" data-aos-delay="200">
+                                <div class="col-lg-7">
 
-                    <div class="address-card p-4 bg-white rounded-4 shadow-sm">
-                        <div class="row g-4 align-items-center">
-                            <div class="col-lg-5">
-                                <span class="address-label">Warehouse</span>
-                                <h3>Noida Distribution Centre</h3>
-                                <p>Our logistics hub ensures fast delivery and easy product pickup.</p>
-                                <ul class="contact-list list-unstyled">
-                                    <li><i class="fa-solid fa-location-dot"></i> Sector 63, Noida</li>
-                                    <li><i class="fa-solid fa-phone"></i> +91 98765 43210</li>
-                                    <li><i class="fa-regular fa-envelope"></i> warehouse@harshplywood.com</li>
-                                    <li><i class="fa-solid fa-clock"></i> Mon - Sat: 09:00 AM - 06:30 PM</li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="map-frame ratio ratio-16x9 rounded-4 overflow-hidden">
-                                    <iframe
-                                        src="https://maps.google.com/maps?q=Sector%2063%20Noida&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                                        style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                    <div class="map-frame ratio ratio-16x9 rounded-4 overflow-hidden">
+
+                                        {!! $contact->map_iframe !!}
+
+                                    </div>
+
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-12" data-aos="fade-up" data-aos-delay="300">
+                            </div>
 
-                    <div class="address-card p-4 bg-white rounded-4 shadow-sm">
-                        <div class="row g-4 align-items-center">
-                            <div class="col-lg-5">
-                                <span class="address-label">Showroom</span>
-                                <h3>Design Showroom</h3>
-                                <p>Explore our plywood finishes, laminates and kitchen accessories in person.</p>
-                                <ul class="contact-list list-unstyled">
-                                    <li><i class="fa-solid fa-location-dot"></i> Sector 18, Noida</li>
-                                    <li><i class="fa-solid fa-phone"></i> +91 81234 56789</li>
-                                    <li><i class="fa-regular fa-envelope"></i> showroom@harshplywood.com</li>
-                                    <li><i class="fa-solid fa-clock"></i> Mon - Sun: 10:00 AM - 08:00 PM</li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="map-frame ratio ratio-16x9 rounded-4 overflow-hidden">
-                                    <iframe
-                                        src="https://maps.google.com/maps?q=Sector%2018%20Noida&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                                        style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                                </div>
-                            </div>
                         </div>
+
                     </div>
-                </div>
+
+                @endforeach
+
             </div>
+
 
             <div class="row mt-5">
                 <div class="col-lg-8 mx-auto">
-                    <div class="enquiry-form p-4 p-lg-5 bg-white rounded-4 shadow-sm" data-aos="fade-up">
+                    <div class="enquiry-form p-4 p-lg-5 bg-white rounded-4 shadow-sm">
+@if(session('success'))
 
+    <div class="alert alert-success alert-dismissible fade show">
+
+        {{ session('success') }}
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"></button>
+
+    </div>
+
+@endif
+
+@if ($errors->any())
+
+    <div class="alert alert-danger alert-dismissible fade show">
+
+        <ul class="mb-0">
+
+            @foreach ($errors->all() as $error)
+
+                <li>{{ $error }}</li>
+
+            @endforeach
+
+        </ul>
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"></button>
+
+    </div>
+
+@endif
                         <h3 class="mb-3">Quick Enquiry</h3>
                         <p class="mb-4">Send your details below and our team will contact you with a quote and next
                             steps.</p>
-                        <form>
+                            
+                        <form id="contactForm"
+      method="POST"
+      action="{{ route('contact.enquiry') }}">
+
+                            @csrf
+
                             <div class="row g-3">
+
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Your Name" required>
+
+                                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                        placeholder="Your Name" value="{{ old('name') }}">
+
+                                    @error('name')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
                                 </div>
+
                                 <div class="col-md-6">
-                                    <input type="email" class="form-control" placeholder="Your Email" required>
+
+                                    <input type="email" name="email"
+                                        class="form-control @error('email') is-invalid @enderror" placeholder="Your Email"
+                                        value="{{ old('email') }}">
+
+                                    @error('email')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
                                 </div>
+
                                 <div class="col-md-6">
-                                    <input type="tel" class="form-control" placeholder="Phone Number" required>
+
+                                    <input type="tel" name="phone" class="form-control @error('phone') is-invalid @enderror"
+                                        placeholder="Phone Number" value="{{ old('phone') }}">
+
+                                    @error('phone')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
                                 </div>
+
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" placeholder="Subject" required>
+
+                                    <input type="text" name="subject"
+                                        class="form-control @error('subject') is-invalid @enderror" placeholder="Subject"
+                                        value="{{ old('subject') }}">
+
+                                    @error('subject')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
                                 </div>
+
                                 <div class="col-12">
-                                    <textarea class="form-control" rows="5" placeholder="Message" required></textarea>
+
+                                    <textarea name="message" class="form-control @error('message') is-invalid @enderror"
+                                        rows="5" placeholder="Message">{{ old('message') }}</textarea>
+
+                                    @error('message')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+
                                 </div>
+
                                 <div class="col-12 text-end">
-                                    <button type="submit" class="btn btn-primary px-4 py-2">Submit Enquiry</button>
+
+                                    <button type="submit" class="btn btn-primary px-4 py-2">
+
+                                        Submit Enquiry
+
+                                    </button>
+
                                 </div>
+
                             </div>
+
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    @if ($errors->any() || session('success'))
+
+<script>
+
+    window.addEventListener('load', function () {
+
+        const formSection =
+            document.getElementById('contactForm');
+
+        if(formSection){
+
+            formSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+        }
+
+    });
+
+</script>
+
+@endif
 
 @endsection

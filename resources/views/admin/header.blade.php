@@ -206,28 +206,86 @@
 
         <li class="{{ request()->routeIs('admin.hero-sliders.*') ? 'active' : '' }}">
 
-    <a href="#">
-        <i class="fa-solid fa-images"></i> Hero Slider
-    </a>
-
-    <ul>
-
-        <li class="{{ request()->routeIs('admin.hero-sliders.index') ? 'active' : '' }}">
-
-            <a href="{{ route('admin.hero-sliders.index') }}">
-                Manage Slides
+            <a href="#">
+                <i class="fa-solid fa-images"></i>Home
             </a>
+
+            <ul>
+
+                <li class="{{ request()->routeIs('admin.hero-sliders.index') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.hero-sliders.index') }}">
+                        Manage Slides
+                    </a>
+
+                </li>
+
+                <li class="{{ request()->routeIs('admin.home-about.*') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.home-about.index') }}">
+                        Home About Section
+                    </a>
+
+                </li>
+
+                <li class="{{ request()->routeIs('admin.counters.*') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.counters.index') }}">
+
+                        Counter Section
+
+                    </a>
+
+                </li>
+
+                <li class="{{ request()->routeIs('admin.why-choose.*') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.why-choose.index') }}">
+
+                        Why Choose Us
+
+                    </a>
+
+                </li>
+
+            </ul>
 
         </li>
+        <li
+            class="{{ request()->routeIs('admin.sales_enquiries.*', 'admin.contact-enquiries.*', 'admin.hrb-enquiries.*') ? 'active' : '' }}">
 
-    </ul>
-
-</li>
-
-        <li class="{{ request()->routeIs('admin.sales_enquiries.*') ? 'active' : '' }}">
-            <a href="{{ route('admin.sales_enquiries.index') }}">
-                <i class="fa-solid fa-envelope"></i> Sales Enquiry
+            <a href="#">
+                <i class="fa-solid fa-envelope"></i> Enquiries
             </a>
+
+            <ul>
+
+                <li class="{{ request()->routeIs('admin.sales_enquiries.*') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.sales_enquiries.index') }}">
+                        Sales Enquiry
+                    </a>
+
+                </li>
+
+                <li class="{{ request()->routeIs('admin.contact-enquiries.*') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.contact-enquiries.index') }}">
+                        Contact Enquiry
+                    </a>
+
+                </li>
+
+                <li class="{{ request()->routeIs('admin.hrb-enquiries.*') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.hrb-enquiries.index') }}">
+                        HRB Enquiry
+                    </a>
+
+                </li>
+
+            </ul>
+
         </li>
 
         <li class="{{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}">

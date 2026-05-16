@@ -1,11 +1,15 @@
-console.log("js is ruinng")
 
+const date = new Date();
 
-const date = new Date()
-const year = date.getFullYear()
-const yearid = document.getElementById("yearid")
-yearid.innerText = year
-console.log(year)
+const year = date.getFullYear();
+
+const yearid = document.getElementById("yearid");
+
+if (yearid) {
+
+    yearid.innerText = year;
+
+}
 
 // hero js
 const heroSwiperEl = document.querySelector(".heroSwiper");
@@ -254,97 +258,187 @@ filterBtns.forEach(btn => {
 /* =========================
    LIGHTBOX
 ========================= */
+/* =========================
+   LIGHTBOX
+========================= */
 
-const images = document.querySelectorAll('.gallery-card img');
-const lightbox = document.querySelector('.lightbox');
-const lightboxImage = document.querySelector('.lightbox-image');
-const closeBtn = document.querySelector('.close-btn');
-const nextBtn = document.querySelector('.next-btn');
-const prevBtn = document.querySelector('.prev-btn');
-const counter = document.querySelector('.lightbox-counter');
-const thumbnailsContainer = document.querySelector('.lightbox-thumbnails');
+const galleryCards =
+    document.querySelectorAll('.gallery-card');
+
+const lightbox =
+    document.querySelector('.lightbox');
+
+const lightboxImage =
+    document.querySelector('.lightbox-image');
+
+const closeBtn =
+    document.querySelector('.close-btn');
+
+const nextBtn =
+    document.querySelector('.next-btn');
+
+const prevBtn =
+    document.querySelector('.prev-btn');
+
+const counter =
+    document.querySelector('.lightbox-counter');
+
+const thumbnailsContainer =
+    document.querySelector('.lightbox-thumbnails');
+
+let currentGalleryImages = [];
 
 let currentIndex = 0;
 
-if (lightbox && images.length > 0) {
-    /* CREATE THUMBNAILS */
-    images.forEach((img, index) => {
-        const thumb = document.createElement('img');
-        thumb.src = img.src;
-        thumb.addEventListener('click', () => {
-            currentIndex = index;
-            showImage();
-        });
-        if (thumbnailsContainer) thumbnailsContainer.appendChild(thumb);
-    });
+if (lightbox && galleryCards.length > 0) {
 
-    /* SHOW IMAGE */
-    function showImage() {
-        const img = images[currentIndex];
-        if (lightboxImage) lightboxImage.src = img.src;
-        if (counter) counter.innerText = `${currentIndex + 1} / ${images.length}`;
+    function renderThumbnails() {
 
-        document.querySelectorAll('.lightbox-thumbnails img').forEach((thumb, index) => {
-            thumb.classList.toggle('active-thumb', index === currentIndex);
+        thumbnailsContainer.innerHTML = '';
+
+        currentGalleryImages.forEach((imgSrc, index) => {
+
+            const thumb = document.createElement('img');
+
+            thumb.src = imgSrc;
+
+            thumb.classList.toggle(
+                'active-thumb',
+                index === currentIndex
+            );
+
+            thumb.addEventListener('click', () => {
+
+                currentIndex = index;
+
+                showImage();
+
+            });
+
+            thumbnailsContainer.appendChild(thumb);
+
         });
+
     }
 
-    /* OPEN */
-    document.querySelectorAll('.gallery-card').forEach((card, index) => {
-        const img = card.querySelector('img');
-        const overlay = card.querySelector('.gallery-overlay');
+    function showImage() {
+
+        lightboxImage.src =
+            currentGalleryImages[currentIndex];
+
+        counter.innerText =
+            `${currentIndex + 1} / ${currentGalleryImages.length}`;
+
+        renderThumbnails();
+
+    }
+
+    galleryCards.forEach((card) => {
 
         const openLightbox = () => {
-            currentIndex = index;
+
+            currentGalleryImages =
+                JSON.parse(card.dataset.images || '[]');
+
+            if (!currentGalleryImages.length) return;
+
+            currentIndex = 0;
+
             showImage();
+
             lightbox.classList.add('active');
+
             document.body.style.overflow = 'hidden';
+
         };
 
-        if (img) img.addEventListener('click', openLightbox);
-        if (overlay) overlay.addEventListener('click', openLightbox);
+        const img = card.querySelector('img');
+
+        const overlay = card.querySelector('.gallery-overlay');
+
+        if (img) {
+            img.addEventListener('click', openLightbox);
+        }
+
+        if (overlay) {
+            overlay.addEventListener('click', openLightbox);
+        }
+
     });
 
-    /* CLOSE */
     function closeLightbox() {
+
         lightbox.classList.remove('active');
+
         document.body.style.overflow = 'auto';
+
     }
 
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeLightbox);
+    }
 
-    /* NEXT */
     if (nextBtn) {
+
         nextBtn.addEventListener('click', () => {
+
             currentIndex++;
-            if (currentIndex >= images.length) currentIndex = 0;
+
+            if (currentIndex >= currentGalleryImages.length) {
+                currentIndex = 0;
+            }
+
             showImage();
+
         });
+
     }
 
-    /* PREV */
     if (prevBtn) {
+
         prevBtn.addEventListener('click', () => {
+
             currentIndex--;
-            if (currentIndex < 0) currentIndex = images.length - 1;
+
+            if (currentIndex < 0) {
+                currentIndex = currentGalleryImages.length - 1;
+            }
+
             showImage();
+
         });
+
     }
 
-    /* OUTSIDE CLICK */
     lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) closeLightbox();
+
+        if (e.target === lightbox) {
+
+            closeLightbox();
+
+        }
+
     });
 
-    /* KEYBOARD */
     document.addEventListener('keydown', (e) => {
-        if (!lightbox.classList.contains('active')) return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowRight' && nextBtn) nextBtn.click();
-        if (e.key === 'ArrowLeft' && prevBtn) prevBtn.click();
-    });
-}
 
+        if (!lightbox.classList.contains('active')) return;
+
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
+
+        if (e.key === 'ArrowRight' && nextBtn) {
+            nextBtn.click();
+        }
+
+        if (e.key === 'ArrowLeft' && prevBtn) {
+            prevBtn.click();
+        }
+
+    });
+
+}
 
 
 // testimonials js

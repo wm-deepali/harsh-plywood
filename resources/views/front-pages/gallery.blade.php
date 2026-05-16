@@ -3,7 +3,7 @@
 
 @section('content')
 
-   <section class="hp-about-hero">
+    <section class="hp-about-hero">
 
         <img src="https://corgan.ancorathemes.com/wp-content/uploads/2023/10/bg-hero-copyright.jpg" alt="">
 
@@ -17,14 +17,15 @@
 
                 <h1 class="hp-hero-title">
 
-                    Showcasing Our Finest Projects
+                    {{ $heroSection->heading ?? 'Showcasing Our Finest Projects' }}
+
 
                 </h1>
 
                 <p class="hp-hero-desc">
 
-                    Discover the elegance and durability of our premium plywood, laminates, and architectural solutions
-                    through our curated project gallery.
+                    {{ $heroSection->sub_heading ?? 'Discover the elegance and durability of our premium plywood, laminates, and architectural solutions through our curated project gallery.' }}
+
 
                 </p>
 
@@ -43,127 +44,65 @@
             <div class="row mb-5">
                 <div class="col-12 text-center">
                     <div class="gallery-filters mb-4">
-                        <button class="filter-btn activebutton" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="plywood">Plywood</button>
-                        <button class="filter-btn" data-filter="hardware">Hardware</button>
-                        <button class="filter-btn" data-filter="laminates">Laminates</button>
+
+                        <button class="filter-btn activebutton" data-filter="all">
+
+                            All
+
+                        </button>
+
+                        @foreach($galleryCategories as $category)
+
+                            <button class="filter-btn" data-filter="{{ Str::slug($category->name) }}">
+
+                                {{ $category->name }}
+
+                            </button>
+
+                        @endforeach
+
                     </div>
+
                 </div>
             </div>
 
 
             <div class="row gy-4">
-                <!-- Image 1 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 gallery-item plywood">
-                    <div class="gallery-card">
-                        <img src="{{ asset('images/p1.jpg')}}" alt="Gallery 1">
-                        <div class="gallery-overlay">
-                            <div class="gallery-plus-icon">
-                                <i class="fa-solid fa-plus"></i>
-                            </div>
-                            <div class="gallery-content">
-                                <h3>Premium Plywood</h3>
-                                <span>Core Strength</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Image 2 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 gallery-item laminates">
-                    <div class="gallery-card">
-                        <img src="{{ asset('/images/p2.jpg')}}" alt="Gallery 2">
-                        <div class="gallery-overlay">
-                            <div class="gallery-plus-icon">
-                                <i class="fa-solid fa-plus"></i>
-                            </div>
-                            <div class="gallery-content">
-                                <h3>Stylish Laminates</h3>
-                                <span>Elegant Finish</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @foreach($galleries as $gallery)
 
-                <!-- Image 3 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 gallery-item hardware">
-                    <div class="gallery-card">
-                        <img src="{{ asset('/images/p3.jfif') }}" alt="Gallery 3">
-                        <div class="gallery-overlay">
-                            <div class="gallery-plus-icon">
-                                <i class="fa-solid fa-plus"></i>
-                            </div>
-                            <div class="gallery-content">
-                                <h3>Modern Hardware</h3>
-                                <span>Perfect Details</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 gallery-item {{ Str::slug($gallery->category->name ?? '') }}">
 
-                <!-- Image 4 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 gallery-item plywood">
-                    <div class="gallery-card">
-                        <img src="{{ asset('/images/p4.jpg') }}" alt="Gallery 4">
-                        <div class="gallery-overlay">
-                            <div class="gallery-plus-icon">
-                                <i class="fa-solid fa-plus"></i>
-                            </div>
-                            <div class="gallery-content">
-                                <h3>Interior Solutions</h3>
-                                <span>Modern Living</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <div class="gallery-card" data-images='@json([asset("storage/" . $gallery->image)])'>
 
-                <!-- Image 5 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 gallery-item hardware">
-                    <div class="gallery-card">
-                        <img src="{{ asset('/images/p5.jpg') }}" alt="Gallery 5">
-                        <div class="gallery-overlay">
-                            <div class="gallery-plus-icon">
-                                <i class="fa-solid fa-plus"></i>
-                            </div>
-                            <div class="gallery-content">
-                                <h3>Luxury Fittings</h3>
-                                <span>Architectural Hardware</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            <img src="{{ asset('storage/' . $gallery->image) }}" alt="{{ $gallery->title }}">
 
-                <!-- Image 6 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 gallery-item laminates">
-                    <div class="gallery-card">
-                        <img src="{{ asset('/images/p6.jpg') }}" alt="Gallery 6">
-                        <div class="gallery-overlay">
-                            <div class="gallery-plus-icon">
-                                <i class="fa-solid fa-plus"></i>
-                            </div>
-                            <div class="gallery-content">
-                                <h3>Texture & Tone</h3>
-                                <span>Designer Series</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            <div class="gallery-overlay">
 
-                <!-- Image 7 -->
-                <div class="col-xl-3 col-lg-4 col-md-6 gallery-item plywood">
-                    <div class="gallery-card">
-                        <img src="{{ asset('/images/p7.jpg') }}" alt="Gallery 7">
-                        <div class="gallery-overlay">
-                            <div class="gallery-plus-icon">
-                                <i class="fa-solid fa-plus"></i>
+                                <div class="gallery-plus-icon">
+                                    <i class="fa-solid fa-plus"></i>
+                                </div>
+
+                                <div class="gallery-content">
+
+                                    <h3>
+                                        {{ $gallery->title }}
+                                    </h3>
+
+                                    <span>
+                                        {{ $gallery->category->name ?? '' }}
+                                    </span>
+
+                                </div>
+
                             </div>
-                            <div class="gallery-content">
-                                <h3>Timber Excellence</h3>
-                                <span>Quality Plywood</span>
-                            </div>
+
                         </div>
+
                     </div>
-                </div>
+
+                @endforeach
+
             </div>
 
         </div>

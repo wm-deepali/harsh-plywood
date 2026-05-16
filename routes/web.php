@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Admin\AwardController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\ContactEnquiryController;
 use App\Http\Controllers\Admin\ContactUsController;
+use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\GalleryCategoryController;
@@ -14,9 +16,11 @@ use App\Http\Controllers\Admin\HeaderFooterSettingController;
 use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\Admin\HeroSliderController;
 use App\Http\Controllers\Admin\HiStyleBrandController;
+use App\Http\Controllers\Admin\HomeAboutController;
 use App\Http\Controllers\Admin\HrbBrandController;
 use App\Http\Controllers\Admin\HrbController;
 use App\Http\Controllers\Admin\HrbCounterController;
+use App\Http\Controllers\Admin\HrbEnquiryController;
 use App\Http\Controllers\Admin\HrbOfferController;
 use App\Http\Controllers\Admin\HrbWhyChooseController;
 use App\Http\Controllers\Admin\LogoutController;
@@ -29,6 +33,7 @@ use App\Http\Controllers\Admin\SeoSettingController;
 use App\Http\Controllers\Admin\SocialSettingController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\WhyChooseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FrontController;
@@ -41,15 +46,18 @@ Route::controller(FrontController::class)->group(function () {
 
     Route::get('/', 'home')->name('home');
     Route::get('/about-us', 'about')->name('about-us');
+    Route::get('/awards', 'awards')->name('awards');
     Route::get('/products', 'products')->name('products');
     Route::get('/products/{slug}', 'productDetails')->name('product.details');
     Route::get('/gallery', 'gallery')->name('gallery');
     Route::get('/blogs', 'blogs')->name('blogs');
-    Route::get('/blog-details', 'blogDetails')->name('blog-details');
+    Route::get('/blog/{slug}', 'blogDetails')->name('blog.details');
     Route::get('/faq', 'faq')->name('faq');
     Route::get('hrb-plywood', 'hrbPlywood')->name('hrb-plywood');
     Route::get('our-brands', 'brands')->name('our-brands');
     Route::get('contact-us', 'contact')->name('contact-us');
+    Route::post('/contact-enquiry', 'contactEnquiry')->name('contact.enquiry');
+    Route::post('/hrb-enquiry', 'hrbEnquiry')->name('hrb.enquiry');
 
 });
 
@@ -107,10 +115,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/mission/edit', [AboutController::class, 'editMission'])->name('mission.edit');
             Route::post('/mission/update', [AboutController::class, 'updateMission'])->name('mission.update');
 
-            // Team
-            Route::get('/team', [AboutController::class, 'teamIndex'])->name('team.index');
-            Route::post('/team/store', [AboutController::class, 'storeTeam'])->name('team.store');
-            Route::delete('/team/delete/{id}', [AboutController::class, 'deleteTeam'])->name('team.delete');
 
         });
 
@@ -199,9 +203,39 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('hero-sliders', HeroSliderController::class);
 
+        Route::prefix('home-about')->name('home-about.')->controller(HomeAboutController::class)->group(function () {
+
+            Route::get('/', 'index')->name('index');
+            Route::post('/update', 'update')->name('update');
+            Route::post('/feature/store', 'storeFeature')->name('feature.store');
+            Route::post('/feature/update/{id}', 'updateFeature')->name('feature.update');
+            Route::delete('/feature/delete/{id}', 'deleteFeature')->name('feature.delete');
+
+        });
+
+        Route::resource('counters', CounterController::class);
+
+        Route::prefix('why-choose')->name('why-choose.')->controller(WhyChooseController::class)->group(function () {
+
+                Route::get('/', 'index')->name('index');
+                Route::post('/update', 'update')->name('update');
+                Route::post('/feature/store','storeFeature' )->name('feature.store');
+                Route::put('/feature/update/{id}',[WhyChooseController::class, 'updateFeature'])->name('feature.update');
+                Route::delete('/feature/delete/{id}','deleteFeature')->name('feature.delete');
+
+            });
+
         Route::get('sales-enquiries', [SalesEnquiryController::class, 'index'])->name('sales_enquiries.index');
         Route::delete('sales-enquiries/{id}', [SalesEnquiryController::class, 'destroy']);
         Route::post('sales-enquiries/bulk-delete', [SalesEnquiryController::class, 'bulkDelete'])->name('sales_enquiries.bulkDelete');
+
+        Route::get('contact-enquiries', [ContactEnquiryController::class, 'index'])->name('contact-enquiries.index');
+        Route::delete('contact-enquiries/{id}', [ContactEnquiryController::class, 'destroy']);
+        Route::post('contact-enquiries/bulk-delete', [ContactEnquiryController::class, 'bulkDelete'])->name('contact-enquiries.bulkDelete');
+
+        Route::get('hrb-enquiries', [HrbEnquiryController::class, 'index'])->name('hrb-enquiries.index');
+        Route::delete('hrb-enquiries/{id}', [HrbEnquiryController::class, 'destroy']);
+        Route::post('hrb-enquiries/bulk-delete', [HrbEnquiryController::class, 'bulkDelete'])->name('hrb-enquiries.bulkDelete');
 
         Route::resource('testimonials', TestimonialController::class);
 

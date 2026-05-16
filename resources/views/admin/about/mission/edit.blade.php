@@ -36,7 +36,8 @@
 
         <div class="content-wrapper pb-4">
 
-            <form action="{{ route('admin.about.mission.update') }}" method="POST">
+            <form action="{{ route('admin.about.mission.update') }}"
+                  method="POST">
 
                 @csrf
 
@@ -54,8 +55,28 @@
                                 Heading
                             </label>
 
-                            <input type="text" name="heading" class="form-control"
-                                value="{{ old('heading', $section->heading) }}">
+                            <input type="text"
+                                   name="heading"
+                                   class="form-control"
+                                   value="{{ old('heading', $section->heading) }}">
+
+                        </div>
+
+                        <div class="form-group mt-3">
+
+                            <label>
+                                Icon Class
+                            </label>
+
+                            <input type="text"
+                                   name="icon"
+                                   class="form-control"
+                                   placeholder="fa-solid fa-bullseye"
+                                   value="{{ old('icon', $section->icon) }}">
+
+                            <small class="text-muted">
+                                Example: fa-solid fa-bullseye
+                            </small>
 
                         </div>
 
@@ -65,12 +86,57 @@
                                 Detail Content
                             </label>
 
-                            <textarea name="content" id="editor"
-                                class="form-control">{{ old('content', $section->content) }}</textarea>
+                            <textarea name="content"
+                                      id="editor"
+                                      class="form-control">{{ old('content', $section->content) }}</textarea>
 
                         </div>
 
-                        <button type="submit" class="btn btn-primary mt-3">
+                        <div class="row mt-3">
+
+                            <div class="col-md-4">
+
+                                <label>
+                                    Point 1
+                                </label>
+
+                                <input type="text"
+                                       name="point_1"
+                                       class="form-control"
+                                       value="{{ old('point_1', $section->point_1) }}">
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label>
+                                    Point 2
+                                </label>
+
+                                <input type="text"
+                                       name="point_2"
+                                       class="form-control"
+                                       value="{{ old('point_2', $section->point_2) }}">
+
+                            </div>
+
+                            <div class="col-md-4">
+
+                                <label>
+                                    Point 3
+                                </label>
+
+                                <input type="text"
+                                       name="point_3"
+                                       class="form-control"
+                                       value="{{ old('point_3', $section->point_3) }}">
+
+                            </div>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary mt-4">
 
                             Update Mission
 

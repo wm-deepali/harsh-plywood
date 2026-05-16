@@ -21,7 +21,6 @@ class SeoSettingController extends Controller
             'Contact Us',
             'FAQ',
             'Blog',
-            'Blog Detail',
             'Gallery',
             'Brands',
         ];

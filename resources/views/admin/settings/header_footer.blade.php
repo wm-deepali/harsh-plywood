@@ -185,6 +185,28 @@
 
                         </div>
 
+                         <div class="form-group mt-4">
+
+                            <label>
+                                Email
+                            </label>
+
+                            <input type="text"
+                                   name="email"
+                                   class="form-control @error('email') is-invalid @enderror"
+                                   value="{{ old('email', $data->email ?? '') }}"
+                                   placeholder="info@harshplywood.com">
+
+                            @error('email')
+
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+
+                            @enderror
+
+                        </div>
+
                         {{-- WhatsApp --}}
                         <div class="form-group mt-4">
 

@@ -88,7 +88,9 @@
 
                     <!-- IMAGE -->
 
-                    <div class="about-image">
+                    <div class="about-image" style="background-image: url('{{ isset($homeAboutSection) && $homeAboutSection->image
+        ? asset('storage/' . $homeAboutSection->image)
+        : asset('images/about.jpg') }}');">
 
                         <!-- AWARD BOX -->
 
@@ -98,7 +100,7 @@
 
                             <div class="award-icon">
 
-                                <i class="fa-regular fa-star"></i>
+                                <i class="{{ $homeAboutSection->award_icon ?? 'fa-regular fa-star' }}"></i>
 
                             </div>
 
@@ -106,9 +108,7 @@
 
                             <h3>
 
-                                Best Awarded
-                                <br>
-                                Company
+                                {!! nl2br($homeAboutSection->award_title ?? 'Best Awarded <br> Company') !!}
 
                             </h3>
 
@@ -117,6 +117,7 @@
                     </div>
 
                 </div>
+
                 <!-- RIGHT CONTENT -->
 
                 <div class="col-lg-6">
@@ -130,132 +131,63 @@
                             <span class="x-subtitle-dot"></span>
 
                             <span class="x-subtitle-text">
-                                Since 1986
+
+                                {{ $homeAboutSection->sub_heading ?? 'Since 1986' }}
+
                             </span>
 
                         </div>
-
-
 
                         <!-- TITLE -->
 
                         <h2 class="x-about-title">
 
-                            Premium Plywood &
-                            <br>
-                            Modern Interior Solutions.
+                            {!! nl2br($homeAboutSection->heading ?? 'Premium Plywood & <br> Modern Interior Solutions.') !!}
 
                         </h2>
 
-
-
                         <!-- DESCRIPTION -->
 
-                        <p class="x-about-desc">
+                        <div class="x-about-desc">
 
-                            Harsh Plywood is a trusted destination for premium plywood, laminates, veneers, hardware,
-                            modular kitchen accessories, wooden flooring, and modern interior products crafted to
-                            enhance every residential and commercial space.
+                            {!! $homeAboutSection->description ?? '' !!}
 
-                        </p>
-
-
+                        </div>
 
                         <!-- FEATURES -->
 
                         <div class="row g-4">
 
-                            <!-- ITEM -->
+                            @foreach($homeAboutFeatures as $feature)
 
-                            <div class="col-md-6">
+                                <div class="col-md-6">
 
-                                <div class="x-feature-box">
+                                    <div class="x-feature-box">
 
-                                    <div class="x-feature-icon">
+                                        <div class="x-feature-icon">
 
-                                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                                            <i class="{{ $feature->icon }}"></i>
 
-                                    </div>
+                                        </div>
 
-                                    <h5>
-                                        Premium Plywood
-                                    </h5>
+                                        <h5>
 
-                                </div>
+                                            {{ $feature->title }}
 
-                            </div>
-
-
-
-                            <!-- ITEM -->
-
-                            <div class="col-md-6">
-
-                                <div class="x-feature-box">
-
-                                    <div class="x-feature-icon">
-
-                                        <i class="fa-solid fa-helmet-safety"></i>
+                                        </h5>
 
                                     </div>
 
-                                    <h5>
-                                        Architectural Hardware
-                                    </h5>
-
                                 </div>
 
-                            </div>
-
-
-
-                            <!-- ITEM -->
-
-                            <div class="col-md-6">
-
-                                <div class="x-feature-box">
-
-                                    <div class="x-feature-icon">
-
-                                        <i class="fa-solid fa-hand-holding-dollar"></i>
-
-                                    </div>
-
-                                    <h5>
-                                        Wooden Flooring
-                                    </h5>
-
-                                </div>
-
-                            </div>
-
-
-
-                            <!-- ITEM -->
-
-                            <div class="col-md-6">
-
-                                <div class="x-feature-box">
-
-                                    <div class="x-feature-icon">
-
-                                        <i class="fa-solid fa-building"></i>
-
-                                    </div>
-
-                                    <h5>
-                                        Modular Kitchen Solutions
-                                    </h5>
-
-                                </div>
-
-                            </div>
+                            @endforeach
 
                         </div>
 
                     </div>
 
                 </div>
+
             </div>
 
         </div>
@@ -275,137 +207,52 @@
 
             <div class="row g-4">
 
+                @foreach($counters as $counter)
 
+                    <div class="col-lg-3 col-md-6 col-6">
 
-                <div class="col-lg-3 col-md-6 col-6">
+                        <div class="counter-box">
 
-                    <div class="counter-box">
+                            <div class="counter-top">
 
-                        <div class="counter-top">
+                                <i class="{{ $counter->icon }}"></i>
 
-                            <i class="fa-regular fa-face-smile"></i>
+                                <span>
 
-                            <span>
-                                Happy Client Review
-                            </span>
+                                    {{ $counter->title }}
 
-                        </div>
+                                </span>
 
-                        <h2 class="counter-number">
+                            </div>
 
-                            <span class="counter" data-target="235">
-                                0
-                            </span>
+                            <h2 class="counter-number">
 
-                            <small>+</small>
+                                <span class="counter" data-target="{{ $counter->counter_value }}">
 
-                        </h2>
+                                    0
 
-                    </div>
+                                </span>
 
-                </div>
+                                <small>
 
+                                    {{ $counter->counter_suffix }}
 
+                                </small>
 
-
-
-                <div class="col-lg-3 col-md-6 col-6">
-
-                    <div class="counter-box">
-
-                        <div class="counter-top">
-
-                            <i class="fa-regular fa-user"></i>
-
-                            <span>
-                                Work Departments
-                            </span>
+                            </h2>
 
                         </div>
 
-                        <h2 class="counter-number">
-
-                            <span class="counter" data-target="420">
-                                0
-                            </span>
-
-                            <small>+</small>
-
-                        </h2>
-
                     </div>
 
-                </div>
-
-
-
-
-
-                <div class="col-lg-3 col-md-6 col-6">
-
-                    <div class="counter-box">
-
-                        <div class="counter-top">
-
-                            <i class="fa-regular fa-comments"></i>
-
-                            <span>
-                                Our Happy Client
-                            </span>
-
-                        </div>
-
-                        <h2 class="counter-number">
-
-                            <span class="counter" data-target="30">
-                                0
-                            </span>
-
-                            <small>K</small>
-
-                        </h2>
-
-                    </div>
-
-                </div>
-
-
-
-
-
-                <div class="col-lg-3 col-md-6 col-6">
-
-                    <div class="counter-box">
-
-                        <div class="counter-top">
-
-                            <i class="fa-regular fa-id-card"></i>
-
-                            <span>
-                                Staff members
-                            </span>
-
-                        </div>
-
-                        <h2 class="counter-number">
-
-                            <span class="counter" data-target="305">
-                                0
-                            </span>
-
-                            <small>+</small>
-
-                        </h2>
-
-                    </div>
-
-                </div>
+                @endforeach
 
             </div>
 
         </div>
 
     </section>
+
 
     <!-- service section -->
     <section class="service-section" id="serviceSection">
@@ -417,7 +264,6 @@
             <div class="bg-text">
                 Services
             </div>
-
 
 
             <!-- SECTION HEADER -->
@@ -444,27 +290,32 @@
 
                     <div class="col-lg-3 col-md-6">
 
-                        <div class="service-card">
+                        <a href="{{ route('product.details', $category->slug) }}"
+                            class="text-decoration-none text-dark d-block">
 
-                            <img src="{{ asset('storage/'.$category->image) }}" alt="{{ $category->name }}">
+                            <div class="service-card">
 
-                            <div class="overlay"></div>
+                                <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
 
-                            <div class="card-content">
+                                <div class="overlay"></div>
 
-                                <h3>{{ $category->name }}</h3>
+                                <div class="card-content">
 
-                                <div class="arrow-btn">
-                                    ↗
+                                    <h3>{{ $category->name }}</h3>
+
+                                    <div class="arrow-btn">
+                                        ↗
+                                    </div>
+
                                 </div>
+
+                                <p>
+                                    {{ $category->short_description }}
+                                </p>
 
                             </div>
 
-                            <p>
-                                {{ $category->short_description }}
-                            </p>
-
-                        </div>
+                        </a>
 
                     </div>
 
@@ -472,7 +323,7 @@
 
             </div>
 
-           
+
         </div>
 
     </section>
@@ -488,40 +339,35 @@
 
             <!-- TOP -->
 
-            <div class="row align-items-center justify-content-center ">
+            <div class="row align-items-center justify-content-center">
 
                 <div class="col-lg-12 text-center">
 
                     <div class="mini-title justify-content-center">
-                        Since 1986
+
+                        {{ $whyChooseSection->sub_heading ?? 'Since 1986' }}
+
                     </div>
 
                     <h2 class="main-title">
-                        Why choose us
+
+                        {{ $whyChooseSection->heading ?? 'Why Choose Us' }}
+
                     </h2>
 
                 </div>
 
-
-
                 <div class="col-lg-9 text-center">
 
-                    <p class="top-desc text-center">At Harsh Plywood, we bring decades of excellence in premium plywood,
-                        laminates, hardware, modular kitchens, wooden flooring, and interior solutions. With a
-                        commitment to quality craftsmanship and customer satisfaction, we help create elegant and
-                        durable living spaces for every home and project.</p>
+                    <div class="top-desc text-center">
+
+                        {!! $whyChooseSection->description ?? '' !!}
+
+                    </div>
 
                 </div>
 
-
-
-
-
             </div>
-
-
-
-
 
             <!-- MAIN CONTENT -->
 
@@ -531,158 +377,97 @@
 
                 <div class="col-lg-4">
 
-                    <div class="feature-box">
+                    @foreach($whyChooseFeatures->where('position', 'left') as $feature)
 
-                        <div class="feature-icon">
+                        <div class="feature-box">
 
-                            <i class="fa-solid fa-medal"></i>
+                            <div class="feature-icon">
 
-                        </div>
+                                <i class="{{ $feature->icon }}"></i>
 
-                        <div class="feature-content">
+                            </div>
 
-                            <h3>Premium Quality Products</h3>
+                            <div class="feature-content">
 
-                            <p>We provide superior-quality plywood, laminates, veneers, wooden flooring, and decorative
-                                interior products.</p>
+                                <h3>
 
-                        </div>
+                                    {{ $feature->title }}
 
-                    </div>
+                                </h3>
 
+                                <p>
 
+                                    {{ $feature->description }}
 
-                    <div class="feature-box">
+                                </p>
 
-                        <div class="feature-icon">
-
-                            <i class="fa-solid fa-tv"></i>
-
-                        </div>
-
-                        <div class="feature-content">
-
-                            <h3>Modern Interior Solutions</h3>
-
-                            <p>rom modular kitchens to exclusive hardware fittings, we offer innovative and stylish
-                                interior solutions.</p>
+                            </div>
 
                         </div>
 
-                    </div>
-
-
-
-                    <div class="feature-box">
-
-                        <div class="feature-icon">
-
-                            <i class="fa-solid fa-ruler-combined"></i>
-
-                        </div>
-
-                        <div class="feature-content">
-
-                            <h3>Trusted Industry Experience</h3>
-
-                            <p>With years of expertise in the plywood and interior industry, we have built a strong
-                                reputation for reliability.</p>
-
-                        </div>
-
-                    </div>
+                    @endforeach
 
                 </div>
-
-
-
-
 
                 <!-- CENTER IMAGE -->
+
                 <div class="col-lg-4">
+
                     <div class="feature-image-wrapper">
+
                         <div class="main-feature-img">
-                            <img src="{{ asset('images/workshop-main.png')}}" alt="Modern Workshop">
+
+                            <img src="{{ isset($whyChooseSection) && $whyChooseSection->main_image
+        ? asset('storage/' . $whyChooseSection->main_image)
+        : asset('images/workshop-main.png') }}" alt="Main Image">
+
                         </div>
+
                         <div class="overlap-feature-img">
-                            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=870&auto=format&fit=crop"
-                                alt="Plywood Detail">
+
+                            <img src="{{ isset($whyChooseSection) && $whyChooseSection->small_image
+        ? asset('storage/' . $whyChooseSection->small_image)
+        : asset('images/about.jpg') }}" alt="Small Image">
+
                         </div>
+
                     </div>
+
                 </div>
-
-
-
-
 
                 <!-- RIGHT -->
 
                 <div class="col-lg-4">
 
-                    <div class="feature-box firstbox">
+                    @foreach($whyChooseFeatures->where('position', 'right') as $feature)
 
-                        <div class="feature-icon">
+                        <div class="feature-box">
 
-                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                            <div class="feature-icon">
 
-                        </div>
+                                <i class="{{ $feature->icon }}"></i>
 
-                        <div class="feature-content ">
+                            </div>
 
-                            <h3>
-                                Transparent Pricing
-                            </h3>
+                            <div class="feature-content">
 
-                            <p>We believe in fair and transparent pricing with the best value for premium-quality
-                                interior and plywood products.</p>
+                                <h3>
 
-                        </div>
+                                    {{ $feature->title }}
 
-                    </div>
+                                </h3>
 
+                                <p>
 
+                                    {{ $feature->description }}
 
-                    <div class="feature-box ">
+                                </p>
 
-                        <div class="feature-icon">
-
-                            <i class="fa-solid fa-users"></i>
+                            </div>
 
                         </div>
 
-                        <div class="feature-content">
-
-                            <h3>
-                                Professional Team
-                            </h3>
-
-                            <p>Our experienced and dedicated team assists customers in choosing the right materials,
-                                finishes, and interior solutions.</p>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="feature-box">
-
-                        <div class="feature-icon">
-
-                            <i class="fa-solid fa-trophy"></i>
-
-                        </div>
-
-                        <div class="feature-content">
-
-                            <h3>Complete Interior Range</h3>
-
-                            <p>Harsh Plywood offers a complete range including plywood, laminates, decorative veneers,
-                                modular kitchens.</p>
-
-                        </div>
-
-                    </div>
+                    @endforeach
 
                 </div>
 
@@ -692,18 +477,11 @@
 
     </section>
 
-
-
-
     <!-- our latest products -->
 
     <!-- ========================= -->
     <!-- PRODUCTS SECTION -->
     <!-- ========================= -->
-
-    <!-- =========================
-                                 LIGHT GALLERY SECTION
-                            ========================= -->
 
     <section class="prodcts_wrapper">
 
@@ -792,7 +570,11 @@
 
                         <div class="col-lg-3 col-md-6 gallery-item {{ $product->category->slug }}">
 
-                            <div class="gallery-card">
+                            <div class="gallery-card" data-images='@json(
+                                $product->images->map(function ($img) {
+                                    return asset("storage/" . $img->image);
+                                })->values()
+                            )'>
 
                                 <img src="{{ asset('storage/' . $product->images->first()->image ?? 'assets/images/default.png') }}"
                                     alt="{{ $product->name }}">
@@ -919,280 +701,63 @@
             </h2>
 
 
-
-
             <!-- SWIPER -->
 
             <div class="swiper testimonialsSwiper">
 
                 <div class="swiper-wrapper">
 
+                    @foreach($testimonials as $testimonial)
 
+                        <div class="swiper-slide">
 
+                            <div class="testimonial-card">
 
-                    <!-- ITEM -->
+                                <div class="quote-icon">
+                                    <i class="fa-solid fa-quote-right"></i>
+                                </div>
 
-                    <div class="swiper-slide">
+                                <p class="testimonial-text">
 
-                        <div class="testimonial-card">
+                                    {{ $testimonial->feedback }}
 
-                            <div class="quote-icon">
-                                <i class="fa-solid fa-quote-right"></i>
-                            </div>
+                                </p>
 
-                            <p class="testimonial-text">
+                                <div class="testimonial-user">
 
-                                Harsh Plywood offers premium quality plywood and laminates with excellent finishing.
-                                Their product range and customer service exceeded our expectations.
+                                    <img src="{{ asset('storage/' . $testimonial->image) }}" alt="{{ $testimonial->title }}">
 
-                            </p>
+                                    <div>
 
-                            <div class="testimonial-user">
+                                        <h4>
+                                            {{ $testimonial->title }}
+                                        </h4>
 
-                                <img src="https://randomuser.me/api/portraits/women/65.jpg">
+                                        <span>
+                                            {{ $testimonial->designation }}
+                                        </span>
 
-                                <div>
+                                    </div>
 
-                                    <h4>
-                                        Priya Sharma
-                                    </h4>
+                                </div>
 
-                                    <span>
-                                        Interior Designer
-                                    </span>
+                                <div class="testimonial-stars">
+
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
 
                                 </div>
 
                             </div>
 
-                            <div class="testimonial-stars">
-
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-
-                            </div>
-
                         </div>
 
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="testimonial-card">
-
-                            <div class="quote-icon">
-                                <i class="fa-solid fa-quote-right"></i>
-                            </div>
-
-                            <p class="testimonial-text">
-
-                                We purchased plywood and modular kitchen accessories from Harsh Plywood.
-                                The quality, durability, and pricing were truly impressive.
-
-                            </p>
-
-                            <div class="testimonial-user">
-
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg">
-
-                                <div>
-
-                                    <h4>
-                                        Rajesh Verma
-                                    </h4>
-
-                                    <span>
-                                        Architect
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                            <div class="testimonial-stars">
-
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="testimonial-card">
-
-                            <div class="quote-icon">
-                                <i class="fa-solid fa-quote-right"></i>
-                            </div>
-
-                            <p class="testimonial-text">
-
-                                Harsh Plywood helped us choose the perfect laminates and wooden flooring for our home.
-                                Their team was professional and very supportive throughout the project.
-
-                            </p>
-
-                            <div class="testimonial-user">
-
-                                <img src="https://randomuser.me/api/portraits/women/45.jpg">
-
-                                <div>
-
-                                    <h4>
-                                        Neha Kapoor
-                                    </h4>
-
-                                    <span>
-                                        Home Owner
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                            <div class="testimonial-stars">
-
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="testimonial-card">
-
-                            <div class="quote-icon">
-                                <i class="fa-solid fa-quote-right"></i>
-                            </div>
-
-                            <p class="testimonial-text">
-
-                                Excellent collection of plywood, hardware, and interior products.
-                                Harsh Plywood delivered everything on time with outstanding service quality.
-
-                            </p>
-
-                            <div class="testimonial-user">
-
-                                <img src="https://randomuser.me/api/portraits/men/41.jpg">
-
-                                <div>
-
-                                    <h4>
-                                        Aman Gupta
-                                    </h4>
-
-                                    <span>
-                                        Builder
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                            <div class="testimonial-stars">
-
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="testimonial-card">
-
-                            <div class="quote-icon">
-                                <i class="fa-solid fa-quote-right"></i>
-                            </div>
-
-                            <p class="testimonial-text">
-
-                                From acrylic sheets to decorative laminates, Harsh Plywood provides premium products
-                                with modern designs.
-                                We are extremely satisfied with the final results.
-
-                            </p>
-
-                            <div class="testimonial-user">
-
-                                <img src="https://randomuser.me/api/portraits/women/22.jpg">
-
-                                <div>
-
-                                    <h4>
-                                        Simran Malhotra
-                                    </h4>
-
-                                    <span>
-                                        Interior Consultant
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                            <div class="testimonial-stars">
-
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-
-                            </div>
-
-                        </div>
-
-                    </div>
+                    @endforeach
 
                 </div>
-
-
-
-                <!-- PAGINATION -->
 
                 <div class="swiper-pagination"></div>
 
@@ -1203,7 +768,6 @@
     </section>
 
 
-
     <!-- ========================= -->
     <!-- CLIENT LOGO SECTION -->
     <!-- ========================= -->
@@ -1212,615 +776,23 @@
 
         <div class="container-fluid px-lg-5">
 
-            <!-- HEADING -->
-
-            <!-- <div class="client-heading">
-
-                                        <div class="client-mini-title">
-                                            Trusted Clients
-                                        </div>
-
-                                        <h2 class="client-title">
-                                            Brands We Worked With
-                                        </h2>
-
-                                    </div> -->
-
-
-
-
-            <!-- SWIPER -->
-
             <div class="swiper clientLogoSwiper">
 
                 <div class="swiper-wrapper">
 
+                    @foreach($brands as $brand)
 
+                        <div class="swiper-slide">
 
+                            <div class="client-logo-item">
 
-                    <!-- ITEM -->
+                                <img src="{{ asset('storage/' . $brand->image) }}" alt="{{ $brand->brand_name }}">
 
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c1.png')}}">
-
-                        </div>
-
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c2.png')}}">
+                            </div>
 
                         </div>
 
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c3.jpg')}}">
-
-                        </div>
-
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-
-                            <img src="{{ asset('images/c4.png')}}">
-
-                        </div>
-
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c5.png')}}">
-
-                        </div>
-
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c7.png')}}">
-
-                        </div>
-
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c8.png')}}">
-
-                        </div>
-
-                    </div>
-
-
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c9.png')}}">
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c10.png')}}">
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c11.jpg')}}">
-
-                        </div>
-
-                    </div>
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c12.jfif')}}">
-
-                        </div>
-
-                    </div>
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c13.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c14.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c15.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c16.png')}}">
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c17.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c18.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c19.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c20.png')}}">
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c21.jfif')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c22.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c23.jpg')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c24.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c25.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c26.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c27.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c28.jpg')}}">
-
-                        </div>
-
-                    </div>
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c29.jfif')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c30.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c31.jpg')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c32.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c33.jfif')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c34.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c35.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c36.png')}}">
-
-                        </div>
-
-                    </div>
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c37.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c38.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c39.jpg')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c40.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c41.png')}}">
-
-                        </div>
-
-                    </div>
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c42.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c43.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c44.png')}}">
-
-                        </div>
-
-                    </div>
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c45.png')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c46.jfif')}}">
-
-                        </div>
-
-                    </div>
-
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c47.png')}}">
-
-                        </div>
-
-                    </div>
-                    <!-- ITEM -->
-
-                    <div class="swiper-slide">
-
-                        <div class="client-logo-item">
-
-                            <img src="{{ asset('images/c48.jpg')}}">
-
-                        </div>
-
-                    </div>
-
+                    @endforeach
 
                 </div>
 
@@ -1845,8 +817,6 @@
                 Premium Plywood & Interior Solutions
 
             </div>
-
-
 
             <!-- TITLE -->
 
@@ -1886,13 +856,9 @@
     </section>
 
 
-
-
     <!-- ========================= -->
     <!-- LATEST BLOG SECTION -->
     <!-- ========================= -->
-
-
     <section class="blog-section py-5">
         <div class="container">
             <div class="row justify-content-center text-center mb-5">
@@ -1908,89 +874,70 @@
             </div>
 
             <div class="row g-4">
-                <!-- Blog 1 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="blog-card">
-                        <div class="blog-image">
-                            <img src="{{ asset('images/p1.jpg')}}" alt="Blog 1">
-                            <div class="blog-date">
-                                <span>15</span>
-                                <small>May</small>
-                            </div>
-                        </div>
-                        <div class="blog-content">
-                            <div class="blog-meta">
-                                <span><i class="fa-solid fa-tag"></i> Plywood Guide</span>
-                            </div>
-                            <h3 class="blog-card-title">
-                                <a href="blog-details.html">How to Choose the Right Plywood for Your Home</a>
-                            </h3>
-                            <p class="blog-text">
-                                Selecting the right plywood is crucial for the longevity and aesthetic appeal of your
-                                furniture...
-                            </p>
-                            <a href="blog-details.html" class="blog-btn">
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Blog 2 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="blog-card">
-                        <div class="blog-image">
-                            <img src="{{ asset('images/blog1.png')}}" alt="Blog 2">
-                            <div class="blog-date">
-                                <span>12</span>
-                                <small>May</small>
-                            </div>
-                        </div>
-                        <div class="blog-content">
-                            <div class="blog-meta">
-                                <span><i class="fa-solid fa-tag"></i> Kitchen Trends</span>
-                            </div>
-                            <h3 class="blog-card-title">
-                                <a href="blog-details.html">Modern Kitchen Laminate Trends in 2024</a>
-                            </h3>
-                            <p class="blog-text">
-                                Explore the latest textures and colors that are dominating the modern kitchen design
-                                landscape...
-                            </p>
-                            <a href="blog-details.html" class="blog-btn">
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                @foreach($blogs as $blog)
 
-                <!-- Blog 3 -->
-                <div class="col-lg-4 col-md-6">
-                    <div class="blog-card">
-                        <div class="blog-image">
-                            <img src="{{ asset('images/p4.jpg')}}" alt="Blog 3">
-                            <div class="blog-date">
-                                <span>10</span>
-                                <small>May</small>
+                    <div class="col-lg-4 col-md-6">
+
+                        <div class="blog-card">
+
+                            <div class="blog-image">
+
+                                <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}">
+
+                                <div class="blog-date">
+
+                                    <span>
+                                        {{ $blog->created_at->format('d') }}
+                                    </span>
+
+                                    <small>
+                                        {{ $blog->created_at->format('M') }}
+                                    </small>
+
+                                </div>
+
                             </div>
-                        </div>
-                        <div class="blog-content">
-                            <div class="blog-meta">
-                                <span><i class="fa-solid fa-tag"></i> Hardware Tips</span>
+
+                            <div class="blog-content">
+
+                                <div class="blog-meta">
+
+                                    <span>
+                                        <i class="fa-solid fa-tag"></i>
+                                        Blog
+                                    </span>
+
+                                </div>
+
+                                <h3 class="blog-card-title">
+
+                                    <a href="{{ route('blog.details', $blog->slug) }}">
+                                        {{ $blog->title }}
+                                    </a>
+
+                                </h3>
+
+                                <p class="blog-text">
+
+                                    {{ \Illuminate\Support\Str::limit(strip_tags($blog->short_description), 120) }}
+
+                                </p>
+
+                                <a href="{{ route('blog.details', $blog->slug) }}" class="blog-btn">
+
+                                    <i class="fa-solid fa-arrow-right"></i>
+
+                                </a>
+
                             </div>
-                            <h3 class="blog-card-title">
-                                <a href="blog-details.html">Architectural Hardware: The Hidden Gems</a>
-                            </h3>
-                            <p class="blog-text">
-                                Learn how small hardware details can significantly elevate the overall design of your
-                                space...
-                            </p>
-                            <a href="blog-details.html" class="blog-btn">
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </a>
+
                         </div>
+
                     </div>
-                </div>
+
+                @endforeach
+
             </div>
 
             <div class="text-center mt-5">
@@ -2000,10 +947,6 @@
             </div>
         </div>
     </section>
-
-
-
-
 
 
 @endsection

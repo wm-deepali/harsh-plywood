@@ -117,16 +117,19 @@
 
 @section('content')
 
-<!-- HERO SECTION -->
+    <!-- HERO SECTION -->
     <section class="hp-about-hero">
-        <img src="{{ asset('/images/p1.jpg') }}" alt="">
+        <img src="{{ $category && $category->image
+        ? asset('storage/' . $category->image)
+        : asset('/images/p1.jpg') }}" alt="{{ $category->name ?? 'Products' }}">
         <div class="hp-hero-overlay"></div>
         <div class="container">
             <div class="hp-hero-content">
                 <div class="hp-hero-subtitle">PREMIUM SERIES</div>
-                <h1 class="hp-hero-title">Commercial & Marine Plywood</h1>
-                <p class="hp-hero-desc">The ultimate choice for structural strength and aesthetic perfection in modern
-                    interiors.</p>
+                <h1 class="hp-hero-title">{{ $category->name ?? $heroSection->heading ?? 'Commercial & Marine Plywood'}}
+                </h1>
+                <p class="hp-hero-desc"> {{ $category->short_description ?? $heroSection->sub_heading ?? 'The ultimate choice for structural strength and aesthetic perfection in modern
+                        interiors.' }}</p>
             </div>
         </div>
     </section>
@@ -188,7 +191,12 @@
 
                                                         <div class="col-xl-3 col-lg-4 col-md-6 gallery-item">
 
-                                                            <div class="gallery-card">
+                                                            <div class="gallery-card"
+     data-images='@json(
+        $product->images->map(function($img){
+            return asset("storage/" . $img->image);
+        })->values()
+     )'>
 
                                                                 <img src="{{ $product->images->first()
                                     ? asset('storage/' . $product->images->first()->image)

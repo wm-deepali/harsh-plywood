@@ -3,12 +3,11 @@
 
 @section('content')
 
-<!-- HERO -->
+    <!-- HERO -->
 
     <section class="hp-about-hero">
 
-        <img src="https://corgan.ancorathemes.com/wp-content/uploads/2023/10/bg-hero-copyright.jpg"
-            alt="">
+        <img src="https://corgan.ancorathemes.com/wp-content/uploads/2023/10/bg-hero-copyright.jpg" alt="">
 
         <div class="hp-hero-overlay"></div>
 
@@ -20,16 +19,14 @@
 
                 <h1 class="hp-hero-title">
 
-                    Premium Plywood &
-                    Interior Solutions
+                    {{ $heroSection->heading ?? 'Premium Plywood & Interior Solutions' }}
+
 
                 </h1>
 
                 <p class="hp-hero-desc">
 
-                    Harsh Plywood delivers premium plywood,
-                    laminates, veneers, modular kitchen accessories,
-                    and elegant interior solutions for modern spaces.
+                    {{ $heroSection->sub_heading ?? 'Harsh Plywood delivers premium plywood, laminates, veneers, modular kitchen accessories, and elegant interior solutions for modern spaces.' }}
 
                 </p>
 
@@ -43,25 +40,34 @@
 
     <!-- ABOUT -->
 
+
     <section class="hp-about-section">
 
         <div class="container">
 
-            <div class="row  g-5">
+            <div class="row g-5">
 
                 <div class="col-lg-6">
 
                     <div class="hp-about-image">
 
-                        <img src="https://corgan.ancorathemes.com/wp-content/uploads/elementor/thumbs/image-52-copyright-qfhhm7r5qdz7xaafshc5tkt8l953ryxuuzdu5un4o6.jpg"
-                            alt="">
+                        <img src="{{ $introduction && $introduction->image
+        ? asset('storage/' . $introduction->image)
+        : 'https://corgan.ancorathemes.com/wp-content/uploads/elementor/thumbs/image-52-copyright-qfhhm7r5qdz7xaafshc5tkt8l953ryxuuzdu5un4o6.jpg' }}"
+                            alt="About Image">
 
                         <div class="hp-experience-card">
 
-                            <h2>39+</h2>
+                            <h2>
+
+                                {{ $introduction->experience_year ?? '39+' }}
+
+                            </h2>
 
                             <span>
-                                Years Experience
+
+                                {{ $introduction->experience_text ?? 'Years Experience' }}
+
                             </span>
 
                         </div>
@@ -70,54 +76,29 @@
 
                 </div>
 
-
-
-
-
                 <div class="col-lg-6">
 
                     <div class="left-about">
+
                         <div class="hp-section-subtitle">
 
-                        About Harsh Plywood
+                            {{ $introduction->sub_heading ?? 'About Harsh Plywood' }}
+
+                        </div>
+
+                        <h2 class="hp-section-title">
+
+                            {{ $introduction->heading ?? 'Complete Interior & Surface Solutions' }}
+
+                        </h2>
+
+                        <div class="hp-section-desc">
+
+                            {!! $introduction->content ?? '' !!}
+
+                        </div>
 
                     </div>
-
-                    <h2 class="hp-section-title">
-
-                        Complete Interior &
-                        Surface Solutions
-
-                    </h2>
-
-                    <p class="hp-section-desc">
-
-                        Harsh Plywood is a trusted supplier of premium plywood,
-                        laminates, decorative veneers, MDF panels,
-                        wooden flooring, and modular kitchen accessories.
-
-                    </p>
-
-                    <p class="hp-section-desc">
-
-                        We help customers create elegant residential
-                        and commercial interiors with durable and
-                        stylish products.
-
-                    </p>
-                    </div>
-
-
-
-
-
-                    
-
-
-
-
-
-                    
 
                 </div>
 
@@ -127,13 +108,6 @@
 
     </section>
 
-
-
-
-
-
-
-
     <!-- PROCESS -->
 
     <section class="hp-process-section">
@@ -142,9 +116,9 @@
 
             <div class="hp-heading-box mv-heading">
 
-                 <span>
-                Our History
-            </span>
+                <span>
+                    Our History
+                </span>
 
                 <h2>
 
@@ -162,38 +136,41 @@
 
             </div>
 
-
-
-
-
             <div class="row g-4 mt-4">
 
-                <div class="col-lg-12 col-md-12 ">
+                <div class="col-lg-12 col-md-12">
 
                     <div class="hp-process-card our_history_section">
 
-                        <!-- <div class="hp-process-number">01</div> -->
-
                         <div class="hp-process-icon">
-                            <i class="fa-solid fa-rocket"></i>
+
+                            <i class="{{ $history->icon ?? 'fa-solid fa-rocket' }}"></i>
+
                         </div>
 
-                        <h3>1985</h3>
+                        <h3>
 
-                        <h4 style="font-size: 16px; color: var(--primary-color); margin-bottom: 10px;">Foundation & Beginning</h4>
+                            {{ $history->year ?? '1985' }}
 
-                        <p>
+                        </h3>
 
-                            Harsh Plywood was founded with a vision
-                            to deliver premium-quality plywood
-                            and interior solutions to the market.
+                        <h4 style="font-size: 16px;
+                                       color: var(--primary-color);
+                                       margin-bottom: 10px;">
 
-                        </p>
+                            {{ $history->heading ?? 'Foundation & Beginning' }}
+
+                        </h4>
+
+                        <div>
+
+                            {!! $history->content ?? '' !!}
+
+                        </div>
 
                     </div>
 
                 </div>
-            
 
             </div>
 
@@ -203,23 +180,7 @@
 
 
 
-<!-- mission vision -->
-
-
-    <!-- =========================
-         MISSION VISION SECTION
-    ========================= -->
-
-  
-
-
-
-<!-- mission vision -->
-
-
-    <!-- =========================
-         MISSION VISION SECTION
-    ========================= -->
+    <!-- Mission Vision -->
 
     <section class="mv-section">
 
@@ -230,29 +191,26 @@
             <div class="row  justify-content-center mv-heading">
                 <div class=" text-center">
 
-                <span>
-                    Our Goal
-                </span>
+                    <span>
+                        Our Goal
+                    </span>
 
-                <h2>
+                    <h2>
 
-                    Mission & Vision
+                        Mission & Vision
 
-                </h2>
+                    </h2>
 
-                <p>
+                    <p>
 
-                    Harsh Plywood is committed to delivering premium-quality
-                    plywood and modern interior solutions with trust,
-                    innovation, and customer satisfaction.
+                        Harsh Plywood is committed to delivering premium-quality
+                        plywood and modern interior solutions with trust,
+                        innovation, and customer satisfaction.
 
-                </p>
+                    </p>
 
+                </div>
             </div>
-            </div>
-
-
-
 
 
             <div class="row g-4 paddtingtip">
@@ -265,7 +223,7 @@
 
                         <div class="mv-icon">
 
-                            <i class="fa-solid fa-bullseye"></i>
+                            <i class="{{ $mission->icon ?? 'fa-solid fa-bullseye' }}"></i>
 
                         </div>
 
@@ -277,47 +235,53 @@
 
                             <h3>
 
-                                Deliver Premium
-                                Interior Solutions
+                                {{ $mission->heading ?? 'Deliver Premium Interior Solutions' }}
 
                             </h3>
 
-                            <p>
+                            <div>
 
-                                Our mission is to provide high-quality plywood,
-                                laminates, decorative veneers, and modern
-                                interior products that combine durability,
-                                functionality, and elegant design.
+                                {!! $mission->content ?? '' !!}
 
-                            </p>
-
-
+                            </div>
 
                             <ul>
 
-                                <li>
+                                @if($mission->point_1)
 
-                                    <i class="fa-solid fa-check"></i>
+                                    <li>
 
-                                    Premium quality materials
+                                        <i class="fa-solid fa-check"></i>
 
-                                </li>
+                                        {{ $mission->point_1 }}
 
-                                <li>
+                                    </li>
 
-                                    <i class="fa-solid fa-check"></i>
+                                @endif
 
-                                    Trusted customer satisfaction
+                                @if($mission->point_2)
 
-                                </li>
+                                    <li>
 
-                                <li>
+                                        <i class="fa-solid fa-check"></i>
 
-                                    <i class="fa-solid fa-check"></i>
+                                        {{ $mission->point_2 }}
 
-                                    Modern interior innovation
+                                    </li>
 
-                                </li>
+                                @endif
+
+                                @if($mission->point_3)
+
+                                    <li>
+
+                                        <i class="fa-solid fa-check"></i>
+
+                                        {{ $mission->point_3 }}
+
+                                    </li>
+
+                                @endif
 
                             </ul>
 
@@ -327,10 +291,6 @@
 
                 </div>
 
-
-
-
-
                 <!-- VISION -->
 
                 <div class="col-lg-6">
@@ -339,7 +299,7 @@
 
                         <div class="mv-icon">
 
-                            <i class="fa-solid fa-eye"></i>
+                            <i class="{{ $vision->icon ?? 'fa-solid fa-eye' }}"></i>
 
                         </div>
 
@@ -351,47 +311,53 @@
 
                             <h3>
 
-                                Become A Trusted
-                                Industry Leader
+                                {{ $vision->heading ?? 'Become A Trusted Industry Leader' }}
 
                             </h3>
 
-                            <p>
+                            <div>
 
-                                We aim to become one of the most trusted
-                                names in plywood and interior solutions by
-                                offering innovative products, superior quality,
-                                and exceptional customer experience.
+                                {!! $vision->content ?? '' !!}
 
-                            </p>
-
-
+                            </div>
 
                             <ul>
 
-                                <li>
+                                @if($vision->point_1)
 
-                                    <i class="fa-solid fa-check"></i>
+                                    <li>
 
-                                    Innovative product solutions
+                                        <i class="fa-solid fa-check"></i>
 
-                                </li>
+                                        {{ $vision->point_1 }}
 
-                                <li>
+                                    </li>
 
-                                    <i class="fa-solid fa-check"></i>
+                                @endif
 
-                                    Long-term customer trust
+                                @if($vision->point_2)
 
-                                </li>
+                                    <li>
 
-                                <li>
+                                        <i class="fa-solid fa-check"></i>
 
-                                    <i class="fa-solid fa-check"></i>
+                                        {{ $vision->point_2 }}
 
-                                    Excellence in service quality
+                                    </li>
 
-                                </li>
+                                @endif
+
+                                @if($vision->point_3)
+
+                                    <li>
+
+                                        <i class="fa-solid fa-check"></i>
+
+                                        {{ $vision->point_3 }}
+
+                                    </li>
+
+                                @endif
 
                             </ul>
 
@@ -507,237 +473,138 @@
 
 
 
-
-
-
-
-
     <!-- TEAM -->
 
-    <!-- =========================
-     MODERN TEAM SECTION
-========================= -->
+    <section class="modern-team-section">
 
-<section class="modern-team-section">
+        <div class="container">
 
-    <div class="container">
+            <!-- HEADING -->
 
-        <!-- HEADING -->
+            <div class="modern-team-heading text-center">
 
-        <div class="modern-team-heading text-center">
+                <span>
+                    Leadership Team
+                </span>
 
-            <span>
-                Leadership Team
-            </span>
+                <h2>
 
-            <h2>
+                    Meet Our Experts &
+                    Trusted Partners
 
-                Meet Our Experts &
-                Trusted Partners
+                </h2>
 
-            </h2>
+                <p>
 
-            <p>
+                    Our experienced team delivers premium plywood
+                    and modern interior solutions with innovation,
+                    quality, and trust.
 
-                Our experienced team delivers premium plywood
-                and modern interior solutions with innovation,
-                quality, and trust.
-
-            </p>
-
-        </div>
-
-
-
-
-
-        <div class="row g-4 justify-content-center">
-
-            <!-- ITEM -->
-
-            <div class="col-lg-4 col-md-6">
-
-                <div class="modern-team-card">
-
-                    <div class="modern-team-image">
-
-                        <img src="{{ asset('images/team1.jpg')}}"
-                            alt="team1.jpg">
-
-                    </div>
-
-
-
-                    <div class="modern-team-content">
-
-                        <h3>
-                            Sanjay Gupta
-                        </h3>
-
-                        <span>
-                            Founder & Director
-                        </span>
-
-                        <p>
-
-                            Leading Harsh Plywood with decades
-                            of experience in premium interior
-                            and plywood solutions.
-
-                        </p>
-
-
-
-                        <div class="modern-team-social">
-
-                            <a href="#">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="fa-brands fa-linkedin-in"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                </p>
 
             </div>
 
 
 
 
+            <div class="row g-4 justify-content-center">
 
-            <!-- ITEM -->
+                @foreach($team as $member)
 
-            <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-4 col-md-6">
 
-                <div class="modern-team-card">
+                        <div class="modern-team-card">
 
-                    <div class="modern-team-image">
+                            <div class="modern-team-image">
 
-                      <img src="{{ asset('/images/team2.jpg')}}"
-                            alt="team2.jpg">
+                                <img src="{{ asset('storage/' . $member->image) }}" alt="{{ $member->title }}">
 
+                            </div>
 
-                    </div>
+                            <div class="modern-team-content">
 
+                                <h3>
+                                    {{ $member->title }}
+                                </h3>
 
+                                <span>
+                                    {{ $member->designation }}
+                                </span>
 
-                    <div class="modern-team-content">
+                                <p>
 
-                        <h3>
-                            Priya Sharma
-                        </h3>
+                                    {{ $member->short_content }}
 
-                        <span>
-                            Interior Consultant
-                        </span>
-
-                        <p>
-
-                            Delivering creative ideas and
-                            elegant interior concepts for
-                            modern living spaces.
-
-                        </p>
+                                </p>
 
 
 
-                        <div class="modern-team-social">
+                                <div class="modern-team-social">
 
-                            <a href="#">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
+                                    @if($member->facebook)
 
-                            <a href="#">
-                                <i class="fa-brands fa-linkedin-in"></i>
-                            </a>
+                                        <a href="{{ $member->facebook }}" target="_blank">
 
-                            <a href="#">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
+                                            <i class="fa-brands fa-facebook-f"></i>
 
-                        </div>
+                                        </a>
 
-                    </div>
+                                    @endif
 
-                </div>
+                                    @if($member->linkedin)
 
-            </div>
+                                        <a href="{{ $member->linkedin }}" target="_blank">
 
+                                            <i class="fa-brands fa-linkedin-in"></i>
 
+                                        </a>
 
+                                    @endif
 
+                                    @if($member->twitter)
 
-            <!-- ITEM -->
+                                        <a href="{{ $member->twitter }}" target="_blank">
 
-            <div class="col-lg-4 col-md-6">
+                                            <i class="fa-brands fa-x-twitter"></i>
 
-                <div class="modern-team-card">
+                                        </a>
 
-                    <div class="modern-team-image">
+                                    @endif
 
-                        <img src="{{ asset('images/team3.jfif')}}"
-                            alt="team2.jpg">
+                                    @if($member->instagram)
 
-                    </div>
+                                        <a href="{{ $member->instagram }}" target="_blank">
 
+                                            <i class="fa-brands fa-instagram"></i>
 
+                                        </a>
 
-                    <div class="modern-team-content">
+                                    @endif
 
-                        <h3>
-                            Amit Verma
-                        </h3>
+                                    @if($member->youtube)
 
-                        <span>
-                            Operations Head
-                        </span>
+                                        <a href="{{ $member->youtube }}" target="_blank">
 
-                        <p>
+                                            <i class="fa-brands fa-youtube"></i>
 
-                            Managing operations with trusted
-                            customer relationships and
-                            premium service quality.
+                                        </a>
 
-                        </p>
+                                    @endif
 
-
-
-                        <div class="modern-team-social">
-
-                            <a href="#">
-                                <i class="fa-brands fa-facebook-f"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="fa-brands fa-linkedin-in"></i>
-                            </a>
-
-                            <a href="#">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
+                                </div>
+                            </div>
 
                         </div>
 
                     </div>
 
-                </div>
+                @endforeach
 
             </div>
 
         </div>
 
-    </div>
+    </section>
 
-</section>
-    
 
 @endsection

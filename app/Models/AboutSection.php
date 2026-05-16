@@ -11,8 +11,12 @@ class AboutSection extends Model
         'heading',
         'sub_heading',
         'content',
-        'image',
-        'title',
-        'designation'
+        'icon',
+        'point_1',
+        'point_2',
+        'point_3',
+        'year',
+        'experience_year',
+        'experience_text'
     ];
 }

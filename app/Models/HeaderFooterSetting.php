@@ -19,6 +19,8 @@ class HeaderFooterSetting extends Model
 
         'mobile',
 
+        'email',
+
         'address',
 
         'short_content',

@@ -19,14 +19,14 @@
 
                 <h1 class="hp-hero-title">
 
-                    Frequently Asked Questions
+                   {{ $heroSection->heading ?? 'Frequently Asked Questions' }}
 
                 </h1>
 
                 <p class="hp-hero-desc">
 
-                    Find answers to common questions about Harsh Plywood products, orders, delivery, and installation
-                    support.
+                 {{ $heroSection->sub_heading ?? 'Find answers to common questions about Harsh Plywood products, orders, delivery, and installation
+                    support.' }}
 
                 </p>
 

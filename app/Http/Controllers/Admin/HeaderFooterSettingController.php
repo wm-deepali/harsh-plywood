@@ -31,6 +31,8 @@ class HeaderFooterSettingController extends Controller
 
             'mobile' => 'nullable|string|max:20',
 
+            'email' => 'nullable|email',
+
             'address' => 'nullable|string',
 
             'short_content' => 'nullable|string',
@@ -92,6 +94,8 @@ class HeaderFooterSettingController extends Controller
         $data->whatsapp = $request->whatsapp;
 
         $data->mobile = $request->mobile;
+
+        $data->email = $request->email;
 
         $data->address = $request->address;
 

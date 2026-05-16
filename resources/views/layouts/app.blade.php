@@ -5,8 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        @yield('title', 'Harsh Plywood - Quality Plywood in India')
+        {{ $blog->meta_title ?? $category->meta_title ?? $seo->meta_title ?? 'Harsh Plywood - Quality Plywood in India' }}
     </title>
+
+    <meta name="keywords" content="{{ $blog->meta_keywords ?? $category->meta_keywords ?? $seo->meta_keywords ?? '' }}">
+
+    <meta name="description"
+        content="{{ $blog->meta_description ?? $category->meta_description ?? $seo->meta_description ?? '' }}">
+
+    @if(!empty($seo->schema_script))
+        {!! $seo->schema_script !!}
+    @endif
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/responsive.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/hrb.style.css')}}">
@@ -44,7 +53,9 @@
 
                     <a href="{{ route('home') }}" class="logo-box">
 
-                        <img src="{{ asset('/images/top-logo.jpeg')}}" alt="logo">
+                        <img src="{{ $headerFooter && $headerFooter->header_logo
+    ? asset('storage/' . $headerFooter->header_logo)
+    : asset('/images/top-logo.jpeg') }}" alt="logo">
 
                         <!-- TOP RIGHT CORNER -->
 
@@ -96,79 +107,38 @@
                             </a>
                         </li>
 
-                        <li class="nav-item dropdown">
-
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('about-us') }}">
                                 About Us
                             </a>
-
-                            <ul class="dropdown-menu">
-
-                                <li>
-                                    <a class="dropdown-item" href="about-us.html">
-                                        Our Story
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="about-us.html">
-                                        Our Team
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="about-us.html">
-                                        Testimonials
-                                    </a>
-                                </li>
-
-                            </ul>
-
                         </li>
+
 
                         <li class="nav-item dropdown">
 
-                            <a class="nav-link" href="{{ route('products') }}">
+                            <a class="nav-link dropdown-toggle" href="{{ route('products') }}" id="productsDropdown"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
                                 Products
+
                             </a>
 
                             <ul class="dropdown-menu">
 
-                                <li>
-                                    <a class="dropdown-item" href="products.html">
-                                        Plywood
-                                    </a>
-                                </li>
+                                @foreach($headerCategories as $category)
 
-                                <li>
-                                    <a class="dropdown-item" href="products.html">
-                                        Architectural Hardware
-                                    </a>
-                                </li>
+                                    <li>
 
-                                <li>
-                                    <a class="dropdown-item" href="products.html">
-                                        Laminates
-                                    </a>
-                                </li>
+                                        <a class="dropdown-item" href="{{ route('product.details', $category->slug) }}">
 
-                                <li>
-                                    <a class="dropdown-item" href="products.html">
-                                        Acrylic Sheets
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="products.html">MDF Panel</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="products.html">Wooden Flooring</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="products.html">Kitchen Accessories</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="products.html">Kitchen Appliances</a>
-                                </li>
+                                            {{ $category->name }}
+
+                                        </a>
+
+                                    </li>
+
+                                @endforeach
+
                             </ul>
 
                         </li>
@@ -246,39 +216,10 @@
 
             <!-- ABOUT -->
 
-            <li class="mobile-dropdown">
-
-                <div class="mobile-dropdown-head">
-
-                    <a href="{{ route('about-us') }}">
-                        About Us
-                    </a>
-
-                    <span class="dropdown-icon">+</span>
-
-                </div>
-
-                <ul class="mobile-submenu">
-
-                    <li>
-                        <a href="about-us.html">
-                            Our Story
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="about-us.html">
-                            Our Team
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="about-us.html">
-                            Testimonials
-                        </a>
-                    </li>
-
-                </ul>
+            <li>
+                <a href="{{ route('about-us') }}">
+                    About Us
+                </a>
 
             </li>
 
@@ -298,16 +239,22 @@
 
                 <ul class="mobile-submenu">
 
-                    <li><a href="products.html">Plywood</a></li>
-                    <li><a href="products.html">Architectural Hardware</a></li>
-                    <li><a href="products.html">Laminates</a></li>
-                    <li><a href="products.html">Acrylic Sheets</a></li>
-                    <li><a href="products.html">MDF Panel</a></li>
-                    <li><a href="products.html">Wooden Flooring</a></li>
-                    <li><a href="products.html">Kitchen Accessories</a></li>
-                    <li><a href="products.html">Kitchen Appliances</a></li>
+                    @foreach($headerCategories as $category)
+
+                        <li>
+
+                            <a href="{{ route('product.details', $category->slug) }}">
+
+                                {{ $category->name }}
+
+                            </a>
+
+                        </li>
+
+                    @endforeach
 
                 </ul>
+
 
             </li>
 
@@ -357,14 +304,13 @@
                     <div class="footer-brand-section">
 
                         <div class="footer-logo-box">
-                            <img src="{{ asset('/images/footer-logo.jpeg')}}" width="140" class="white-logo">
+                            <img src="{{ $headerFooter && $headerFooter->footer_logo
+    ? asset('storage/' . $headerFooter->footer_logo)
+    : asset('/images/footer-logo.jpeg') }}" width="140" class="white-logo">
                         </div>
 
                         <p class="footer-brand-desc">
-                            Harsh Plywood is a trusted destination for premium plywood,
-                            laminates, architectural hardware, wooden flooring,
-                            modular kitchen accessories, and complete interior solutions
-                            crafted for modern living spaces.
+                            {{ $headerFooter->short_content ?? '' }}
                         </p>
 
 
@@ -405,11 +351,23 @@
                         </h4>
 
                         <ul class="footer-menu-list">
-                            <li><a href="products.html"><span class="link-icon">→</span> Plywood</a></li>
-                            <li><a href="products.html"><span class="link-icon">→</span> Laminates</a></li>
-                            <li><a href="hrb-plywood.html"><span class="link-icon">→</span> HRB Plywood</a></li>
-                            <li><a href="products.html"><span class="link-icon">→</span> MDF Panel</a></li>
-                            <li><a href="products.html"><span class="link-icon">→</span> Wooden Flooring</a></li>
+                            @foreach($headerCategories as $category)
+
+                                <li>
+
+                                    <a href="{{ route('product.details', $category->slug) }}">
+
+                                        <span class="link-icon">→</span>
+
+                                        {{ $category->name }}
+
+                                    </a>
+
+                                </li>
+
+                            @endforeach
+                            <li><a href="{{ route('hrb-plywood') }}"><span class="link-icon">→</span> HRB Plywood</a>
+                            </li>
                             <li><a href="{{ route('our-brands') }}"><span class="link-icon">→</span> Our Brands</a></li>
                         </ul>
 
@@ -433,7 +391,7 @@
                                 </div>
                                 <div class="contact-content">
                                     <h5>Address</h5>
-                                    <a href="#">I-Thum Tower, Sector 62, Noida</a>
+                                    <a href="#">{{ $headerFooter->address ?? '' }}</a>
                                 </div>
                             </div>
 
@@ -443,7 +401,8 @@
                                 </div>
                                 <div class="contact-content">
                                     <h5>Phone</h5>
-                                    <a href="tel:+918656789976">+91 8656789976</a>
+                                    <a
+                                        href="tel:{{ $headerFooter->mobile ?? '' }}">{{ $headerFooter->mobile ?? '' }}</a>
                                 </div>
                             </div>
 
@@ -453,7 +412,8 @@
                                 </div>
                                 <div class="contact-content">
                                     <h5>Email</h5>
-                                    <a href="mailto:info@harshplywood.com">info@harshplywood.com</a>
+                                    <a
+                                        href="mailto:{{ $headerFooter->email ?? '' }}">{{ $headerFooter->email ?? '' }}</a>
                                 </div>
                             </div>
                         </div>
@@ -481,7 +441,17 @@
                 <div class="footer-bottom-content">
 
                     <div class="copyright-text">
-                        <p>© <span id="yearid"></span> Harsh Plywood. All Rights Reserved.</p>
+                      @if ($headerFooter && $headerFooter->copyright)
+
+    <p>{{ $headerFooter->copyright }}</p>
+
+@else
+
+    <p>
+        © <span id="yearid"></span> Harsh Plywood. All Rights Reserved.
+    </p>
+
+@endif
                     </div>
 
                     <!-- <div class="footer-bottom-links">
@@ -495,19 +465,73 @@
                     <div class="footer-social-section">
                         <!-- <h5 class="footer-social-title">Follow Us</h5> -->
                         <div class="footer_links">
-                            <a href="#" class="social-link" title="WhatsApp">
-                                <i class="fa-brands fa-whatsapp"></i>
-                            </a>
-                            <a href="#" class="social-link" title="YouTube">
-                                <i class="fa-brands fa-youtube"></i>
-                            </a>
-                            <a href="#" class="social-link" title="Instagram">
-                                <i class="fa-brands fa-instagram"></i>
-                            </a>
-                            <a href="#" class="social-link" title="LinkedIn">
-                                <i class="fa-brands fa-linkedin-in"></i>
-                            </a>
+
+                            @if($headerFooter && $headerFooter->whatsapp)
+
+                                <a href="https://wa.me/{{ $headerFooter->whatsapp }}" target="_blank" class="social-link"
+                                    title="WhatsApp">
+
+                                    <i class="fa-brands fa-whatsapp"></i>
+
+                                </a>
+
+                            @endif
+
+                            @if($socialSetting && $socialSetting->facebook)
+
+                                <a href="{{ $socialSetting->facebook }}" target="_blank" class="social-link"
+                                    title="Facebook">
+
+                                    <i class="fa-brands fa-facebook-f"></i>
+
+                                </a>
+
+                            @endif
+
+                            @if($socialSetting && $socialSetting->instagram)
+
+                                <a href="{{ $socialSetting->instagram }}" target="_blank" class="social-link"
+                                    title="Instagram">
+
+                                    <i class="fa-brands fa-instagram"></i>
+
+                                </a>
+
+                            @endif
+
+                            @if($socialSetting && $socialSetting->youtube)
+
+                                <a href="{{ $socialSetting->youtube }}" target="_blank" class="social-link" title="YouTube">
+
+                                    <i class="fa-brands fa-youtube"></i>
+
+                                </a>
+
+                            @endif
+
+                            @if($socialSetting && $socialSetting->linkedin)
+
+                                <a href="{{ $socialSetting->linkedin }}" target="_blank" class="social-link"
+                                    title="LinkedIn">
+
+                                    <i class="fa-brands fa-linkedin-in"></i>
+
+                                </a>
+
+                            @endif
+
+                            @if($socialSetting && $socialSetting->twitter)
+
+                                <a href="{{ $socialSetting->twitter }}" target="_blank" class="social-link" title="Twitter">
+
+                                    <i class="fa-brands fa-x-twitter"></i>
+
+                                </a>
+
+                            @endif
+
                         </div>
+
                     </div>
 
                 </div>
@@ -546,7 +570,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script src="{{ asset('js/main.js') }}"></script>
-   
+
 </body>
 
 </html>

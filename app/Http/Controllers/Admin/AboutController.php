@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AboutSection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class AboutController extends Controller
 {
@@ -43,11 +41,39 @@ class AboutController extends Controller
 
             'content' => 'nullable|string',
 
+            'experience_year' => 'nullable|string|max:50',
+
+            'experience_text' => 'nullable|string|max:255',
+
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
         ]);
 
         $section = AboutSection::firstOrCreate([
             'type' => 'introduction'
         ]);
+
+        $image = $section->image;
+
+        if ($request->hasFile('image')) {
+
+            if (
+                $section->image &&
+                \Storage::disk('public')->exists($section->image)
+            ) {
+                \Storage::disk('public')->delete($section->image);
+            }
+
+            $file = $request->file('image');
+
+            $filename = time() . '-' . $file->getClientOriginalName();
+
+            $image = $file->storeAs(
+                'about',
+                $filename,
+                'public'
+            );
+        }
 
         $section->update([
 
@@ -56,6 +82,12 @@ class AboutController extends Controller
             'sub_heading' => $request->sub_heading,
 
             'content' => $request->content,
+
+            'experience_year' => $request->experience_year,
+
+            'experience_text' => $request->experience_text,
+
+            'image' => $image,
 
         ]);
 
@@ -66,7 +98,6 @@ class AboutController extends Controller
                 'Introduction Updated Successfully'
             );
     }
-
     /*
     |--------------------------------------------------------------------------
     | HISTORY
@@ -89,9 +120,13 @@ class AboutController extends Controller
     {
         $request->validate([
 
+            'year' => 'nullable|string|max:50',
+
             'heading' => 'nullable|string|max:255',
 
             'content' => 'nullable|string',
+
+            'icon' => 'nullable|string|max:255',
 
         ]);
 
@@ -101,9 +136,13 @@ class AboutController extends Controller
 
         $section->update([
 
+            'year' => $request->year,
+
             'heading' => $request->heading,
 
             'content' => $request->content,
+
+            'icon' => $request->icon,
 
         ]);
 
@@ -141,6 +180,14 @@ class AboutController extends Controller
 
             'content' => 'nullable|string',
 
+            'icon' => 'nullable|string|max:255',
+
+            'point_1' => 'nullable|string|max:255',
+
+            'point_2' => 'nullable|string|max:255',
+
+            'point_3' => 'nullable|string|max:255',
+
         ]);
 
         $section = AboutSection::firstOrCreate([
@@ -152,6 +199,14 @@ class AboutController extends Controller
             'heading' => $request->heading,
 
             'content' => $request->content,
+
+            'icon' => $request->icon,
+
+            'point_1' => $request->point_1,
+
+            'point_2' => $request->point_2,
+
+            'point_3' => $request->point_3,
 
         ]);
 
@@ -189,6 +244,14 @@ class AboutController extends Controller
 
             'content' => 'nullable|string',
 
+            'icon' => 'nullable|string|max:255',
+
+            'point_1' => 'nullable|string|max:255',
+
+            'point_2' => 'nullable|string|max:255',
+
+            'point_3' => 'nullable|string|max:255',
+
         ]);
 
         $section = AboutSection::firstOrCreate([
@@ -201,6 +264,14 @@ class AboutController extends Controller
 
             'content' => $request->content,
 
+            'icon' => $request->icon,
+
+            'point_1' => $request->point_1,
+
+            'point_2' => $request->point_2,
+
+            'point_3' => $request->point_3,
+
         ]);
 
         return redirect()
@@ -209,89 +280,5 @@ class AboutController extends Controller
                 'success',
                 'Mission Updated Successfully'
             );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | TEAM
-    |--------------------------------------------------------------------------
-    */
-
-    public function teamIndex()
-    {
-        $team = AboutSection::where('type', 'team')
-            ->latest()
-            ->get();
-
-        return view(
-            'admin.about.team.index',
-            compact('team')
-        );
-    }
-
-    public function storeTeam(Request $request)
-    {
-        $request->validate([
-
-            'title' => 'required|string|max:255',
-
-            'designation' => 'nullable|string|max:255',
-
-            'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
-
-        ]);
-
-        $image = null;
-
-        if ($request->hasFile('image')) {
-
-            $file = $request->file('image');
-
-            $filename =
-                Str::slug($request->title)
-                . '-' . time()
-                . '.' . $file->extension();
-
-            $image = $file->storeAs(
-                'about',
-                $filename,
-                'public'
-            );
-        }
-
-        AboutSection::create([
-
-            'type' => 'team',
-
-            'title' => $request->title,
-
-            'designation' => $request->designation,
-
-            'image' => $image
-
-        ]);
-
-        return back()->with(
-            'success',
-            'Team Member Added Successfully'
-        );
-    }
-
-    public function deleteTeam($id)
-    {
-        $team = AboutSection::findOrFail($id);
-
-        if (
-            $team->image &&
-            Storage::disk('public')->exists($team->image)
-        ) {
-            Storage::disk('public')->delete($team->image);
-        }
-
-        $team->delete();
-
-        return response()->json([
-            'message' => 'Deleted Successfully'
-        ]);
     }
 }

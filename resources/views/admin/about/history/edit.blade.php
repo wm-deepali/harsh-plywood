@@ -36,7 +36,8 @@
 
         <div class="content-wrapper pb-4">
 
-            <form action="{{ route('admin.about.history.update') }}" method="POST">
+            <form action="{{ route('admin.about.history.update') }}"
+                  method="POST">
 
                 @csrf
 
@@ -48,14 +49,60 @@
 
                     <div class="card-body">
 
-                        <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Year
+                                    </label>
+
+                                    <input type="text"
+                                           name="year"
+                                           class="form-control"
+                                           placeholder="1985"
+                                           value="{{ old('year', $section->year) }}">
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="form-group">
+
+                                    <label>
+                                        Icon Class
+                                    </label>
+
+                                    <input type="text"
+                                           name="icon"
+                                           class="form-control"
+                                           placeholder="fa-solid fa-rocket"
+                                           value="{{ old('icon', $section->icon) }}">
+
+                                    <small class="text-muted">
+                                        Example: fa-solid fa-rocket
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group mt-3">
 
                             <label>
                                 Heading
                             </label>
 
-                            <input type="text" name="heading" class="form-control"
-                                value="{{ old('heading', $section->heading) }}">
+                            <input type="text"
+                                   name="heading"
+                                   class="form-control"
+                                   value="{{ old('heading', $section->heading) }}">
 
                         </div>
 
@@ -65,12 +112,14 @@
                                 Detail Content
                             </label>
 
-                            <textarea name="content" id="editor"
-                                class="form-control">{{ old('content', $section->content) }}</textarea>
+                            <textarea name="content"
+                                      id="editor"
+                                      class="form-control">{{ old('content', $section->content) }}</textarea>
 
                         </div>
 
-                        <button type="submit" class="btn btn-primary mt-3">
+                        <button type="submit"
+                                class="btn btn-primary mt-4">
 
                             Update History
 
