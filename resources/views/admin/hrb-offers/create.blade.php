@@ -20,13 +20,40 @@
 
                     @csrf
 
+                    @if ($errors->any())
+
+                        <div class="alert alert-danger">
+
+                            <ul class="mb-0">
+
+                                @foreach ($errors->all() as $error)
+
+                                    <li>{{ $error }}</li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    @endif
+
                     <div class="form-group">
 
                         <label>Title</label>
 
                         <input type="text"
                             name="title"
-                            class="form-control">
+                            class="form-control"
+                            value="{{ old('title') }}">
+
+                        @error('title')
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
 
                     </div>
 
@@ -36,7 +63,15 @@
 
                         <textarea name="short_content"
                             rows="5"
-                            class="form-control"></textarea>
+                            class="form-control">{{ old('short_content') }}</textarea>
+
+                        @error('short_content')
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
 
                     </div>
 
@@ -47,7 +82,16 @@
                         <input type="text"
                             name="icon"
                             class="form-control"
-                            placeholder="fa fa-home">
+                            placeholder="fa fa-home"
+                            value="{{ old('icon') }}">
+
+                        @error('icon')
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
 
                     </div>
 
@@ -59,6 +103,18 @@
                             name="image"
                             class="form-control">
 
+                             <small class="text-muted">
+                                Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+                            </small>
+                            
+                        @error('image')
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
+
                     </div>
 
                     <div class="form-group mt-3">
@@ -69,7 +125,7 @@
                                 name="status"
                                 id="status"
                                 class="custom-control-input"
-                                checked>
+                                {{ old('status', 1) ? 'checked' : '' }}>
 
                             <label class="custom-control-label"
                                 for="status">

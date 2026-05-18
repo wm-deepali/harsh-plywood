@@ -21,6 +21,24 @@
                     @csrf
                     @method('PUT')
 
+                    @if ($errors->any())
+
+                        <div class="alert alert-danger">
+
+                            <ul class="mb-0">
+
+                                @foreach ($errors->all() as $error)
+
+                                    <li>{{ $error }}</li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    @endif
+
                     <div class="form-group">
 
                         <label>Brand Name</label>
@@ -29,6 +47,14 @@
                             name="brand_name"
                             class="form-control"
                             value="{{ old('brand_name', $brand->brand_name) }}">
+
+                        @error('brand_name')
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
 
                     </div>
 
@@ -40,12 +66,27 @@
                             name="brand_logo"
                             class="form-control">
 
+                        <small class="text-muted">
+                            Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+                        </small>
+
+                        @error('brand_logo')
+
+                            <br>
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
+
                         @if($brand->brand_logo)
 
                             <div class="mt-3">
 
                                 <img src="{{ asset('storage/'.$brand->brand_logo) }}"
-                                    width="100">
+                                    width="100"
+                                    class="img-thumbnail">
 
                             </div>
 
@@ -61,7 +102,7 @@
                                 name="status"
                                 id="status"
                                 class="custom-control-input"
-                                {{ $brand->status ? 'checked' : '' }}>
+                                {{ old('status', $brand->status) ? 'checked' : '' }}>
 
                             <label class="custom-control-label"
                                 for="status">

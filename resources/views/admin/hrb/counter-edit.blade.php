@@ -50,6 +50,24 @@
 
                         @csrf
 
+                        @if ($errors->any())
+
+                            <div class="alert alert-danger">
+
+                                <ul class="mb-0">
+
+                                    @foreach ($errors->all() as $error)
+
+                                        <li>{{ $error }}</li>
+
+                                    @endforeach
+
+                                </ul>
+
+                            </div>
+
+                        @endif
+
                         <div class="form-group">
 
                             <label>Heading</label>
@@ -58,6 +76,14 @@
                                 name="counter_heading"
                                 class="form-control"
                                 value="{{ old('counter_heading', $hrb->counter_heading ?? '') }}">
+
+                            @error('counter_heading')
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
 
                         </div>
 
@@ -69,6 +95,14 @@
                                 name="counter_sub_heading"
                                 class="form-control"
                                 value="{{ old('counter_sub_heading', $hrb->counter_sub_heading ?? '') }}">
+
+                            @error('counter_sub_heading')
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
 
                         </div>
 
@@ -114,7 +148,16 @@
                                     <input type="text"
                                         name="counter_value"
                                         class="form-control"
-                                        placeholder="25+">
+                                        placeholder="25+"
+                                        value="{{ old('counter_value') }}">
+
+                                    @error('counter_value')
+
+                                        <small class="text-danger">
+                                            {{ $message }}
+                                        </small>
+
+                                    @enderror
 
                                 </div>
 
@@ -129,7 +172,16 @@
                                     <input type="text"
                                         name="counter_title"
                                         class="form-control"
-                                        placeholder="Years Experience">
+                                        placeholder="Years Experience"
+                                        value="{{ old('counter_title') }}">
+
+                                    @error('counter_title')
+
+                                        <small class="text-danger">
+                                            {{ $message }}
+                                        </small>
+
+                                    @enderror
 
                                 </div>
 
@@ -144,7 +196,16 @@
                                     <input type="text"
                                         name="icon"
                                         class="form-control"
-                                        placeholder="fa fa-star">
+                                        placeholder="fa fa-star"
+                                        value="{{ old('icon') }}">
+
+                                    @error('icon')
+
+                                        <small class="text-danger">
+                                            {{ $message }}
+                                        </small>
+
+                                    @enderror
 
                                 </div>
 

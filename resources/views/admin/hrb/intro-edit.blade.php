@@ -46,16 +46,46 @@
 
                 <div class="card-body">
 
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('admin.hrb.intro.update') }}">
+                    <form method="POST"
+                        enctype="multipart/form-data"
+                        action="{{ route('admin.hrb.intro.update') }}">
 
                         @csrf
+
+                        @if ($errors->any())
+
+                            <div class="alert alert-danger">
+
+                                <ul class="mb-0">
+
+                                    @foreach ($errors->all() as $error)
+
+                                        <li>{{ $error }}</li>
+
+                                    @endforeach
+
+                                </ul>
+
+                            </div>
+
+                        @endif
 
                         <div class="form-group">
 
                             <label>Sub Title</label>
 
-                            <input type="text" name="intro_sub_title" class="form-control"
+                            <input type="text"
+                                name="intro_sub_title"
+                                class="form-control"
                                 value="{{ old('intro_sub_title', $hrb->intro_sub_title ?? '') }}">
+
+                            @error('intro_sub_title')
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
 
                         </div>
 
@@ -63,8 +93,18 @@
 
                             <label>Heading</label>
 
-                            <input type="text" name="intro_heading" class="form-control"
+                            <input type="text"
+                                name="intro_heading"
+                                class="form-control"
                                 value="{{ old('intro_heading', $hrb->intro_heading ?? '') }}">
+
+                            @error('intro_heading')
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
 
                         </div>
 
@@ -72,8 +112,17 @@
 
                             <label>Content</label>
 
-                            <textarea name="intro_content" rows="6"
+                            <textarea name="intro_content"
+                                rows="6"
                                 class="form-control">{{ old('intro_content', $hrb->intro_content ?? '') }}</textarea>
+
+                            @error('intro_content')
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
 
                         </div>
 
@@ -81,13 +130,31 @@
 
                             <label>Image 1</label>
 
-                            <input type="file" name="intro_image_1" class="form-control">
+                            <input type="file"
+                                name="intro_image_1"
+                                class="form-control">
+
+                            <small class="text-muted">
+                                Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+                            </small>
+
+                            @error('intro_image_1')
+
+                                <br>
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
 
                             @if(!empty($hrb->intro_image_1))
 
                                 <div class="mt-3">
 
-                                    <img src="{{ asset('storage/' . $hrb->intro_image_1) }}" width="120">
+                                    <img src="{{ asset('storage/' . $hrb->intro_image_1) }}"
+                                        width="120"
+                                        class="img-thumbnail">
 
                                 </div>
 
@@ -99,13 +166,31 @@
 
                             <label>Image 2</label>
 
-                            <input type="file" name="intro_image_2" class="form-control">
+                            <input type="file"
+                                name="intro_image_2"
+                                class="form-control">
+
+                            <small class="text-muted">
+                                Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+                            </small>
+
+                            @error('intro_image_2')
+
+                                <br>
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
 
                             @if(!empty($hrb->intro_image_2))
 
                                 <div class="mt-3">
 
-                                    <img src="{{ asset('storage/' . $hrb->intro_image_2) }}" width="120">
+                                    <img src="{{ asset('storage/' . $hrb->intro_image_2) }}"
+                                        width="120"
+                                        class="img-thumbnail">
 
                                 </div>
 
@@ -115,13 +200,15 @@
 
                         <div class="mt-4">
 
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit"
+                                class="btn btn-success">
 
                                 Update Introduction
 
                             </button>
 
-                            <a href="{{ route('admin.hrb.index') }}" class="btn btn-secondary">
+                            <a href="{{ route('admin.hrb.index') }}"
+                                class="btn btn-secondary">
 
                                 Cancel
 
@@ -138,7 +225,8 @@
                     </h5>
 
                     {{-- ADD FEATURE FORM --}}
-                    <form method="POST" action="{{ route('admin.hrb.intro-feature.store') }}">
+                    <form method="POST"
+                        action="{{ route('admin.hrb.intro-feature.store') }}">
 
                         @csrf
 
@@ -150,7 +238,19 @@
 
                                     <label>Feature Title</label>
 
-                                    <input type="text" name="title" class="form-control" placeholder="Eco Friendly">
+                                    <input type="text"
+                                        name="title"
+                                        class="form-control"
+                                        placeholder="Eco Friendly"
+                                        value="{{ old('title') }}">
+
+                                    @error('title')
+
+                                        <small class="text-danger">
+                                            {{ $message }}
+                                        </small>
+
+                                    @enderror
 
                                 </div>
 
@@ -162,7 +262,19 @@
 
                                     <label>Icon Class</label>
 
-                                    <input type="text" name="icon" class="form-control" placeholder="fa fa-leaf">
+                                    <input type="text"
+                                        name="icon"
+                                        class="form-control"
+                                        placeholder="fa fa-leaf"
+                                        value="{{ old('icon') }}">
+
+                                    @error('icon')
+
+                                        <small class="text-danger">
+                                            {{ $message }}
+                                        </small>
+
+                                    @enderror
 
                                 </div>
 
@@ -170,7 +282,8 @@
 
                             <div class="col-md-2 d-flex align-items-end">
 
-                                <button type="submit" class="btn btn-primary w-100">
+                                <button type="submit"
+                                    class="btn btn-primary w-100">
 
                                     Add
 
@@ -238,7 +351,8 @@
 
                                         <td>
 
-                                            <button type="button" class="btn btn-sm btn-danger"
+                                            <button type="button"
+                                                class="btn btn-sm btn-danger"
                                                 onclick="deleteFeature({{ $feature->id }})">
 
                                                 Delete
@@ -253,7 +367,8 @@
 
                                     <tr>
 
-                                        <td colspan="4" class="text-center">
+                                        <td colspan="4"
+                                            class="text-center">
 
                                             No Features Added
 
@@ -282,6 +397,7 @@
 <script>
 
     function deleteFeature(id) {
+
         Swal.fire({
 
             title: 'Delete Feature?',
@@ -294,34 +410,34 @@
 
             confirmButtonText: 'Yes Delete'
 
-        })
+        }).then((result) => {
 
-            .then((result) => {
+            if (result.isConfirmed) {
 
-                if (result.isConfirmed) {
+                $.ajax({
 
-                    $.ajax({
+                    url: "{{ url('admin/hrb/intro-feature-delete') }}/" + id,
 
-                        url: "{{ url('admin/hrb/intro-feature-delete') }}/" + id,
+                    type: "DELETE",
 
-                        type: "DELETE",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
 
-                        data: {
-                            _token: "{{ csrf_token() }}"
-                        },
+                    success: function(res) {
 
-                        success: function (res) {
+                        $("#featureRow" + id).remove();
 
-                            $("#featureRow" + id).remove();
+                    }
 
-                        }
+                });
 
-                    });
+            }
 
-                }
+        });
 
-            });
     }
 
 </script>
+
 @include('admin.footer')

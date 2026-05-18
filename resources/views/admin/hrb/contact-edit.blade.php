@@ -51,6 +51,24 @@
 
                         @csrf
 
+                        @if ($errors->any())
+
+                            <div class="alert alert-danger">
+
+                                <ul class="mb-0">
+
+                                    @foreach ($errors->all() as $error)
+
+                                        <li>{{ $error }}</li>
+
+                                    @endforeach
+
+                                </ul>
+
+                            </div>
+
+                        @endif
+
                         <div class="form-group">
 
                             <label>Contact Heading</label>
@@ -59,6 +77,14 @@
                                 name="contact_heading"
                                 class="form-control"
                                 value="{{ old('contact_heading', $hrb->contact_heading ?? '') }}">
+
+                            @error('contact_heading')
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
 
                         </div>
 
@@ -69,6 +95,14 @@
                             <textarea name="contact_description"
                                 rows="5"
                                 class="form-control">{{ old('contact_description', $hrb->contact_description ?? '') }}</textarea>
+
+                            @error('contact_description')
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
 
                         </div>
 
@@ -81,6 +115,14 @@
                                 class="form-control"
                                 value="{{ old('contact_phone', $hrb->contact_phone ?? '') }}">
 
+                            @error('contact_phone')
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
+
                         </div>
 
                         <div class="form-group mt-3">
@@ -91,6 +133,14 @@
                                 name="contact_email"
                                 class="form-control"
                                 value="{{ old('contact_email', $hrb->contact_email ?? '') }}">
+
+                            @error('contact_email')
+
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
+
+                            @enderror
 
                         </div>
 

@@ -21,6 +21,24 @@
                     @csrf
                     @method('PUT')
 
+                    @if ($errors->any())
+
+                        <div class="alert alert-danger">
+
+                            <ul class="mb-0">
+
+                                @foreach ($errors->all() as $error)
+
+                                    <li>{{ $error }}</li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    @endif
+
                     <div class="form-group">
 
                         <label>Title</label>
@@ -29,6 +47,14 @@
                             name="title"
                             class="form-control"
                             value="{{ old('title', $offer->title) }}">
+
+                        @error('title')
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
 
                     </div>
 
@@ -39,6 +65,14 @@
                         <textarea name="short_content"
                             rows="5"
                             class="form-control">{{ old('short_content', $offer->short_content) }}</textarea>
+
+                        @error('short_content')
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
 
                     </div>
 
@@ -51,6 +85,14 @@
                             class="form-control"
                             value="{{ old('icon', $offer->icon) }}">
 
+                        @error('icon')
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
+
                     </div>
 
                     <div class="form-group mt-3">
@@ -61,12 +103,27 @@
                             name="image"
                             class="form-control">
 
+                        <small class="text-muted">
+                            Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+                        </small>
+
+                        @error('image')
+
+                            <br>
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
+
                         @if($offer->image)
 
                             <div class="mt-3">
 
                                 <img src="{{ asset('storage/'.$offer->image) }}"
-                                    width="100">
+                                    width="100"
+                                    class="img-thumbnail">
 
                             </div>
 
@@ -82,7 +139,7 @@
                                 name="status"
                                 id="status"
                                 class="custom-control-input"
-                                {{ $offer->status ? 'checked' : '' }}>
+                                {{ old('status', $offer->status) ? 'checked' : '' }}>
 
                             <label class="custom-control-label"
                                 for="status">

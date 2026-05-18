@@ -20,13 +20,40 @@
 
                     @csrf
 
+                    @if ($errors->any())
+
+                        <div class="alert alert-danger">
+
+                            <ul class="mb-0">
+
+                                @foreach ($errors->all() as $error)
+
+                                    <li>{{ $error }}</li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    @endif
+
                     <div class="form-group">
 
                         <label>Brand Name</label>
 
                         <input type="text"
                             name="brand_name"
-                            class="form-control">
+                            class="form-control"
+                            value="{{ old('brand_name') }}">
+
+                        @error('brand_name')
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
 
                     </div>
 
@@ -38,6 +65,20 @@
                             name="brand_logo"
                             class="form-control">
 
+                        <small class="text-muted">
+                            Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+                        </small>
+
+                        @error('brand_logo')
+
+                            <br>
+
+                            <small class="text-danger">
+                                {{ $message }}
+                            </small>
+
+                        @enderror
+
                     </div>
 
                     <div class="form-group mt-3">
@@ -48,7 +89,7 @@
                                 name="status"
                                 id="status"
                                 class="custom-control-input"
-                                checked>
+                                {{ old('status', 1) ? 'checked' : '' }}>
 
                             <label class="custom-control-label"
                                 for="status">
