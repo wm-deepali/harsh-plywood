@@ -8,6 +8,8 @@ use App\Models\Brand;
 use App\Models\ContactEnquiry;
 use App\Models\ContactUs;
 use App\Models\Counter;
+use App\Models\HomePackageSection;
+use App\Models\HomeVideoSection;
 use App\Models\HrbBrand;
 use App\Models\HrbCounter;
 use App\Models\HrbEnquiry;
@@ -15,6 +17,7 @@ use App\Models\HrbIntroFeature;
 use App\Models\HrbOffer;
 use App\Models\HrbPage;
 use App\Models\HrbWhyChoose;
+use App\Models\Page;
 use App\Models\Product;
 use App\Models\Team;
 use Illuminate\Http\Request;
@@ -73,6 +76,10 @@ class FrontController extends Controller
         $whyChooseFeatures = WhyChooseFeature::latest()
             ->get();
 
+        $videoSection = HomeVideoSection::first();
+
+        $packageSection = HomePackageSection::first();
+
         return view(
             'front-pages.home',
             compact(
@@ -87,7 +94,9 @@ class FrontController extends Controller
                 'homeAboutFeatures',
                 'counters',
                 'whyChooseSection',
-                'whyChooseFeatures'
+                'whyChooseFeatures',
+                'videoSection',
+                'packageSection'
             )
         );
     }
@@ -218,7 +227,7 @@ class FrontController extends Controller
             ->firstOrFail();
 
         $recentBlogs = Blog::where('status', 1)
-            // ->where('id', '!=', $blog->id)
+            ->where('id', '!=', $blog->id)
             ->latest()
             ->take(5)
             ->get();
@@ -227,7 +236,6 @@ class FrontController extends Controller
             'front-pages.blog-details',
             compact(
                 'blog',
-                'seo',
                 'recentBlogs'
             )
         );
@@ -486,6 +494,15 @@ class FrontController extends Controller
                 'success',
                 'Your enquiry has been submitted successfully.'
             );
+    }
+
+    public function dynamicPage($slug)
+    {
+        $page = Page::where('slug', $slug)
+            ->where('status', 1)
+            ->firstOrFail();
+
+        return view('front-pages.dynamic-page', compact('page'));
     }
 
 }

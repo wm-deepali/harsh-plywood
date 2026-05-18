@@ -5,13 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        {{ $blog->meta_title ?? $category->meta_title ?? $seo->meta_title ?? 'Harsh Plywood - Quality Plywood in India' }}
+       {{ $blog->meta_title ?? $category->meta_title ?? $page->meta_title ?? $seo->meta_title ?? 'Harsh Plywood - Quality Plywood in India' }}
     </title>
 
     <meta name="keywords" content="{{ $blog->meta_keywords ?? $category->meta_keywords ?? $seo->meta_keywords ?? '' }}">
 
     <meta name="description"
-        content="{{ $blog->meta_description ?? $category->meta_description ?? $seo->meta_description ?? '' }}">
+        content="{{ $blog->meta_description ?? $category->meta_description ?? $page->meta_description ?? $seo->meta_description ?? '' }}">
+
 
     @if(!empty($seo->schema_script))
         {!! $seo->schema_script !!}
@@ -296,7 +297,7 @@
         <div class="container-fluid px-lg-5">
 
             <!-- Main Footer Content -->
-            <div class="row gy-5">
+            <div class="row">
 
                 <!-- Brand Section -->
                 <div class="col-lg-4 col-md-6">
@@ -325,13 +326,16 @@
                     <div class="footer-menu-section">
 
                         <h4 class="footer-menu-title">
-                            <i class="fa-solid fa-link"></i> Quick Links
+                            Quick Links
                         </h4>
 
                         <ul class="footer-menu-list">
                             <li><a href="{{ route('home') }}"><span class="link-icon">→</span> Home</a></li>
                             <li><a href="{{ route('about-us') }}"><span class="link-icon">→</span> About</a></li>
                             <li><a href="{{ route('products') }}"><span class="link-icon">→</span> Products</a></li>
+                             <li><a href="{{ route('hrb-plywood') }}"><span class="link-icon">→</span> HRB Plywood</a>
+                            </li>
+                            <li><a href="{{ route('our-brands') }}"><span class="link-icon">→</span> Our Brands</a></li>
                             <li><a href="{{ route('gallery') }}"><span class="link-icon">→</span> Gallery</a></li>
                             <li><a href="{{ route('blogs') }}"><span class="link-icon">→</span> Blog</a></li>
                             <li><a href={{ route('faq') }}><span class="link-icon">→</span> FAQ</a></li>
@@ -347,7 +351,7 @@
                     <div class="footer-menu-section">
 
                         <h4 class="footer-menu-title">
-                            <i class="fa-solid fa-box"></i> Products
+                            Our Products
                         </h4>
 
                         <ul class="footer-menu-list">
@@ -366,9 +370,7 @@
                                 </li>
 
                             @endforeach
-                            <li><a href="{{ route('hrb-plywood') }}"><span class="link-icon">→</span> HRB Plywood</a>
-                            </li>
-                            <li><a href="{{ route('our-brands') }}"><span class="link-icon">→</span> Our Brands</a></li>
+                           
                         </ul>
 
                     </div>

@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\HeroSectionController;
 use App\Http\Controllers\Admin\HeroSliderController;
 use App\Http\Controllers\Admin\HiStyleBrandController;
 use App\Http\Controllers\Admin\HomeAboutController;
+use App\Http\Controllers\Admin\HomePackageSectionController;
+use App\Http\Controllers\Admin\HomeVideoSectionController;
 use App\Http\Controllers\Admin\HrbBrandController;
 use App\Http\Controllers\Admin\HrbController;
 use App\Http\Controllers\Admin\HrbCounterController;
@@ -58,6 +60,7 @@ Route::controller(FrontController::class)->group(function () {
     Route::get('contact-us', 'contact')->name('contact-us');
     Route::post('/contact-enquiry', 'contactEnquiry')->name('contact.enquiry');
     Route::post('/hrb-enquiry', 'hrbEnquiry')->name('hrb.enquiry');
+    Route::get('/page/{slug}', 'dynamicPage')->name('dynamic.page');
 
 });
 
@@ -217,13 +220,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::prefix('why-choose')->name('why-choose.')->controller(WhyChooseController::class)->group(function () {
 
-                Route::get('/', 'index')->name('index');
-                Route::post('/update', 'update')->name('update');
-                Route::post('/feature/store','storeFeature' )->name('feature.store');
-                Route::put('/feature/update/{id}',[WhyChooseController::class, 'updateFeature'])->name('feature.update');
-                Route::delete('/feature/delete/{id}','deleteFeature')->name('feature.delete');
+            Route::get('/', 'index')->name('index');
+            Route::post('/update', 'update')->name('update');
+            Route::post('/feature/store', 'storeFeature')->name('feature.store');
+            Route::put('/feature/update/{id}', [WhyChooseController::class, 'updateFeature'])->name('feature.update');
+            Route::delete('/feature/delete/{id}', 'deleteFeature')->name('feature.delete');
 
-            });
+        });
+
+
+        Route::get('home-package-section', [HomePackageSectionController::class, 'index'])->name('home-package-section.index');
+        Route::post('home-package-section/update', [HomePackageSectionController::class, 'update'])->name('home-package-section.update');
+
+        Route::get('home-video-section', [HomeVideoSectionController::class, 'index'])->name('home-video-section.index');
+        Route::post('home-video-section/update', [HomeVideoSectionController::class, 'update'])->name('home-video-section.update');
+
 
         Route::get('sales-enquiries', [SalesEnquiryController::class, 'index'])->name('sales_enquiries.index');
         Route::delete('sales-enquiries/{id}', [SalesEnquiryController::class, 'destroy']);

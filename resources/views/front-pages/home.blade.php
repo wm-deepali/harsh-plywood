@@ -19,7 +19,10 @@
 
                         <div class="hero-image">
 
-                            <img src="{{ asset('storage/' . $slider->image) }}" alt="{{ $slider->heading }}">
+                            <img src="{{ !empty($slider->image)
+    ? asset('storage/' . $slider->image)
+    : asset('images/default-slider.jpg') }}"
+     alt="{{ $slider->heading ?? 'Slider Image' }}">
 
                         </div>
 
@@ -30,20 +33,20 @@
                             <div class="hero-text-wrap">
 
                                 <div class="hero-subtitle">
-                                    {{ $slider->subtitle }}
+                                    {{ $slider->subtitle ?? ""}}
                                 </div>
 
                                 <h1 class="hero-title">
-                                    {{ $slider->heading }}
+                                    {{ $slider->heading ?? ""}}
                                 </h1>
 
                                 <p class="hero-desc">
-                                    {{ $slider->description }}
+                                    {{ $slider->description ?? ""}}
                                 </p>
 
                                 <a href="{{ $slider->button_link ?? '#' }}" class="hero-main-btn">
 
-                                    {{ $slider->button_text }}
+                                    {{ $slider->button_text ?? ""}}
 
                                     <i class="fa-solid fa-arrow-right"></i>
 
@@ -166,13 +169,13 @@
 
                                         <div class="x-feature-icon">
 
-                                            <i class="{{ $feature->icon }}"></i>
+                                            <i class="{{ $feature->icon ?? ""}}"></i>
 
                                         </div>
 
                                         <h5>
 
-                                            {{ $feature->title }}
+                                            {{ $feature->title ?? ""}}
 
                                         </h5>
 
@@ -215,11 +218,11 @@
 
                             <div class="counter-top">
 
-                                <i class="{{ $counter->icon }}"></i>
+                                <i class="{{ $counter->icon ?? "" }}"></i>
 
                                 <span>
 
-                                    {{ $counter->title }}
+                                    {{ $counter->title ?? "" }}
 
                                 </span>
 
@@ -235,7 +238,7 @@
 
                                 <small>
 
-                                    {{ $counter->counter_suffix }}
+                                    {{ $counter->counter_suffix ?? "" }}
 
                                 </small>
 
@@ -295,13 +298,16 @@
 
                             <div class="service-card">
 
-                                <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
+                                  <img src="{{ !empty($category->image)
+    ? asset('storage/' . $category->image)
+    : asset('images/default-category.jpg') }}"
+     alt="{{ $category->name ?? 'Category Image' }}">
 
                                 <div class="overlay"></div>
 
                                 <div class="card-content">
 
-                                    <h3>{{ $category->name }}</h3>
+                                    <h3>{{ $category->name ?? ""}}</h3>
 
                                     <div class="arrow-btn">
                                         ↗
@@ -310,7 +316,7 @@
                                 </div>
 
                                 <p>
-                                    {{ $category->short_description }}
+                                    {{ $category->short_description ?? ""}}
                                 </p>
 
                             </div>
@@ -383,7 +389,7 @@
 
                             <div class="feature-icon">
 
-                                <i class="{{ $feature->icon }}"></i>
+                                <i class="{{ $feature->icon ?? ""}}"></i>
 
                             </div>
 
@@ -391,13 +397,13 @@
 
                                 <h3>
 
-                                    {{ $feature->title }}
+                                    {{ $feature->title ?? "" }}
 
                                 </h3>
 
                                 <p>
 
-                                    {{ $feature->description }}
+                                    {{ $feature->description ?? ""}}
 
                                 </p>
 
@@ -445,7 +451,7 @@
 
                             <div class="feature-icon">
 
-                                <i class="{{ $feature->icon }}"></i>
+                                <i class="{{ $feature->icon ?? ""}}"></i>
 
                             </div>
 
@@ -453,13 +459,13 @@
 
                                 <h3>
 
-                                    {{ $feature->title }}
+                                    {{ $feature->title ?? ""}}
 
                                 </h3>
 
                                 <p>
 
-                                    {{ $feature->description }}
+                                    {{ $feature->description ?? "" }}
 
                                 </p>
 
@@ -507,7 +513,7 @@
 
                     <!-- FILTER BUTTONS -->
 
-                    <div class="category-slider-wrapper position-relative px-5">
+                    <div class="category-slider-wrapper position-relative px-5 d-none d-md-block">
 
                         <div class="swiper categorySwiper">
 
@@ -529,7 +535,7 @@
                                         <button class="filter-btn"
                                             data-filter="{{ \Illuminate\Support\Str::slug($category->name) }}">
 
-                                            {{ $category->name }}
+                                            {{ $category->name ?? ""}}
 
                                             <sup>
                                                 {{ str_pad($category->products->count(), 2, '0', STR_PAD_LEFT) }}
@@ -542,6 +548,10 @@
                                 @endforeach
 
                             </div>
+                            
+                            
+                            
+                            
 
                         </div>
 
@@ -555,6 +565,63 @@
                         </div>
 
                     </div>
+                    
+                    
+                    {{-- Mobile Filter Toggle Button --}}
+<div class="d-block d-md-none mb-3">
+    <button class="mobile-filter-toggle" id="openFilterDrawer">
+        ☰ Filters
+    </button>
+</div>
+
+{{-- Overlay --}}
+<div class="filter-overlay" id="filterOverlay"></div>
+
+{{-- Right Drawer --}}
+<div class="filter-drawer" id="filterDrawer">
+
+    <div class="drawer-header">
+        <h5>Product Filters</h5>
+        <button class="close-drawer" id="closeFilterDrawer">✕</button>
+    </div>
+
+    <div class="drawer-body">
+
+        <div class="swiper-wrapper buttons_procuts d-block">
+
+            {{-- All Button --}}
+            <div class="swiper-slide w-auto">
+                <button class="filter-btn activebutton" data-filter="all">
+                    All
+                    <sup>{{ str_pad($products->count(), 2, '0', STR_PAD_LEFT) }}</sup>
+                </button>
+            </div>
+
+            {{-- Dynamic Categories --}}
+            @foreach($categories as $category)
+
+                <div class="swiper-slide w-auto">
+
+                    <button class="filter-btn"
+                        data-filter="{{ \Illuminate\Support\Str::slug($category->name) }}">
+
+                        {{ $category->name }}
+
+                        <sup>
+                            {{ str_pad($category->products->count(), 2, '0', STR_PAD_LEFT) }}
+                        </sup>
+
+                    </button>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+    </div>
+
+</div>
 
                 </div>
 
@@ -566,7 +633,7 @@
 
                 <div class="row g-4">
 
-                    @foreach($products as $product)
+                    @foreach($products->take(8) as $product)
 
                         <div class="col-lg-3 col-md-6 gallery-item {{ $product->category->slug }}">
 
@@ -587,9 +654,9 @@
 
                                     <div class="gallery-content">
 
-                                        <h3>{{ $product->category->name }}</h3>
+                                        <h3>{{ $product->category->name ?? ""}}</h3>
 
-                                        <span>{{ $product->name }}</span>
+                                        <span>{{ $product->name ?? ""}}</span>
 
                                     </div>
 
@@ -603,6 +670,25 @@
 
                 </div>
 
+  <div class="text-center mt-1">
+
+                    <a href="{{ route('products') }}" style="opacity: 1; display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 18px 40px;
+        border-radius: 60px;
+        background: var(--primary-color);
+        color: #fff;
+        font-size: 17px;
+        font-weight: 700;">
+
+                        Load More
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
             </div>
 
         </div>
@@ -612,72 +698,179 @@
 
 
     <!-- packeg section -->
-    <section class="packegs_wrapper">
+   <section class="packegs_wrapper">
+
         <div class="container-fluid px-lg-5">
+
             <div class="row gy-4">
+
                 <!-- LEFT BOX -->
                 <div class="col-lg-4">
+
                     <div class="packegs_boxex h-100 d-flex flex-column">
+
                         <div class="mb-4">
-                            <img src="{{ asset('images/top-logo.jpeg')}}" width="145" class="mx-auto d-block">
+
+                            <img src="{{ !empty($packageSection->left_logo)
+        ? asset('storage/' . $packageSection->left_logo)
+        : asset('images/top-logo.jpeg') }}" width="145" class="mx-auto d-block">
+
                         </div>
+
                         <div class="flex-grow-1">
-                            <p>At Harsh Plywood, we believe every space deserves strength, style, and timeless
-                                elegance. With years of experience in the plywood and interior industry, we have
-                                become a trusted destination for premium plywood, laminates, veneers, hardware,
-                                modular kitchen solutions, acrylic sheets, MDF panels, wooden flooring, and
-                                interior accessories.</p>
+
+                            <p>
+
+                                {{ $packageSection->left_description ?? '' }}
+
+                            </p>
+
                         </div>
+
                         <div class="packesPurchaseButoon mt-auto">
-                            <button class="btn-primary w-100 mb-2">Contact Now</button>
-                            <button class="secondwhatssbutton w-100">Whatsapp Now</button>
+
+                            <button type="button" class="btn-primary w-100 mb-2"
+                                onclick="window.location.href='{{ $packageSection->left_contact_link ?? '#' }}'">
+
+                                {{ $packageSection->left_contact_text ?? 'Contact Now' }}
+
+                            </button>
+
+                            <button type="button" class="secondwhatssbutton w-100"
+                                onclick="window.open('{{ $packageSection->left_whatsapp_link ?? '#' }}', '_blank')">
+
+                                {{ $packageSection->left_whatsapp_text ?? 'Whatsapp Now' }}
+
+                            </button>
+
                         </div>
+
                     </div>
+
                 </div>
 
-                <!-- MIDDLE BOX (ACTIVE) -->
+                <!-- MIDDLE BOX -->
                 <div class="col-lg-4">
+
                     <div class="packegs_boxex activepackegs h-100 d-flex flex-column">
-                        <div class="mini-title text-white mb-2">Pricing Plan</div>
-                        <h2 class="main-title text-white mb-4">Choose plan for house interior</h2>
+
+                        <div class="mini-title text-white mb-2">
+
+                            {{ $packageSection->middle_subtitle ?? 'Pricing Plan' }}
+
+                        </div>
+
+                        <h2 class="main-title text-white mb-4">
+
+                            {{ $packageSection->middle_title ?? 'Choose plan for house interior' }}
+
+                        </h2>
+
                         <div class="icons_packesSecond flex-grow-1">
-                            <a href="#" class="text-white d-flex align-items-center mb-3"><i
-                                    class="fa-solid fa-bag-shopping me-2"></i>Get 30 day free trial</a>
-                            <a href="#" class="text-white d-flex align-items-center mb-3"><i
-                                    class="fa-solid fa-wallet me-2"></i>No any hidden fees pay</a>
-                            <a href="#" class="text-white d-flex align-items-center mb-3"><i
-                                    class="fa-solid fa-clock me-2"></i>You can cancel anytime</a>
+
+                            @if($packageSection->feature_text_1)
+
+                                <a href="#" class="text-white d-flex align-items-center mb-3">
+
+                                    <i class="{{ $packageSection->feature_icon_1 ?? "" }} me-2"></i>
+
+                                    {{ $packageSection->feature_text_1 }}
+
+                                </a>
+
+                            @endif
+
+                            @if($packageSection->feature_text_2)
+
+                                <a href="#" class="text-white d-flex align-items-center mb-3">
+
+                                    <i class="{{ $packageSection->feature_icon_2 ?? "s"}} me-2"></i>
+
+                                    {{ $packageSection->feature_text_2 }}
+
+                                </a>
+
+                            @endif
+
+                            @if($packageSection->feature_text_3)
+
+                                <a href="#" class="text-white d-flex align-items-center mb-3">
+
+                                    <i class="{{ $packageSection->feature_icon_3 ?? ""}} me-2"></i>
+
+                                    {{ $packageSection->feature_text_3 }}
+
+                                </a>
+
+                            @endif
+
                         </div>
+
                         <div class="mt-auto">
-                            <a href="#" class="consult-btn w-100">
-                                Book Consult
+
+                            <a href="{{ $packageSection->middle_button_link ?? '#' }}" class="consult-btn w-100">
+
+                                {{ $packageSection->middle_button_text ?? 'Book Consult' }}
+
                                 <span>↗</span>
+
                             </a>
+
                         </div>
+
                     </div>
+
                 </div>
 
                 <!-- RIGHT BOX -->
                 <div class="col-lg-4">
+
                     <div class="packegs_boxex h-100 d-flex flex-column">
+
                         <div class="mb-4">
-                            <img src="{{ asset('images/hrb-logo.png')}}" width="145" class="mx-auto d-block">
+
+                            <img src="{{ !empty($packageSection->right_logo)
+        ? asset('storage/' . $packageSection->right_logo)
+        : asset('images/hrb-logo.png') }}" width="145" class="mx-auto d-block">
+
                         </div>
+
                         <div class="flex-grow-1">
-                            <p>HRB is a trusted name in premium plywood, laminates, hardware, and interior solutions,
-                                dedicated to transforming spaces with quality, durability, and modern design. With a
-                                strong commitment to excellence, HRB provides a wide range of interior and surface
-                                products that combine functionality with aesthetic appeal for residential, commercial,
-                                and architectural projects.</p>
+
+                            <p>
+
+                                {{ $packageSection->right_description ?? '' }}
+
+                            </p>
+
                         </div>
+
                         <div class="packesPurchaseButoon mt-auto">
-                            <button class="btn-primary w-100 mb-2">Contact Now</button>
-                            <button class="thiedbutton w-100">Whatsapp Now</button>
+
+                            <button type="button" class="btn-primary w-100 mb-2"
+                                onclick="window.location.href='{{ $packageSection->right_contact_link ?? '#' }}'">
+
+                                {{ $packageSection->right_contact_text ?? 'Contact Now' }}
+
+                            </button>
+
+                            <button type="button" class="thiedbutton w-100"
+                                onclick="window.open('{{ $packageSection->right_whatsapp_link ?? '#' }}', '_blank')">
+
+                                {{ $packageSection->right_whatsapp_text ?? 'Whatsapp Now' }}
+
+                            </button>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </section>
 
     <!-- ========================= -->
@@ -719,22 +912,64 @@
 
                                 <p class="testimonial-text">
 
-                                    {{ $testimonial->feedback }}
+                                    {{ $testimonial->feedback ?? ""}}
 
                                 </p>
 
                                 <div class="testimonial-user">
 
-                                    <img src="{{ asset('storage/' . $testimonial->image) }}" alt="{{ $testimonial->title }}">
+                                   @php
+
+    $colors = [
+        '#FF6B6B',
+        '#6C5CE7',
+        '#00B894',
+        '#0984E3',
+        '#E17055',
+        '#D63031',
+        '#00CEC9',
+        '#FDCB6E'
+    ];
+
+    $bgColor = $colors[array_rand($colors)];
+
+@endphp
+
+@if(!empty($testimonial->image))
+
+    <img src="{{ asset('storage/' . $testimonial->image) }}"
+         alt="{{ $testimonial->title }}">
+
+@else
+
+    <div style="
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: {{ $bgColor }};
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: 700;
+        text-transform: uppercase;
+    ">
+
+        {{ strtoupper(substr($testimonial->title, 0, 1)) }}
+
+    </div>
+
+@endif
 
                                     <div>
 
                                         <h4>
-                                            {{ $testimonial->title }}
+                                            {{ $testimonial->title ?? ""}}
                                         </h4>
 
                                         <span>
-                                            {{ $testimonial->designation }}
+                                            {{ $testimonial->designation ?? ""}}
                                         </span>
 
                                     </div>
@@ -766,6 +1001,7 @@
         </div>
 
     </section>
+
 
 
     <!-- ========================= -->
@@ -806,44 +1042,37 @@
     <!-- VIDEO SECTION -->
     <!-- ========================= -->
 
-    <section class="creative-video-section">
+      <section class="creative-video-section"
+        style="background-image: url('{{ !empty($videoSection->background_image) ? asset('storage/' . $videoSection->background_image) : asset('images/bg-img.jpg') }}');">
 
         <div class="creative-video-content">
 
             <!-- SUBTITLE -->
-
             <div class="creative-subtitle">
 
-                Premium Plywood & Interior Solutions
+                {{ $videoSection->subtitle ?? 'Premium Plywood & Interior Solutions' }}
 
             </div>
 
             <!-- TITLE -->
-
             <h2 class="creative-title">
 
-                Creating modern spaces with premium plywood and elegant interiors
+                {{ $videoSection->title ?? 'Creating modern spaces with premium plywood and elegant interiors' }}
+
             </h2>
 
-
-
             <!-- PLAY BUTTON -->
-
             <div class="video-play-wrapper">
 
                 <!-- WAVES -->
-
                 <span class="video-wave"></span>
 
                 <span class="video-wave wave2"></span>
 
                 <span class="video-wave wave3"></span>
 
-
-
                 <!-- BUTTON -->
-
-                <a href="#" class="video-play-btn">
+                <a href="javascript:void(0)" class="video-play-btn" data-bs-toggle="modal" data-bs-target="#videoModal">
 
                     <i class="fa-solid fa-play"></i>
 
@@ -854,6 +1083,38 @@
         </div>
 
     </section>
+
+    {{-- VIDEO MODAL --}}
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <div class="modal-content bg-dark border-0">
+
+                <div class="modal-header border-0">
+
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+
+                </div>
+
+                <div class="modal-body p-0">
+
+                    <div class="ratio ratio-16x9">
+
+                        <iframe src="{{ $videoSection->video_url ?? '' }}" title="Video Player"
+                            allow="autoplay; encrypted-media" allowfullscreen>
+                        </iframe>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 
     <!-- ========================= -->

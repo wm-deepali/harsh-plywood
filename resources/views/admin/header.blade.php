@@ -232,7 +232,7 @@
 
                     <a href="{{ route('admin.counters.index') }}">
 
-                        Counter Section
+                        Home Counter Section
 
                     </a>
 
@@ -242,7 +242,27 @@
 
                     <a href="{{ route('admin.why-choose.index') }}">
 
-                        Why Choose Us
+                        Home Why Choose Us
+
+                    </a>
+
+                </li>
+
+                <li class="{{ request()->routeIs('admin.home-package-section.*') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.home-package-section.index') }}">
+
+                        Interior Packages Section
+
+                    </a>
+
+                </li>
+
+                <li class="{{ request()->routeIs('admin.home-video-section.*') ? 'active' : '' }}">
+
+                    <a href="{{ route('admin.home-video-section.index') }}">
+
+                        Home Video Section
 
                     </a>
 
