@@ -37,6 +37,20 @@
 
 <body>
 
+<style>
+    .footer-dynamic-pages {
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-page-link {
+    transition: 0.3s;
+    font-size: 15px;
+}
+
+.footer-page-link:hover {
+    color: #fcb900 !important;
+}
+</style>
 
     <!-- ========================= -->
     <!-- HEADER -->
@@ -173,11 +187,15 @@
 
                 <!-- BUTTON -->
 
-                <button class="getButon">
+                <!--<button class="getButon">-->
 
-                    Get a Quote
+                <!--    Get a Quote-->
 
-                </button>
+                <!--</button>-->
+                
+                 <button class="quoteDrawerBtn getButon">
+        Get a Quote
+    </button>
 
             </nav>
 
@@ -314,7 +332,68 @@
                             {{ $headerFooter->short_content ?? '' }}
                         </p>
 
+                                               <div class="footer-social-section">
+                        <!-- <h5 class="footer-social-title">Follow Us</h5> -->
+                        <div class="footer_links">
 
+                           
+
+                            @if($socialSetting && $socialSetting->facebook)
+
+                                <a href="{{ $socialSetting->facebook }}" target="_blank" class="social-link"
+                                    title="Facebook">
+
+                                    <i class="fa-brands fa-facebook-f"></i>
+
+                                </a>
+
+                            @endif
+
+                            @if($socialSetting && $socialSetting->instagram)
+
+                                <a href="{{ $socialSetting->instagram }}" target="_blank" class="social-link"
+                                    title="Instagram">
+
+                                    <i class="fa-brands fa-instagram"></i>
+
+                                </a>
+
+                            @endif
+
+                            @if($socialSetting && $socialSetting->youtube)
+
+                                <a href="{{ $socialSetting->youtube }}" target="_blank" class="social-link" title="YouTube">
+
+                                    <i class="fa-brands fa-youtube"></i>
+
+                                </a>
+
+                            @endif
+
+                            @if($socialSetting && $socialSetting->linkedin)
+
+                                <a href="{{ $socialSetting->linkedin }}" target="_blank" class="social-link"
+                                    title="LinkedIn">
+
+                                    <i class="fa-brands fa-linkedin-in"></i>
+
+                                </a>
+
+                            @endif
+
+                            @if($socialSetting && $socialSetting->twitter)
+
+                                <a href="{{ $socialSetting->twitter }}" target="_blank" class="social-link" title="Twitter">
+
+                                    <i class="fa-brands fa-x-twitter"></i>
+
+                                </a>
+
+                            @endif
+
+                        </div>
+
+                    </div>
 
                     </div>
 
@@ -331,14 +410,15 @@
 
                         <ul class="footer-menu-list">
                             <li><a href="{{ route('home') }}"><span class="link-icon">→</span> Home</a></li>
-                            <li><a href="{{ route('about-us') }}"><span class="link-icon">→</span> About</a></li>
-                            <li><a href="{{ route('products') }}"><span class="link-icon">→</span> Products</a></li>
+                            <li><a href="{{ route('about-us') }}"><span class="link-icon">→</span> About Us</a></li>
+                            <li><a href="{{ route('products') }}"><span class="link-icon">→</span> Our Products</a></li>
                              <li><a href="{{ route('hrb-plywood') }}"><span class="link-icon">→</span> HRB Plywood</a>
                             </li>
                             <li><a href="{{ route('our-brands') }}"><span class="link-icon">→</span> Our Brands</a></li>
                             <li><a href="{{ route('gallery') }}"><span class="link-icon">→</span> Gallery</a></li>
-                            <li><a href="{{ route('blogs') }}"><span class="link-icon">→</span> Blog</a></li>
+                            <li><a href="{{ route('blogs') }}"><span class="link-icon">→</span> Blogs</a></li>
                             <li><a href={{ route('faq') }}><span class="link-icon">→</span> FAQ</a></li>
+                            <li><a href={{ route('contact-us') }}><span class="link-icon">→</span> Contact Us</a></li>
                         </ul>
 
                     </div>
@@ -434,7 +514,33 @@
             <div class="footer-divider"></div>
 
         </div>
+        @if(count($dynamicPages) > 0 )
+<!-- Divider -->
+<div class="footer-divider"></div>
 
+<!-- Dynamic Pages -->
+<div class="footer-dynamic-pages py-3">
+    <div class="container-fluid px-lg-5">
+
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+
+            @foreach($dynamicPages as $page)
+
+                <a href="{{ url($page->slug) }}"
+                   class="text-white text-decoration-none footer-page-link">
+
+                    {{ $page->title }}
+
+                </a>
+
+            @endforeach
+
+        </div>
+
+    </div>
+</div>
+        
+        @endif
         <!-- COPYRIGHT -->
         <div class="footer-bottom">
 
@@ -456,21 +562,11 @@
 @endif
                     </div>
 
-                    <!-- <div class="footer-bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <span class="divider">•</span>
-                    <a href="#">Terms & Conditions</a>
-                    <span class="divider">•</span>
-                    <a href="#">Site Map</a>
-                </div> -->
+                    
+                <div class="footer_whatspp">
+                     @if($headerFooter && $headerFooter->whatsapp)
 
-                    <div class="footer-social-section">
-                        <!-- <h5 class="footer-social-title">Follow Us</h5> -->
-                        <div class="footer_links">
-
-                            @if($headerFooter && $headerFooter->whatsapp)
-
-                                <a href="https://wa.me/{{ $headerFooter->whatsapp }}" target="_blank" class="social-link"
+                                <a href="https://wa.me/{{ $headerFooter->whatsapp }}" target="_blank" class="social-whatspp"
                                     title="WhatsApp">
 
                                     <i class="fa-brands fa-whatsapp"></i>
@@ -478,63 +574,14 @@
                                 </a>
 
                             @endif
+                </div>
 
-                            @if($socialSetting && $socialSetting->facebook)
 
-                                <a href="{{ $socialSetting->facebook }}" target="_blank" class="social-link"
-                                    title="Facebook">
 
-                                    <i class="fa-brands fa-facebook-f"></i>
-
-                                </a>
-
-                            @endif
-
-                            @if($socialSetting && $socialSetting->instagram)
-
-                                <a href="{{ $socialSetting->instagram }}" target="_blank" class="social-link"
-                                    title="Instagram">
-
-                                    <i class="fa-brands fa-instagram"></i>
-
-                                </a>
-
-                            @endif
-
-                            @if($socialSetting && $socialSetting->youtube)
-
-                                <a href="{{ $socialSetting->youtube }}" target="_blank" class="social-link" title="YouTube">
-
-                                    <i class="fa-brands fa-youtube"></i>
-
-                                </a>
-
-                            @endif
-
-                            @if($socialSetting && $socialSetting->linkedin)
-
-                                <a href="{{ $socialSetting->linkedin }}" target="_blank" class="social-link"
-                                    title="LinkedIn">
-
-                                    <i class="fa-brands fa-linkedin-in"></i>
-
-                                </a>
-
-                            @endif
-
-                            @if($socialSetting && $socialSetting->twitter)
-
-                                <a href="{{ $socialSetting->twitter }}" target="_blank" class="social-link" title="Twitter">
-
-                                    <i class="fa-brands fa-x-twitter"></i>
-
-                                </a>
-
-                            @endif
-
-                        </div>
-
-                    </div>
+    
+ <div class="copyright-text">
+    <p>  Design & Developed by <a href="https://www.webmingo.com/" class="text-white" style="text-decoration: underline !important;"> Web Mingo </a></p>
+</div>
 
                 </div>
 
@@ -543,6 +590,193 @@
         </div>
 
     </footer>
+
+
+
+<div class="quoteDrawerWrapper">
+
+    <!-- Get Quote Button -->
+    <!--<button class="quoteDrawerBtn">-->
+    <!--    Get a Quote-->
+    <!--</button>-->
+
+    <!-- Overlay -->
+    <div class="quoteDrawerOverlay"></div>
+
+    <!-- Right Drawer -->
+    <div class="quoteDrawerPanel">
+
+        <!-- Close Button -->
+        <button class="quoteDrawerClose"><i class="fa fa-times" aria-hidden="true"></i>
+</button>
+        <!--<button class="quoteDrawerClose">&times;</button>-->
+
+        <!-- Content -->
+        <div class="quoteDrawerContent">
+
+            <span class="quoteDrawerTag">
+                Quick Inquiry
+            </span>
+
+            <h2 class="quoteDrawerHeading">
+                Get a Free Quote
+            </h2>
+
+            <p class="quoteDrawerSubtitle">
+                Fill out the form and our team will get back to you shortly with the best solution.
+            </p>
+
+            <!-- Form -->
+          {{-- Success Message --}}
+@if(session('success'))
+
+    <div class="alert alert-success alert-dismissible fade show">
+
+        {{ session('success') }}
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+    </div>
+
+@endif
+
+{{-- Error Message --}}
+@if ($errors->any())
+
+    <div class="alert alert-danger alert-dismissible fade show">
+
+        <ul class="mb-0">
+
+            @foreach ($errors->all() as $error)
+
+                <li>{{ $error }}</li>
+
+            @endforeach
+
+        </ul>
+
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+
+    </div>
+
+@endif
+
+
+<form class="quoteDrawerForm" method="POST" action="{{ route('quote.inquiry') }}">
+
+    @csrf
+
+    <div class="quoteDrawerField">
+
+        <input type="text"
+               name="name"
+               placeholder="Full Name"
+               value="{{ old('name') }}"
+               class="@error('name') is-invalid @enderror">
+
+        @error('name')
+
+            <small class="text-danger">
+
+                {{ $message }}
+
+            </small>
+
+        @enderror
+
+    </div>
+
+    <div class="quoteDrawerField">
+
+        <input type="email"
+               name="email"
+               placeholder="Email Id"
+               value="{{ old('email') }}"
+               class="@error('email') is-invalid @enderror">
+
+        @error('email')
+
+            <small class="text-danger">
+
+                {{ $message }}
+
+            </small>
+
+        @enderror
+
+    </div>
+
+    <div class="quoteDrawerField">
+
+        <input type="tel"
+               name="mobile"
+               placeholder="Mobile Number"
+               value="{{ old('mobile') }}"
+               class="@error('mobile') is-invalid @enderror">
+
+        @error('mobile')
+
+            <small class="text-danger">
+
+                {{ $message }}
+
+            </small>
+
+        @enderror
+
+    </div>
+
+    <div class="quoteDrawerField">
+
+        <textarea name="message"
+                  placeholder="Detail"
+                  class="@error('message') is-invalid @enderror">{{ old('message') }}</textarea>
+
+        @error('message')
+
+            <small class="text-danger">
+
+                {{ $message }}
+
+            </small>
+
+        @enderror
+
+    </div>
+
+    {{-- Google Captcha --}}
+    <div class="quoteDrawerField">
+
+        <div class="g-recaptcha"
+             data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}">
+
+        </div>
+
+        @error('g-recaptcha-response')
+
+            <small class="text-danger d-block mt-2">
+
+                {{ $message }}
+
+            </small>
+
+        @enderror
+
+    </div>
+
+    <button type="submit" class="quoteDrawerSubmit">
+
+        Submit Now
+
+    </button>
+
+</form>
+
+        </div>
+
+    </div>
+
+</div>
 
 
     <!-- =========================
@@ -567,11 +801,33 @@
 
     <!-- JS -->
     <!-- bootrap -->
+     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script src="{{ asset('js/main.js') }}"></script>
+
+    @if ($errors->any() || session('success'))
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const quoteDrawerWrapper =
+            document.querySelector('.quoteDrawerWrapper');
+
+        if (quoteDrawerWrapper) {
+
+            quoteDrawerWrapper.classList.add('active');
+
+        }
+
+    });
+
+</script>
+
+@endif
 
 </body>
 

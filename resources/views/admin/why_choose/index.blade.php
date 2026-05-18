@@ -30,6 +30,57 @@
 
         </div>
 
+        {{-- Alerts --}}
+        @if(session('success'))
+
+            <div class="alert alert-success alert-dismissible fade show">
+
+                {{ session('success') }}
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+            </div>
+
+        @endif
+
+        @if(session('error'))
+
+            <div class="alert alert-danger alert-dismissible fade show">
+
+                {{ session('error') }}
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+            </div>
+
+        @endif
+
+        @if ($errors->any())
+
+            <div class="alert alert-danger alert-dismissible fade show">
+
+                <ul class="mb-0">
+
+                    @foreach ($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                    @endforeach
+
+                </ul>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+            </div>
+
+        @endif
+
         <div class="content-wrapper pb-4">
 
             <!-- SECTION FORM -->
@@ -62,8 +113,18 @@
 
                                 <input type="text"
                                        name="sub_heading"
-                                       class="form-control"
+                                       class="form-control @error('sub_heading') is-invalid @enderror"
                                        value="{{ old('sub_heading', $section->sub_heading ?? '') }}">
+
+                                @error('sub_heading')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -75,8 +136,18 @@
 
                                 <input type="text"
                                        name="heading"
-                                       class="form-control"
+                                       class="form-control @error('heading') is-invalid @enderror"
                                        value="{{ old('heading', $section->heading ?? '') }}">
+
+                                @error('heading')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -90,7 +161,17 @@
 
                             <textarea name="description"
                                       rows="5"
-                                      class="form-control">{{ old('description', $section->description ?? '') }}</textarea>
+                                      class="form-control @error('description') is-invalid @enderror">{{ old('description', $section->description ?? '') }}</textarea>
+
+                            @error('description')
+
+                                <div class="invalid-feedback">
+
+                                    {{ $message }}
+
+                                </div>
+
+                            @enderror
 
                         </div>
 
@@ -104,7 +185,17 @@
 
                                 <input type="file"
                                        name="main_image"
-                                       class="form-control">
+                                       class="form-control @error('main_image') is-invalid @enderror">
+
+                                @error('main_image')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                                 <small class="text-muted">
                                     Allowed: jpg, jpeg, png, webp | Max: 2MB
@@ -132,7 +223,17 @@
 
                                 <input type="file"
                                        name="small_image"
-                                       class="form-control">
+                                       class="form-control @error('small_image') is-invalid @enderror">
+
+                                @error('small_image')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                                 <small class="text-muted">
                                     Allowed: jpg, jpeg, png, webp | Max: 2MB
@@ -286,127 +387,6 @@
 
                                     </tr>
 
-                                    <!-- EDIT FEATURE MODAL -->
-
-                                    <div class="modal fade"
-                                         id="editFeatureModal{{ $feature->id }}"
-                                         tabindex="-1">
-
-                                        <div class="modal-dialog modal-lg">
-
-                                            <div class="modal-content">
-
-                                                <form action="{{ route('admin.why-choose.feature.update', $feature->id) }}"
-                                                      method="POST">
-
-                                                    @csrf
-                                                    @method('PUT')
-
-                                                    <div class="modal-header">
-
-                                                        <h5 class="modal-title">
-                                                            Edit Feature
-                                                        </h5>
-
-                                                       <button type="button"
-        class="close"
-        data-dismiss="modal">
-
-    <span>&times;</span>
-
-</button>
-
-                                                    </div>
-
-                                                    <div class="modal-body">
-
-                                                        <div class="row">
-
-                                                            <div class="col-md-6 mb-3">
-
-                                                                <label class="form-label">
-                                                                    Position
-                                                                </label>
-
-                                                                <select name="position"
-                                                                        class="form-control">
-
-                                                                    <option value="left"
-                                                                        {{ $feature->position == 'left' ? 'selected' : '' }}>
-                                                                        Left
-                                                                    </option>
-
-                                                                    <option value="right"
-                                                                        {{ $feature->position == 'right' ? 'selected' : '' }}>
-                                                                        Right
-                                                                    </option>
-
-                                                                </select>
-
-                                                            </div>
-
-                                                            <div class="col-md-6 mb-3">
-
-                                                                <label class="form-label">
-                                                                    Icon Class
-                                                                </label>
-
-                                                                <input type="text"
-                                                                       name="icon"
-                                                                       class="form-control"
-                                                                       value="{{ $feature->icon }}">
-
-                                                            </div>
-
-                                                            <div class="col-md-12 mb-3">
-
-                                                                <label class="form-label">
-                                                                    Title
-                                                                </label>
-
-                                                                <input type="text"
-                                                                       name="title"
-                                                                       class="form-control"
-                                                                       value="{{ $feature->title }}"
-                                                                       required>
-
-                                                            </div>
-
-                                                            <div class="col-md-12">
-
-                                                                <label class="form-label">
-                                                                    Description
-                                                                </label>
-
-                                                                <textarea name="description"
-                                                                          rows="4"
-                                                                          class="form-control">{{ $feature->description }}</textarea>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div class="modal-footer">
-
-                                                        <button type="submit"
-                                                                class="btn btn-primary">
-
-                                                            Update Feature
-
-                                                        </button>
-
-                                                    </div>
-
-                                                </form>
-
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
                                 @empty
 
                                     <tr>
@@ -438,176 +418,4 @@
 
 </div>
 
-<!-- ADD FEATURE MODAL -->
-
-<div class="modal fade"
-     id="addFeatureModal"
-     tabindex="-1">
-
-    <div class="modal-dialog modal-lg">
-
-        <div class="modal-content">
-
-            <form action="{{ route('admin.why-choose.feature.store') }}"
-                  method="POST">
-
-                @csrf
-
-                <div class="modal-header">
-
-                    <h5 class="modal-title">
-                        Add Feature
-                    </h5>
-
-                  <button type="button"
-        class="close"
-        data-dismiss="modal">
-
-    <span>&times;</span>
-
-</button>
-                </div>
-
-                <div class="modal-body">
-
-                    <div class="row">
-
-                        <div class="col-md-6 mb-3">
-
-                            <label class="form-label">
-                                Position
-                            </label>
-
-                            <select name="position"
-                                    class="form-control"
-                                    required>
-
-                                <option value="left">
-                                    Left
-                                </option>
-
-                                <option value="right">
-                                    Right
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-
-                            <label class="form-label">
-                                Icon Class
-                            </label>
-
-                            <input type="text"
-                                   name="icon"
-                                   class="form-control"
-                                   placeholder="fa-solid fa-medal">
-
-                        </div>
-
-                        <div class="col-md-12 mb-3">
-
-                            <label class="form-label">
-                                Title
-                            </label>
-
-                            <input type="text"
-                                   name="title"
-                                   class="form-control"
-                                   required>
-
-                        </div>
-
-                        <div class="col-md-12">
-
-                            <label class="form-label">
-                                Description
-                            </label>
-
-                            <textarea name="description"
-                                      rows="4"
-                                      class="form-control"></textarea>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-
-                    <button type="submit"
-                            class="btn btn-primary">
-
-                        Save Feature
-
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</div>
-
 @include('admin.footer')
-
-<script>
-
-    function deleteFeature(id)
-    {
-        Swal.fire({
-
-            title: 'Delete Feature?',
-
-            text: "This action cannot be undone.",
-
-            icon: 'warning',
-
-            showCancelButton: true,
-
-            confirmButtonColor: '#d33',
-
-            confirmButtonText: 'Yes, Delete'
-
-        }).then((result) => {
-
-            if (result.isConfirmed) {
-
-                $.ajax({
-
-                    url: '/admin/why-choose/feature/delete/' + id,
-
-                    type: 'DELETE',
-
-                    data: {
-
-                        _token: '{{ csrf_token() }}'
-
-                    },
-
-                    success: function (response) {
-
-                        $('#featureRow' + id).remove();
-
-                        Swal.fire(
-                            'Deleted!',
-                            response.message,
-                            'success'
-                        );
-
-                    }
-
-                });
-
-            }
-
-        });
-    }
-
-</script>

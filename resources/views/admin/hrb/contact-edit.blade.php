@@ -8,6 +8,7 @@
 
     <div class="app-content content container-fluid">
 
+        {{-- BREADCRUMB --}}
         <div class="breadcrumbs-top d-flex align-items-center bg-light mb-3">
 
             <div class="breadcrumb-wrapper">
@@ -15,19 +16,29 @@
                 <ol class="breadcrumb bg-transparent mb-0">
 
                     <li class="breadcrumb-item">
+
                         <a href="{{ route('admin.dashboard') }}">
+
                             Dashboard
+
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item">
+
                         <a href="{{ route('admin.hrb.index') }}">
+
                             HRB Page
+
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item active">
+
                         Contact Section
+
                     </li>
 
                 </ol>
@@ -41,120 +52,214 @@
             <div class="card shadow-sm">
 
                 <div class="card-header">
-                    <strong>Edit Contact Section</strong>
+
+                    <strong>
+
+                        Edit Contact Section
+
+                    </strong>
+
                 </div>
 
                 <div class="card-body">
 
-                    <form method="POST"
-                        action="{{ route('admin.hrb.contact.update') }}">
+                    {{-- SUCCESS --}}
+                    @if(session('success'))
+
+                        <div class="alert alert-success alert-dismissible fade show">
+
+                            {{ session('success') }}
+
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="alert">
+
+                                &times;
+
+                            </button>
+
+                        </div>
+
+                    @endif
+
+                    {{-- ERROR --}}
+                    @if(session('error'))
+
+                        <div class="alert alert-danger alert-dismissible fade show">
+
+                            {{ session('error') }}
+
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="alert">
+
+                                &times;
+
+                            </button>
+
+                        </div>
+
+                    @endif
+
+                    {{-- VALIDATION ERRORS --}}
+                    @if ($errors->any())
+
+                        <div class="alert alert-danger">
+
+                            <ul class="mb-0">
+
+                                @foreach ($errors->all() as $error)
+
+                                    <li>{{ $error }}</li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    @endif
+
+                    <form id="contactForm"
+                          method="POST"
+                          action="{{ route('admin.hrb.contact.update') }}">
 
                         @csrf
 
-                        @if ($errors->any())
-
-                            <div class="alert alert-danger">
-
-                                <ul class="mb-0">
-
-                                    @foreach ($errors->all() as $error)
-
-                                        <li>{{ $error }}</li>
-
-                                    @endforeach
-
-                                </ul>
-
-                            </div>
-
-                        @endif
-
+                        {{-- CONTACT HEADING --}}
                         <div class="form-group">
 
-                            <label>Contact Heading</label>
+                            <label>
+
+                                Contact Heading
+
+                            </label>
 
                             <input type="text"
-                                name="contact_heading"
-                                class="form-control"
-                                value="{{ old('contact_heading', $hrb->contact_heading ?? '') }}">
+                                   name="contact_heading"
+                                   class="form-control @error('contact_heading') is-invalid @enderror"
+                                   value="{{ old('contact_heading', $hrb->contact_heading ?? '') }}"
+                                   placeholder="Enter contact heading">
 
                             @error('contact_heading')
 
-                                <small class="text-danger">
+                                <span class="invalid-feedback d-block">
+
                                     {{ $message }}
-                                </small>
+
+                                </span>
 
                             @enderror
 
                         </div>
 
+                        {{-- CONTACT DESCRIPTION --}}
                         <div class="form-group mt-3">
 
-                            <label>Contact Description</label>
+                            <label>
+
+                                Contact Description
+
+                            </label>
 
                             <textarea name="contact_description"
-                                rows="5"
-                                class="form-control">{{ old('contact_description', $hrb->contact_description ?? '') }}</textarea>
+                                      rows="5"
+                                      class="form-control @error('contact_description') is-invalid @enderror"
+                                      placeholder="Enter contact description">{{ old('contact_description', $hrb->contact_description ?? '') }}</textarea>
 
                             @error('contact_description')
 
-                                <small class="text-danger">
+                                <span class="invalid-feedback d-block">
+
                                     {{ $message }}
-                                </small>
+
+                                </span>
 
                             @enderror
 
                         </div>
 
-                        <div class="form-group mt-3">
+                        <div class="row">
 
-                            <label>Phone</label>
+                            {{-- PHONE --}}
+                            <div class="col-md-6 mt-3">
 
-                            <input type="text"
-                                name="contact_phone"
-                                class="form-control"
-                                value="{{ old('contact_phone', $hrb->contact_phone ?? '') }}">
+                                <div class="form-group">
 
-                            @error('contact_phone')
+                                    <label>
 
-                                <small class="text-danger">
-                                    {{ $message }}
-                                </small>
+                                        Phone Number
 
-                            @enderror
+                                    </label>
+
+                                    <input type="text"
+                                           name="contact_phone"
+                                           class="form-control @error('contact_phone') is-invalid @enderror"
+                                           value="{{ old('contact_phone', $hrb->contact_phone ?? '') }}"
+                                           placeholder="+91 9876543210">
+
+                                    @error('contact_phone')
+
+                                        <span class="invalid-feedback d-block">
+
+                                            {{ $message }}
+
+                                        </span>
+
+                                    @enderror
+
+                                </div>
+
+                            </div>
+
+                            {{-- EMAIL --}}
+                            <div class="col-md-6 mt-3">
+
+                                <div class="form-group">
+
+                                    <label>
+
+                                        Email Address
+
+                                    </label>
+
+                                    <input type="email"
+                                           name="contact_email"
+                                           class="form-control @error('contact_email') is-invalid @enderror"
+                                           value="{{ old('contact_email', $hrb->contact_email ?? '') }}"
+                                           placeholder="info@example.com">
+
+                                    @error('contact_email')
+
+                                        <span class="invalid-feedback d-block">
+
+                                            {{ $message }}
+
+                                        </span>
+
+                                    @enderror
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <div class="form-group mt-3">
-
-                            <label>Email</label>
-
-                            <input type="email"
-                                name="contact_email"
-                                class="form-control"
-                                value="{{ old('contact_email', $hrb->contact_email ?? '') }}">
-
-                            @error('contact_email')
-
-                                <small class="text-danger">
-                                    {{ $message }}
-                                </small>
-
-                            @enderror
-
-                        </div>
-
+                        {{-- BUTTONS --}}
                         <div class="mt-4">
 
                             <button type="submit"
-                                class="btn btn-success">
+                                    id="saveBtn"
+                                    class="btn btn-success">
+
+                                <i class="fa fa-save"></i>
 
                                 Update Contact Section
 
                             </button>
 
                             <a href="{{ route('admin.hrb.index') }}"
-                                class="btn btn-secondary">
+                               class="btn btn-secondary">
 
                                 Cancel
 
@@ -175,3 +280,18 @@
 </div>
 
 @include('admin.footer')
+
+<script>
+
+    // PREVENT DOUBLE SUBMIT
+    document.getElementById('contactForm').addEventListener('submit', function ()
+    {
+        let btn = document.getElementById('saveBtn');
+
+        btn.disabled = true;
+
+        btn.innerHTML =
+            '<i class="fa fa-spinner fa-spin"></i> Updating...';
+    });
+
+</script>

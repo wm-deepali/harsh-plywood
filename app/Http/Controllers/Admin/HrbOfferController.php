@@ -13,7 +13,10 @@ class HrbOfferController extends Controller
     {
         $offers = HrbOffer::latest()->paginate(10);
 
-        return view('admin.hrb-offers.index', compact('offers'));
+        return view(
+            'admin.hrb-offers.index',
+            compact('offers')
+        );
     }
 
     public function create()
@@ -21,54 +24,113 @@ class HrbOfferController extends Controller
         return view('admin.hrb-offers.create');
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | STORE
+    |--------------------------------------------------------------------------
+    */
+
     public function store(Request $request)
     {
         $request->validate([
 
-            'title' => 'required|max:255',
+            'title' => 'required|string|max:255',
 
-            'short_content' => 'nullable',
+            'short_content' => 'nullable|string',
 
-            'icon' => 'nullable|max:255',
+            'icon' => 'nullable|string|max:255',
 
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
 
+        ], [
+
+            'title.required' =>
+                'Title is required.',
+
+            'title.max' =>
+                'Title may not be greater than 255 characters.',
+
+            'icon.max' =>
+                'Icon class may not be greater than 255 characters.',
+
+            'image.image' =>
+                'Image must be an image.',
+
+            'image.mimes' =>
+                'Image must be JPG, JPEG, PNG or WEBP.',
+
+            'image.max' =>
+                'Image size must be less than 2MB.'
+
         ]);
 
-        $image = null;
+        try {
 
-        if($request->hasFile('image')) {
+            $image = null;
 
-            $image = $request->file('image')
-                ->store('hrb-offers', 'public');
+            // IMAGE UPLOAD
+            if ($request->hasFile('image')) {
+
+                $image = $request->file('image')
+                    ->store('hrb-offers', 'public');
+
+            }
+
+            HrbOffer::create([
+
+                'title' => $request->title,
+
+                'short_content' => $request->short_content,
+
+                'icon' => $request->icon,
+
+                'image' => $image,
+
+                'status' => $request->status ? 1 : 0
+
+            ]);
+
+            return redirect()
+                ->route('admin.hrb-offers.index')
+                ->with(
+                    'success',
+                    'Offer Added Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
 
         }
-
-        HrbOffer::create([
-
-            'title' => $request->title,
-
-            'short_content' => $request->short_content,
-
-            'icon' => $request->icon,
-
-            'image' => $image,
-
-            'status' => $request->status ? 1 : 0
-
-        ]);
-
-        return redirect()
-            ->route('admin.hrb-offers.index')
-            ->with('success', 'Offer Added Successfully');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT
+    |--------------------------------------------------------------------------
+    */
 
     public function edit($id)
     {
         $offer = HrbOffer::findOrFail($id);
 
-        return view('admin.hrb-offers.edit', compact('offer'));
+        return view(
+            'admin.hrb-offers.edit',
+            compact('offer')
+        );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
 
     public function update(Request $request, $id)
     {
@@ -76,66 +138,136 @@ class HrbOfferController extends Controller
 
         $request->validate([
 
-            'title' => 'required|max:255',
+            'title' => 'required|string|max:255',
 
-            'short_content' => 'nullable',
+            'short_content' => 'nullable|string',
 
-            'icon' => 'nullable|max:255',
+            'icon' => 'nullable|string|max:255',
 
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
 
+        ], [
+
+            'title.required' =>
+                'Title is required.',
+
+            'title.max' =>
+                'Title may not be greater than 255 characters.',
+
+            'icon.max' =>
+                'Icon class may not be greater than 255 characters.',
+
+            'image.image' =>
+                'Image must be an image.',
+
+            'image.mimes' =>
+                'Image must be JPG, JPEG, PNG or WEBP.',
+
+            'image.max' =>
+                'Image size must be less than 2MB.'
+
         ]);
 
-        $image = $offer->image;
+        try {
 
-        if($request->hasFile('image')) {
+            $image = $offer->image;
 
-            if($offer->image) {
+            // IMAGE UPLOAD
+            if ($request->hasFile('image')) {
+
+                // DELETE OLD IMAGE
+                if (
+                    !empty($offer->image) &&
+                    Storage::disk('public')->exists($offer->image)
+                ) {
+
+                    Storage::disk('public')
+                        ->delete($offer->image);
+
+                }
+
+                $image = $request->file('image')
+                    ->store('hrb-offers', 'public');
+
+            }
+
+            $offer->update([
+
+                'title' => $request->title,
+
+                'short_content' => $request->short_content,
+
+                'icon' => $request->icon,
+
+                'image' => $image,
+
+                'status' => $request->status ? 1 : 0
+
+            ]);
+
+            return redirect()
+                ->route('admin.hrb-offers.index')
+                ->with(
+                    'success',
+                    'Offer Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
+
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE
+    |--------------------------------------------------------------------------
+    */
+
+    public function destroy($id)
+    {
+        try {
+
+            $offer = HrbOffer::findOrFail($id);
+
+            // DELETE IMAGE
+            if (
+                !empty($offer->image) &&
+                Storage::disk('public')->exists($offer->image)
+            ) {
 
                 Storage::disk('public')
                     ->delete($offer->image);
 
             }
 
-            $image = $request->file('image')
-                ->store('hrb-offers', 'public');
+            $offer->delete();
+
+            return response()->json([
+
+                'status' => true,
+
+                'message' => 'Deleted Successfully'
+
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'Something went wrong.'
+
+            ], 500);
 
         }
-
-        $offer->update([
-
-            'title' => $request->title,
-
-            'short_content' => $request->short_content,
-
-            'icon' => $request->icon,
-
-            'image' => $image,
-
-            'status' => $request->status ? 1 : 0
-
-        ]);
-
-        return redirect()
-            ->route('admin.hrb-offers.index')
-            ->with('success', 'Offer Updated Successfully');
-    }
-
-    public function destroy($id)
-    {
-        $offer = HrbOffer::findOrFail($id);
-
-        if($offer->image) {
-
-            Storage::disk('public')
-                ->delete($offer->image);
-
-        }
-
-        $offer->delete();
-
-        return response()->json([
-            'message' => 'Deleted Successfully'
-        ]);
     }
 }

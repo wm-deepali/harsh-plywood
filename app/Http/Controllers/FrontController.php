@@ -8,6 +8,12 @@ use App\Models\Brand;
 use App\Models\ContactEnquiry;
 use App\Models\ContactUs;
 use App\Models\Counter;
+use App\Models\HiStyleBrand;
+use App\Models\HiStyleCounter;
+use App\Models\HiStyleIntroFeature;
+use App\Models\HiStyleOffer;
+use App\Models\HiStylePage;
+use App\Models\HiStyleWhyChoose;
 use App\Models\HomePackageSection;
 use App\Models\HomeVideoSection;
 use App\Models\HrbBrand;
@@ -19,6 +25,7 @@ use App\Models\HrbPage;
 use App\Models\HrbWhyChoose;
 use App\Models\Page;
 use App\Models\Product;
+use App\Models\QuoteInquiry;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Models\HeroSlider;
@@ -33,6 +40,8 @@ use App\Models\HomeAboutSection;
 use App\Models\HomeAboutFeature;
 use App\Models\WhyChooseSection;
 use App\Models\WhyChooseFeature;
+use Illuminate\Support\Facades\Http;
+
 class FrontController extends Controller
 {
     public function home(Request $request)
@@ -295,6 +304,47 @@ class FrontController extends Controller
         );
     }
 
+    public function hiStylePlywood(Request $request)
+    {
+        $hrb = HiStylePage::first();
+
+        $introFeatures = HiStyleIntroFeature::where('status', 1)
+            ->get();
+
+        $whyChoose = HiStyleWhyChoose::where('status', 1)
+            ->latest()
+            ->get();
+
+        $counters = HiStyleCounter::where('status', 1)
+            ->latest()
+            ->get();
+
+        $brands = HiStyleBrand::where('status', 1)
+            ->latest()
+            ->get();
+
+
+        $offers = HiStyleOffer::where('status', 1)
+            ->latest()
+            ->get();
+
+
+        $seo = SeoSetting::where('page_name', 'Hi Style Plywood')->first();
+
+        return view(
+            'front-pages.hi-style-plywood',
+            compact(
+                'hrb',
+                'introFeatures',
+                'whyChoose',
+                'counters',
+                'brands',
+                'offers',
+                'seo'
+            )
+        );
+    }
+
     public function brands(Request $request)
     {
         $heroSection = HeroSection::where('page_name', 'Brands')->first();
@@ -364,137 +414,175 @@ class FrontController extends Controller
     {
         $request->validate([
 
-            'name' => [
-                'required',
-                'string',
-                'min:3',
-                'max:100'
-            ],
+            'name' => 'required|string|max:255',
 
-            'email' => [
-                'required',
-                'email',
-                'max:100'
-            ],
+            'email' => 'required|email|max:255',
 
-            'phone' => [
-                'required',
-                'digits:10'
-            ],
+            'phone' => 'required|digits_between:10,15',
 
-            'subject' => [
-                'required',
-                'string',
-                'min:3',
-                'max:150'
-            ],
+            'subject' => 'required|string|max:255',
 
-            'message' => [
-                'required',
-                'string',
-                'min:10',
-                'max:2000'
-            ]
+            'message' => 'required|string|max:2000',
+
+            'g-recaptcha-response' => 'required'
 
         ], [
 
-            'name.required' => 'Please enter your name.',
-            'name.min' => 'Name must be at least 3 characters.',
+            'name.required' => 'Name is required.',
 
-            'email.required' => 'Please enter your email.',
-            'email.email' => 'Please enter a valid email address.',
+            'email.required' => 'Email is required.',
 
-            'phone.required' => 'Please enter phone number.',
-            'phone.digits' => 'Phone number must be 10 digits.',
+            'email.email' => 'Enter valid email address.',
 
-            'subject.required' => 'Please enter subject.',
+            'phone.required' => 'Phone number is required.',
 
-            'message.required' => 'Please enter your message.',
-            'message.min' => 'Message must be at least 10 characters.'
+            'phone.digits_between' => 'Enter valid phone number.',
 
-        ]);
+            'subject.required' => 'Subject is required.',
 
-        ContactEnquiry::create([
+            'message.required' => 'Message is required.',
 
-            'name' => $request->name,
-
-            'email' => $request->email,
-
-            'phone' => $request->phone,
-
-            'subject' => $request->subject,
-
-            'message' => $request->message
+            'g-recaptcha-response.required' => 'Please verify captcha.'
 
         ]);
 
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                'Your enquiry has been submitted successfully.'
-            );
+        // Verify Captcha
+        $response = Http::asForm()->post(
+            'https://www.google.com/recaptcha/api/siteverify',
+            [
+                'secret' => env('GOOGLE_RECAPTCHA_SECRET'),
+                'response' => $request->get('g-recaptcha-response'),
+                'remoteip' => request()->ip(),
+            ]
+        );
+
+        $captcha = $response->json();
+
+        if (!$captcha['success']) {
+
+            return back()
+                ->withErrors([
+                    'g-recaptcha-response' => 'Captcha verification failed.'
+                ])
+                ->withInput();
+        }
+
+        try {
+
+            ContactEnquiry::create([
+
+                'name' => $request->name,
+
+                'email' => $request->email,
+
+                'phone' => $request->phone,
+
+                'subject' => $request->subject,
+
+                'message' => $request->message,
+
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('success', 'Your enquiry has been submitted successfully.');
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Something went wrong. Please try again.');
+        }
     }
 
     public function hrbEnquiry(Request $request)
     {
         $request->validate([
 
-            'name' => [
-                'required',
-                'string',
-                'min:3',
-                'max:100'
-            ],
+            'name' => 'required|string|max:255',
 
-            'email' => [
-                'required',
-                'email',
-                'max:100'
-            ],
+            'email' => 'required|email|max:255',
 
-            'phone' => [
-                'required',
-                'digits:10'
-            ],
+            'phone' => 'required|digits_between:10,15',
 
-            'subject' => [
-                'required',
-                'string',
-                'min:3',
-                'max:150'
-            ],
+            'subject' => 'required|string|max:255',
 
-            'message' => [
-                'required',
-                'string',
-                'min:10',
-                'max:2000'
+            'message' => 'required|string|max:3000',
+
+            'g-recaptcha-response' => 'required'
+
+        ], [
+
+            'name.required' => 'Name field is required.',
+
+            'email.required' => 'Email field is required.',
+
+            'email.email' => 'Please enter a valid email.',
+
+            'phone.required' => 'Phone number is required.',
+
+            'phone.digits_between' => 'Please enter a valid phone number.',
+
+            'subject.required' => 'Subject field is required.',
+
+            'message.required' => 'Message field is required.',
+
+            'g-recaptcha-response.required' => 'Please verify captcha.'
+
+        ]);
+
+        // Verify Google Captcha
+        $response = Http::asForm()->post(
+            'https://www.google.com/recaptcha/api/siteverify',
+            [
+                'secret' => env('GOOGLE_RECAPTCHA_SECRET'),
+                'response' => $request->get('g-recaptcha-response'),
+                'remoteip' => request()->ip(),
             ]
+        );
 
-        ]);
+        $captcha = $response->json();
 
-        HrbEnquiry::create([
+        if (!$captcha['success']) {
 
-            'name' => $request->name,
+            return redirect()
+                ->back()
+                ->withErrors([
+                    'g-recaptcha-response' => 'Captcha verification failed.'
+                ])
+                ->withInput();
+        }
 
-            'email' => $request->email,
+        try {
 
-            'phone' => $request->phone,
+            HrbEnquiry::create([
 
-            'subject' => $request->subject,
+                'name' => $request->name,
 
-            'message' => $request->message
+                'email' => $request->email,
 
-        ]);
+                'phone' => $request->phone,
 
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                'Your enquiry has been submitted successfully.'
-            );
+                'subject' => $request->subject,
+
+                'message' => $request->message,
+
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('success', 'Your enquiry has been submitted successfully.');
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Something went wrong. Please try again later.');
+        }
     }
+
 
     public function dynamicPage($slug)
     {
@@ -503,6 +591,88 @@ class FrontController extends Controller
             ->firstOrFail();
 
         return view('front-pages.dynamic-page', compact('page'));
+    }
+
+
+    public function quoteInquiry(Request $request)
+    {
+        $request->validate([
+
+            'name' => 'required|string|max:255',
+
+            'email' => 'required|email|max:255',
+
+            'mobile' => 'required|digits_between:10,15',
+
+            'message' => 'required|string|max:3000',
+
+            'g-recaptcha-response' => 'required'
+
+        ], [
+
+            'name.required' => 'Name field is required.',
+
+            'email.required' => 'Email field is required.',
+
+            'email.email' => 'Please enter a valid email.',
+
+            'mobile.required' => 'Mobile number is required.',
+
+            'mobile.digits_between' => 'Please enter a valid mobile number.',
+
+            'message.required' => 'Message field is required.',
+
+            'g-recaptcha-response.required' => 'Please verify captcha.'
+
+        ]);
+
+        // Verify Google Captcha
+        $response = Http::asForm()->post(
+            'https://www.google.com/recaptcha/api/siteverify',
+            [
+                'secret' => env('GOOGLE_RECAPTCHA_SECRET'),
+                'response' => $request->get('g-recaptcha-response'),
+                'remoteip' => request()->ip(),
+            ]
+        );
+
+        $captcha = $response->json();
+
+        if (!$captcha['success']) {
+
+            return redirect()
+                ->back()
+                ->withErrors([
+                    'g-recaptcha-response' => 'Captcha verification failed.'
+                ])
+                ->withInput();
+        }
+
+        try {
+
+            QuoteInquiry::create([
+
+                'name' => $request->name,
+
+                'email' => $request->email,
+
+                'mobile' => $request->mobile,
+
+                'message' => $request->message,
+
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('success', 'Your quote inquiry has been submitted successfully.');
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Something went wrong. Please try again later.');
+        }
     }
 
 }

@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\SalesEnquiry;
+use App\Models\QuoteInquiry;
 use Illuminate\Http\Request;
 
-class SalesEnquiryController extends Controller
+class QuoteEnquiryController extends Controller
 {
     public function index()
     {
-        $enquiries = SalesEnquiry::latest()->paginate(10);
+        $enquiries = QuoteInquiry::latest()->paginate(10);
 
-        return view('admin.sales_enquiries.index', compact('enquiries'));
+        return view('admin.quote_enquiries.index', compact('enquiries'));
     }
 
     public function destroy($id)
     {
-        $enquiry = SalesEnquiry::findOrFail($id);
+        $enquiry = QuoteInquiry::findOrFail($id);
         $enquiry->delete();
 
         return response()->json([
@@ -28,7 +28,7 @@ class SalesEnquiryController extends Controller
     // ✅ Bulk delete
     public function bulkDelete(Request $request)
     {
-        SalesEnquiry::whereIn('id', $request->ids)->delete();
+        QuoteInquiry::whereIn('id', $request->ids)->delete();
 
         return response()->json([
             'message' => 'Selected Enquiries Deleted'

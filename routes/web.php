@@ -30,7 +30,7 @@ use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileSettingController;
-use App\Http\Controllers\Admin\SalesEnquiryController;
+use App\Http\Controllers\Admin\QuoteEnquiryController;
 use App\Http\Controllers\Admin\SeoSettingController;
 use App\Http\Controllers\Admin\SocialSettingController;
 use App\Http\Controllers\Admin\TeamController;
@@ -56,11 +56,13 @@ Route::controller(FrontController::class)->group(function () {
     Route::get('/blog/{slug}', 'blogDetails')->name('blog.details');
     Route::get('/faq', 'faq')->name('faq');
     Route::get('hrb-plywood', 'hrbPlywood')->name('hrb-plywood');
+    Route::get('hi-style-plywood', 'hiStylePlywood')->name('hi-style-plywood');
     Route::get('our-brands', 'brands')->name('our-brands');
     Route::get('contact-us', 'contact')->name('contact-us');
     Route::post('/contact-enquiry', 'contactEnquiry')->name('contact.enquiry');
     Route::post('/hrb-enquiry', 'hrbEnquiry')->name('hrb.enquiry');
     Route::get('/page/{slug}', 'dynamicPage')->name('dynamic.page');
+    Route::post('/quote-inquiry', 'quoteInquiry')->name('quote.inquiry');
 
 });
 
@@ -236,9 +238,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('home-video-section/update', [HomeVideoSectionController::class, 'update'])->name('home-video-section.update');
 
 
-        Route::get('sales-enquiries', [SalesEnquiryController::class, 'index'])->name('sales_enquiries.index');
-        Route::delete('sales-enquiries/{id}', [SalesEnquiryController::class, 'destroy']);
-        Route::post('sales-enquiries/bulk-delete', [SalesEnquiryController::class, 'bulkDelete'])->name('sales_enquiries.bulkDelete');
+        Route::get('quote-enquiries', [QuoteEnquiryController::class, 'index'])->name('quote-enquiries.index');
+        Route::delete('quote-enquiries/{id}', [QuoteEnquiryController::class, 'destroy']);
+        Route::post('quote-enquiries/bulk-delete', [QuoteEnquiryController::class, 'bulkDelete'])->name('quote-enquiries.bulkDelete');
 
         Route::get('contact-enquiries', [ContactEnquiryController::class, 'index'])->name('contact-enquiries.index');
         Route::delete('contact-enquiries/{id}', [ContactEnquiryController::class, 'destroy']);

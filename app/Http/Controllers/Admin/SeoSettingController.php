@@ -16,6 +16,7 @@ class SeoSettingController extends Controller
             'Awards & Certifications',
             'Testimonial',
             'HRB Plywood',
+            'Hi Style Plywood',
             'Category Page',
             'Product Listing Page',
             'Contact Us',
@@ -53,10 +54,27 @@ class SeoSettingController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'meta_title' => 'nullable|max:255',
-            'meta_keywords' => 'nullable',
-            'meta_description' => 'nullable',
-            'schema_script' => 'nullable',
+
+            'meta_title' => 'nullable|string|max:255',
+
+            'meta_keywords' => 'nullable|string',
+
+            'meta_description' => 'nullable|string',
+
+            'schema_script' => 'nullable|string',
+
+        ], [
+
+            'meta_title.string' => 'Meta title must be a valid text.',
+
+            'meta_title.max' => 'Meta title may not be greater than 255 characters.',
+
+            'meta_keywords.string' => 'Meta keywords must be valid text.',
+
+            'meta_description.string' => 'Meta description must be valid text.',
+
+            'schema_script.string' => 'Schema script must be valid text.',
+
         ]);
 
         $seoSetting = SeoSetting::findOrFail($id);

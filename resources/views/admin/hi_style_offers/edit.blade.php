@@ -6,6 +6,41 @@
 
     <div class="app-content content container-fluid">
 
+        {{-- Breadcrumb --}}
+        <div class="breadcrumbs-top d-flex align-items-center justify-content-between bg-light px-3 py-2 mb-3 rounded">
+
+            <ol class="breadcrumb mb-0 bg-transparent p-0">
+
+                <li class="breadcrumb-item">
+
+                    <a href="{{ route('admin.dashboard') }}">
+
+                        Dashboard
+
+                    </a>
+
+                </li>
+
+                <li class="breadcrumb-item">
+
+                    <a href="{{ route('admin.hi-style-offers.index') }}">
+
+                        Offers
+
+                    </a>
+
+                </li>
+
+                <li class="breadcrumb-item active">
+
+                    Edit Offer
+
+                </li>
+
+            </ol>
+
+        </div>
+
         <div class="card shadow-sm">
 
             <div class="card-header">
@@ -13,6 +48,65 @@
             </div>
 
             <div class="card-body">
+
+                {{-- Success Message --}}
+                @if(session('success'))
+
+                    <div class="alert alert-success alert-dismissible fade show">
+
+                        {{ session('success') }}
+
+                        <button type="button"
+                            class="close"
+                            data-dismiss="alert">
+
+                            <span>&times;</span>
+
+                        </button>
+
+                    </div>
+
+                @endif
+
+                {{-- Error Message --}}
+                @if(session('error'))
+
+                    <div class="alert alert-danger alert-dismissible fade show">
+
+                        {{ session('error') }}
+
+                        <button type="button"
+                            class="close"
+                            data-dismiss="alert">
+
+                            <span>&times;</span>
+
+                        </button>
+
+                    </div>
+
+                @endif
+
+                {{-- Validation Errors --}}
+                @if ($errors->any())
+
+                    <div class="alert alert-danger">
+
+                        <strong>Please fix the following errors:</strong>
+
+                        <ul class="mb-0 mt-2">
+
+                            @foreach ($errors->all() as $error)
+
+                                <li>{{ $error }}</li>
+
+                            @endforeach
+
+                        </ul>
+
+                    </div>
+
+                @endif
 
                 <form method="POST"
                     enctype="multipart/form-data"
@@ -23,12 +117,25 @@
 
                     <div class="form-group">
 
-                        <label>Title</label>
+                        <label>
+                            Title <span class="text-danger">*</span>
+                        </label>
 
                         <input type="text"
                             name="title"
-                            class="form-control"
-                            value="{{ old('title', $offer->title) }}">
+                            class="form-control @error('title') is-invalid @enderror"
+                            value="{{ old('title', $offer->title) }}"
+                            placeholder="Enter title">
+
+                        @error('title')
+
+                            <small class="text-danger">
+
+                                {{ $message }}
+
+                            </small>
+
+                        @enderror
 
                     </div>
 
@@ -38,7 +145,18 @@
 
                         <textarea name="short_content"
                             rows="5"
-                            class="form-control">{{ old('short_content', $offer->short_content) }}</textarea>
+                            class="form-control @error('short_content') is-invalid @enderror"
+                            placeholder="Enter short content">{{ old('short_content', $offer->short_content) }}</textarea>
+
+                        @error('short_content')
+
+                            <small class="text-danger">
+
+                                {{ $message }}
+
+                            </small>
+
+                        @enderror
 
                     </div>
 
@@ -48,8 +166,19 @@
 
                         <input type="text"
                             name="icon"
-                            class="form-control"
-                            value="{{ old('icon', $offer->icon) }}">
+                            class="form-control @error('icon') is-invalid @enderror"
+                            value="{{ old('icon', $offer->icon) }}"
+                            placeholder="fa fa-home">
+
+                        @error('icon')
+
+                            <small class="text-danger">
+
+                                {{ $message }}
+
+                            </small>
+
+                        @enderror
 
                     </div>
 
@@ -59,14 +188,34 @@
 
                         <input type="file"
                             name="image"
-                            class="form-control">
+                            class="form-control @error('image') is-invalid @enderror">
+
+                        <small class="text-muted">
+
+                            Allowed: jpg, jpeg, png, webp | Max: 2MB
+
+                        </small>
+
+                        @error('image')
+
+                            <br>
+
+                            <small class="text-danger">
+
+                                {{ $message }}
+
+                            </small>
+
+                        @enderror
 
                         @if($offer->image)
 
                             <div class="mt-3">
 
                                 <img src="{{ asset('storage/'.$offer->image) }}"
-                                    width="100">
+                                    alt="Offer Image"
+                                    width="120"
+                                    class="img-thumbnail">
 
                             </div>
 
@@ -82,7 +231,7 @@
                                 name="status"
                                 id="status"
                                 class="custom-control-input"
-                                {{ $offer->status ? 'checked' : '' }}>
+                                {{ old('status', $offer->status) ? 'checked' : '' }}>
 
                             <label class="custom-control-label"
                                 for="status">

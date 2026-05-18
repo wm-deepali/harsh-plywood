@@ -97,11 +97,11 @@
                     </a>
                 </li>
 
-                <li class="{{ request()->routeIs('admin.hi-style.*') ? 'active' : '' }}">
+             <!--   <li class="{{ request()->routeIs('admin.hi-style.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.hi-style.index') }}">
                         Hi-Style Page
                     </a>
-                </li>
+                </li> -->
                 <li class="{{ request()->routeIs('admin.awards.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.awards.index') }}">
                         Awards & Certifications
@@ -170,11 +170,11 @@
             </ul>
         </li>
 
-        <li class="{{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+      <!--  <li class="{{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
             <a href="{{ route('admin.pages.index') }}">
                 <i class="fa-solid fa-file"></i> Pages
             </a>
-        </li>
+        </li> -->
 
         <li class="{{ request()->routeIs('admin.galleries.*', 'admin.gallery-categories.*') ? 'active' : '' }}">
 
@@ -279,11 +279,10 @@
             </a>
 
             <ul>
+<li class="{{ request()->routeIs('admin.quote-enquiries.*') ? 'active' : '' }}">
 
-                <li class="{{ request()->routeIs('admin.sales_enquiries.*') ? 'active' : '' }}">
-
-                    <a href="{{ route('admin.sales_enquiries.index') }}">
-                        Sales Enquiry
+                    <a href="{{ route('admin.quote-enquiries.index') }}">
+                        Quote Enquiry
                     </a>
 
                 </li>

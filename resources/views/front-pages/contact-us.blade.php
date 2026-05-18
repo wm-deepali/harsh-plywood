@@ -40,12 +40,12 @@
     <section class="contact-page-section">
         <div class="container">
             <!-- <div class="row mb-5">
-                            <div class="col text-center">
-                                <span class="section-subtitle">Contact Us</span>
-                                <h2 class="section-title">Multiple locations, one quick way to reach us</h2>
-                                <p class="section-desc">Choose the nearest Harsh Plywood address and view the map, or send us a quick enquiry using the form below.</p>
-                            </div>
-                        </div> -->
+                                <div class="col text-center">
+                                    <span class="section-subtitle">Contact Us</span>
+                                    <h2 class="section-title">Multiple locations, one quick way to reach us</h2>
+                                    <p class="section-desc">Choose the nearest Harsh Plywood address and view the map, or send us a quick enquiry using the form below.</p>
+                                </div>
+                            </div> -->
 
             <div class="row gy-4">
 
@@ -131,48 +131,42 @@
             <div class="row mt-5">
                 <div class="col-lg-8 mx-auto">
                     <div class="enquiry-form p-4 p-lg-5 bg-white rounded-4 shadow-sm">
-@if(session('success'))
+                        @if(session('success'))
 
-    <div class="alert alert-success alert-dismissible fade show">
+                            <div class="alert alert-success alert-dismissible fade show">
 
-        {{ session('success') }}
+                                {{ session('success') }}
 
-        <button type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 
-    </div>
+                            </div>
 
-@endif
+                        @endif
 
-@if ($errors->any())
+                        @if ($errors->any())
 
-    <div class="alert alert-danger alert-dismissible fade show">
+                            <div class="alert alert-danger alert-dismissible fade show">
 
-        <ul class="mb-0">
+                                <ul class="mb-0">
 
-            @foreach ($errors->all() as $error)
+                                    @foreach ($errors->all() as $error)
 
-                <li>{{ $error }}</li>
+                                        <li>{{ $error }}</li>
 
-            @endforeach
+                                    @endforeach
 
-        </ul>
+                                </ul>
 
-        <button type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 
-    </div>
+                            </div>
 
-@endif
+                        @endif
                         <h3 class="mb-3">Quick Enquiry</h3>
                         <p class="mb-4">Send your details below and our team will contact you with a quote and next
                             steps.</p>
-                            
-                        <form id="contactForm"
-      method="POST"
-      action="{{ route('contact.enquiry') }}">
+
+                        <form id="contactForm" method="POST" action="{{ route('contact.enquiry') }}">
 
                             @csrf
 
@@ -181,12 +175,16 @@
                                 <div class="col-md-6">
 
                                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                                        placeholder="Your Name" value="{{ old('name') }}">
+                                        placeholder="Your Name *" value="{{ old('name') }}">
 
                                     @error('name')
+
                                         <div class="invalid-feedback">
+
                                             {{ $message }}
+
                                         </div>
+
                                     @enderror
 
                                 </div>
@@ -194,26 +192,35 @@
                                 <div class="col-md-6">
 
                                     <input type="email" name="email"
-                                        class="form-control @error('email') is-invalid @enderror" placeholder="Your Email"
+                                        class="form-control @error('email') is-invalid @enderror" placeholder="Your Email *"
                                         value="{{ old('email') }}">
 
                                     @error('email')
+
                                         <div class="invalid-feedback">
+
                                             {{ $message }}
+
                                         </div>
+
                                     @enderror
 
                                 </div>
 
                                 <div class="col-md-6">
 
-                                    <input type="tel" name="phone" class="form-control @error('phone') is-invalid @enderror"
-                                        placeholder="Phone Number" value="{{ old('phone') }}">
+                                    <input type="text" name="phone"
+                                        class="form-control @error('phone') is-invalid @enderror"
+                                        placeholder="Phone Number *" value="{{ old('phone') }}">
 
                                     @error('phone')
+
                                         <div class="invalid-feedback">
+
                                             {{ $message }}
+
                                         </div>
+
                                     @enderror
 
                                 </div>
@@ -221,26 +228,54 @@
                                 <div class="col-md-6">
 
                                     <input type="text" name="subject"
-                                        class="form-control @error('subject') is-invalid @enderror" placeholder="Subject"
+                                        class="form-control @error('subject') is-invalid @enderror" placeholder="Subject *"
                                         value="{{ old('subject') }}">
 
                                     @error('subject')
+
                                         <div class="invalid-feedback">
+
                                             {{ $message }}
+
                                         </div>
+
                                     @enderror
 
                                 </div>
 
                                 <div class="col-12">
 
-                                    <textarea name="message" class="form-control @error('message') is-invalid @enderror"
-                                        rows="5" placeholder="Message">{{ old('message') }}</textarea>
+                                    <textarea name="message" rows="5"
+                                        class="form-control @error('message') is-invalid @enderror"
+                                        placeholder="Message *">{{ old('message') }}</textarea>
 
                                     @error('message')
+
                                         <div class="invalid-feedback">
+
                                             {{ $message }}
+
                                         </div>
+
+                                    @enderror
+
+                                </div>
+
+                                {{-- Google Captcha --}}
+                                <div class="col-12">
+
+                                    <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}">
+
+                                    </div>
+
+                                    @error('g-recaptcha-response')
+
+                                        <small class="text-danger d-block mt-2">
+
+                                            {{ $message }}
+
+                                        </small>
+
                                     @enderror
 
                                 </div>
@@ -264,28 +299,29 @@
         </div>
     </section>
 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     @if ($errors->any() || session('success'))
 
-<script>
+        <script>
 
-    window.addEventListener('load', function () {
+            window.addEventListener('load', function () {
 
-        const formSection =
-            document.getElementById('contactForm');
+                const formSection =
+                    document.getElementById('contactForm');
 
-        if(formSection){
+                if (formSection) {
 
-            formSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
+                    formSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+
+                }
+
             });
 
-        }
+        </script>
 
-    });
-
-</script>
-
-@endif
+    @endif
 
 @endsection

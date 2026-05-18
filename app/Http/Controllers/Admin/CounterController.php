@@ -38,26 +38,39 @@ class CounterController extends Controller
 
         ]);
 
-        Counter::create([
+        try {
 
-            'title' => $request->title,
+            Counter::create([
 
-            'counter_value' => $request->counter_value,
+                'title' => $request->title,
 
-            'counter_suffix' => $request->counter_suffix,
+                'counter_value' => $request->counter_value,
 
-            'icon' => $request->icon,
+                'counter_suffix' => $request->counter_suffix,
 
-            'status' => $request->has('status') ? 1 : 0
+                'icon' => $request->icon,
 
-        ]);
+                'status' => $request->has('status') ? 1 : 0
 
-        return redirect()
-            ->route('admin.counters.index')
-            ->with(
-                'success',
-                'Counter Added Successfully'
-            );
+            ]);
+
+            return redirect()
+                ->route('admin.counters.index')
+                ->with(
+                    'success',
+                    'Counter Added Successfully'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong. Please try again later.'
+                );
+        }
     }
 
     public function edit($id)
@@ -84,40 +97,68 @@ class CounterController extends Controller
 
         ]);
 
-        $counter = Counter::findOrFail($id);
+        try {
 
-        $counter->update([
+            $counter = Counter::findOrFail($id);
 
-            'title' => $request->title,
+            $counter->update([
 
-            'counter_value' => $request->counter_value,
+                'title' => $request->title,
 
-            'counter_suffix' => $request->counter_suffix,
+                'counter_value' => $request->counter_value,
 
-            'icon' => $request->icon,
+                'counter_suffix' => $request->counter_suffix,
 
-            'status' => $request->has('status') ? 1 : 0
+                'icon' => $request->icon,
 
-        ]);
+                'status' => $request->has('status') ? 1 : 0
 
-        return redirect()
-            ->route('admin.counters.index')
-            ->with(
-                'success',
-                'Counter Updated Successfully'
-            );
+            ]);
+
+            return redirect()
+                ->route('admin.counters.index')
+                ->with(
+                    'success',
+                    'Counter Updated Successfully'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong. Please try again later.'
+                );
+        }
     }
 
     public function destroy($id)
     {
-        $counter = Counter::findOrFail($id);
+        try {
 
-        $counter->delete();
+            $counter = Counter::findOrFail($id);
 
-        return response()->json([
+            $counter->delete();
 
-            'message' => 'Deleted Successfully'
+            return response()->json([
 
-        ]);
+                'status' => true,
+
+                'message' => 'Deleted Successfully'
+
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'Something went wrong.'
+
+            ], 500);
+        }
     }
 }

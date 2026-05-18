@@ -12,10 +12,13 @@
 
 
         <section class="ultra-hero">
-        
+            <div class="ultra-hero-img" style="background-image:url('{{ $hrb && $hrb->hero_image
+        ? asset('storage/' . $hrb->hero_image)
+        : asset('images/p1.jpg') }}')">
+            </div>
             <div class="ultra-hero-overlay"></div>
             <div class="container ultra-hero-content">
-                <div class="row align-items-end">
+                <div class="row">
                     <div class="col-lg-7" data-aos="fade-right" data-aos-duration="1500">
                         <div class="ultra-badge"><i
                                 class="fa-solid fa-crown me-2"></i>{{ $hrb->hero_sub_heading ?? 'Premium Sister Concern' }}
@@ -24,7 +27,7 @@
                         <p class="ultra-desc">
                             {{ $hrb->hero_description ?? 'Discover the ultimate collection of high-grade plywood, architectural hardware, and designer laminates engineered for perfection and endurance.' }}
                         </p>
-<div class="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start">
+                        <div class="d-flex flex-wrap gap-3">
                             <a href="{{ $hrb->hero_button_link ?? '#ultra-products' }}"
                                 class="ultra-btn text-decoration-none">
 
@@ -32,28 +35,13 @@
 
                             </a>
 
-                             <a href="{{ $hrb->hero_button_2_link ?? '#ultra-products' }}" class="ultra-btn-outline text-decoration-none">
+                            <a href="{{ $hrb->hero_button_2_link ?? '#ultra-products' }}" class="ultra-btn-outline text-decoration-none">
 
-                               {{ $hrb->hero_button_2_text ?? "Request Quote" }} 
+                                {{ $hrb->hero_button_2_text ?? 'Request Quote' }}
 
                             </a>'
                         </div>
                     </div>
-                    
-                    
-                     <div class="col-lg-5" data-aos="fade-right" data-aos-duration="1500">
-                         
-                         <div class="hrb_heroimg">
-    <div class="ultra-hero-img">
-        <img 
-            src="{{ $hrb && $hrb->hero_image 
-                ? asset('storage/' . $hrb->hero_image) 
-                : asset('images/p1.jpg') }}" 
-            alt="Hero Image"
-        >
-    </div>
-</div>
-                </div>
                 </div>
             </div>
         </section>
@@ -63,7 +51,7 @@
         <!-- ============================================== -->
 
 
-        <section class="md:py-5 bg-light md:mt-5" id="ultra-about">
+        <section class="py-5 bg-light mt-5" id="ultra-about">
             <div class="container py-5">
                 <div class="row gy-5 align-items-center">
                     <div class="col-lg-6" data-aos="zoom-out-right">
@@ -140,7 +128,7 @@
         <!-- ULTRA CREATIVE PRODUCTS SECTION -->
         <!-- ============================================== -->
 
-        <section class="md:py-5" id="ultra-products">
+        <section class="py-5" id="ultra-products">
             <div class="container py-5">
                 <div class="text-center mb-5" data-aos="fade-up">
                     <h6 class="hrb-text-accent fw-bold text-uppercase tracking-wide mb-2" style="letter-spacing: 2px;">
@@ -212,7 +200,7 @@
         <!-- ============================================== -->
         <!-- WHY CHOOSE US SECTION -->
         <!-- ============================================== -->
-        <section class="md:py-5" id="why-choose-us" style="background-color: var(--wood-bg);">
+        <section class="py-5" id="why-choose-us" style="background-color: var(--wood-bg);">
             <div class="container py-5">
                 <div class="text-center mb-5" data-aos="fade-up">
                     <h6 class="fw-bold text-uppercase tracking-wide mb-2 hrb-text-accent" style="letter-spacing: 2px;">
@@ -342,7 +330,7 @@
 
 
 
-        <section class="client-logo-section md:py-5">
+        <section class="client-logo-section py-5">
 
             <div class="container-fluid px-lg-5">
 
@@ -473,180 +461,167 @@
                                     </div>
 
                                 @endif
-                                 <form id="hrbContactForm"
-    method="POST"
-    action="{{ route('hrb.enquiry') }}">
+                                <form id="hrbContactForm" method="POST" action="{{ route('hrb.enquiry') }}">
 
-    @csrf
+                                    @csrf
 
-    <div class="row gy-4">
+                                    <div class="row gy-4">
 
-        <div class="col-md-6">
+                                        <div class="col-md-6">
 
-            <label class="ultra-label">
+                                            <label class="ultra-label">
 
-                Name <span class="text-danger">*</span>
+                                                Name <span class="text-danger">*</span>
 
-            </label>
+                                            </label>
 
-            <input type="text"
-                name="name"
-                class="form-control ultra-input @error('name') is-invalid @enderror"
-                placeholder="Enter your full name"
-                value="{{ old('name') }}">
+                                            <input type="text" name="name"
+                                                class="form-control ultra-input @error('name') is-invalid @enderror"
+                                                placeholder="Enter your full name" value="{{ old('name') }}">
 
-            @error('name')
+                                            @error('name')
 
-                <div class="invalid-feedback">
+                                                <div class="invalid-feedback">
 
-                    {{ $message }}
+                                                    {{ $message }}
 
-                </div>
+                                                </div>
 
-            @enderror
+                                            @enderror
 
-        </div>
+                                        </div>
 
-        <div class="col-md-6">
+                                        <div class="col-md-6">
 
-            <label class="ultra-label">
+                                            <label class="ultra-label">
 
-                Email Address <span class="text-danger">*</span>
+                                                Email Address <span class="text-danger">*</span>
 
-            </label>
+                                            </label>
 
-            <input type="email"
-                name="email"
-                class="form-control ultra-input @error('email') is-invalid @enderror"
-                placeholder="Enter your email"
-                value="{{ old('email') }}">
+                                            <input type="email" name="email"
+                                                class="form-control ultra-input @error('email') is-invalid @enderror"
+                                                placeholder="Enter your email" value="{{ old('email') }}">
 
-            @error('email')
+                                            @error('email')
 
-                <div class="invalid-feedback">
+                                                <div class="invalid-feedback">
 
-                    {{ $message }}
+                                                    {{ $message }}
 
-                </div>
+                                                </div>
 
-            @enderror
+                                            @enderror
 
-        </div>
+                                        </div>
 
-        <div class="col-md-6">
+                                        <div class="col-md-6">
 
-            <label class="ultra-label">
+                                            <label class="ultra-label">
 
-                Phone Number <span class="text-danger">*</span>
+                                                Phone Number <span class="text-danger">*</span>
 
-            </label>
+                                            </label>
 
-            <input type="text"
-                name="phone"
-                class="form-control ultra-input @error('phone') is-invalid @enderror"
-                placeholder="Enter phone number"
-                value="{{ old('phone') }}">
+                                            <input type="text" name="phone"
+                                                class="form-control ultra-input @error('phone') is-invalid @enderror"
+                                                placeholder="Enter phone number" value="{{ old('phone') }}">
 
-            @error('phone')
+                                            @error('phone')
 
-                <div class="invalid-feedback">
+                                                <div class="invalid-feedback">
 
-                    {{ $message }}
+                                                    {{ $message }}
 
-                </div>
+                                                </div>
 
-            @enderror
+                                            @enderror
 
-        </div>
+                                        </div>
 
-        <div class="col-md-6">
+                                        <div class="col-md-6">
 
-            <label class="ultra-label">
+                                            <label class="ultra-label">
 
-                Subject <span class="text-danger">*</span>
+                                                Subject <span class="text-danger">*</span>
 
-            </label>
+                                            </label>
 
-            <input type="text"
-                name="subject"
-                class="form-control ultra-input @error('subject') is-invalid @enderror"
-                placeholder="Enter subject"
-                value="{{ old('subject') }}">
+                                            <input type="text" name="subject"
+                                                class="form-control ultra-input @error('subject') is-invalid @enderror"
+                                                placeholder="Enter subject" value="{{ old('subject') }}">
 
-            @error('subject')
+                                            @error('subject')
 
-                <div class="invalid-feedback">
+                                                <div class="invalid-feedback">
 
-                    {{ $message }}
+                                                    {{ $message }}
 
-                </div>
+                                                </div>
 
-            @enderror
+                                            @enderror
 
-        </div>
+                                        </div>
 
-        <div class="col-12">
+                                        <div class="col-12">
 
-            <label class="ultra-label">
+                                            <label class="ultra-label">
 
-                Your Requirement <span class="text-danger">*</span>
+                                                Your Requirement <span class="text-danger">*</span>
 
-            </label>
+                                            </label>
 
-            <textarea name="message"
-                rows="4"
-                class="form-control ultra-input @error('message') is-invalid @enderror"
-                placeholder="Tell us about your project or requirement">{{ old('message') }}</textarea>
+                                            <textarea name="message" rows="4"
+                                                class="form-control ultra-input @error('message') is-invalid @enderror"
+                                                placeholder="Tell us about your project or requirement">{{ old('message') }}</textarea>
 
-            @error('message')
+                                            @error('message')
 
-                <div class="invalid-feedback">
+                                                <div class="invalid-feedback">
 
-                    {{ $message }}
+                                                    {{ $message }}
 
-                </div>
+                                                </div>
 
-            @enderror
+                                            @enderror
 
-        </div>
+                                        </div>
 
-        {{-- Google Captcha --}}
-        <div class="col-12">
+                                        {{-- Google Captcha --}}
+                                        <div class="col-12">
 
-            <div class="g-recaptcha"
-                data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}">
+                                            <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}">
 
-            </div>
+                                            </div>
 
-            @error('g-recaptcha-response')
+                                            @error('g-recaptcha-response')
 
-                <small class="text-danger d-block mt-2">
+                                                <small class="text-danger d-block mt-2">
 
-                    {{ $message }}
+                                                    {{ $message }}
 
-                </small>
+                                                </small>
 
-            @enderror
+                                            @enderror
 
-        </div>
+                                        </div>
 
-        <div class="col-12 mt-4">
+                                        <div class="col-12 mt-4">
 
-            <button type="submit"
-                class="ultra-btn border-0 w-100 py-3 text-white"
-                style="background: var(--wood-primary);">
+                                            <button type="submit" class="ultra-btn border-0 w-100 py-3 text-white"
+                                                style="background: var(--wood-primary);">
 
-                Submit Enquiry
+                                                Submit Enquiry
 
-                <i class="fa-solid fa-arrow-right ms-2"></i>
+                                                <i class="fa-solid fa-arrow-right ms-2"></i>
 
-            </button>
+                                            </button>
 
-        </div>
+                                        </div>
 
-    </div>
+                                    </div>
 
-</form>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -662,7 +637,7 @@
 
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script>
         AOS.init({
             duration: 1000,

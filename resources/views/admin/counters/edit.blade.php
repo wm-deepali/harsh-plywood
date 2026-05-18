@@ -44,6 +44,57 @@
 
         </div>
 
+        {{-- Alerts --}}
+        @if(session('success'))
+
+            <div class="alert alert-success alert-dismissible fade show">
+
+                {{ session('success') }}
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+            </div>
+
+        @endif
+
+        @if(session('error'))
+
+            <div class="alert alert-danger alert-dismissible fade show">
+
+                {{ session('error') }}
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+            </div>
+
+        @endif
+
+        @if ($errors->any())
+
+            <div class="alert alert-danger alert-dismissible fade show">
+
+                <ul class="mb-0">
+
+                    @foreach ($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                    @endforeach
+
+                </ul>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+            </div>
+
+        @endif
+
         <div class="content-wrapper pb-4">
 
             <form action="{{ route('admin.counters.update', $counter->id) }}"
@@ -76,9 +127,19 @@
 
                                 <input type="text"
                                        name="title"
-                                       class="form-control"
+                                       class="form-control @error('title') is-invalid @enderror"
                                        value="{{ old('title', $counter->title) }}"
                                        required>
+
+                                @error('title')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -90,9 +151,19 @@
 
                                 <input type="text"
                                        name="counter_value"
-                                       class="form-control"
+                                       class="form-control @error('counter_value') is-invalid @enderror"
                                        value="{{ old('counter_value', $counter->counter_value) }}"
                                        required>
+
+                                @error('counter_value')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -108,8 +179,19 @@
 
                                 <input type="text"
                                        name="counter_suffix"
-                                       class="form-control"
-                                       value="{{ old('counter_suffix', $counter->counter_suffix) }}">
+                                       class="form-control @error('counter_suffix') is-invalid @enderror"
+                                       value="{{ old('counter_suffix', $counter->counter_suffix) }}"
+                                       placeholder="+ / K / %">
+
+                                @error('counter_suffix')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -121,8 +203,19 @@
 
                                 <input type="text"
                                        name="icon"
-                                       class="form-control"
-                                       value="{{ old('icon', $counter->icon) }}">
+                                       class="form-control @error('icon') is-invalid @enderror"
+                                       value="{{ old('icon', $counter->icon) }}"
+                                       placeholder="fa-regular fa-face-smile">
+
+                                @error('icon')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -134,7 +227,7 @@
 
                                 <input type="checkbox"
                                        name="status"
-                                       {{ $counter->status ? 'checked' : '' }}>
+                                       {{ old('status', $counter->status) ? 'checked' : '' }}>
 
                                 Active
 

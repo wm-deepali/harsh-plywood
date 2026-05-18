@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Storage;
 
 class HiStyleOfferController extends Controller
 {
+    /**
+     * Display all offers
+     */
     public function index()
     {
         $offers = HiStyleOffer::latest()->paginate(10);
@@ -16,126 +19,207 @@ class HiStyleOfferController extends Controller
         return view('admin.hi_style_offers.index', compact('offers'));
     }
 
+    /**
+     * Show create form
+     */
     public function create()
     {
         return view('admin.hi_style_offers.create');
     }
 
+    /**
+     * Store new offer
+     */
     public function store(Request $request)
     {
         $request->validate([
 
-            'title' => 'required|max:255',
+            'title' => 'required|string|max:255',
 
-            'short_content' => 'nullable',
+            'short_content' => 'nullable|string',
 
-            'icon' => 'nullable|max:255',
+            'icon' => 'nullable|string|max:255',
 
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
 
-        ]);
+        ], [
 
-        $image = null;
+            'title.required' => 'Title field is required.',
 
-        if($request->hasFile('image')) {
+            'title.max' => 'Title may not exceed 255 characters.',
 
-            $image = $request->file('image')
-                ->store('hi_style_offers', 'public');
+            'image.image' => 'Please upload a valid image file.',
 
-        }
+            'image.mimes' => 'Image must be jpg, jpeg, png or webp format.',
 
-        HiStyleOffer::create([
-
-            'title' => $request->title,
-
-            'short_content' => $request->short_content,
-
-            'icon' => $request->icon,
-
-            'image' => $image,
-
-            'status' => $request->status ? 1 : 0
+            'image.max' => 'Image size must not exceed 2MB.',
 
         ]);
 
-        return redirect()
-            ->route('admin.hi_style_offers.index')
-            ->with('success', 'Offer Added Successfully');
-    }
+        try {
 
-    public function edit($id)
-    {
-        $offer = HiStyleOffer::findOrFail($id);
+            $image = null;
 
-        return view('admin.hi_style_offers.edit', compact('offer'));
-    }
+            if ($request->hasFile('image')) {
 
-    public function update(Request $request, $id)
-    {
-        $offer = HiStyleOffer::findOrFail($id);
-
-        $request->validate([
-
-            'title' => 'required|max:255',
-
-            'short_content' => 'nullable',
-
-            'icon' => 'nullable|max:255',
-
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
-
-        ]);
-
-        $image = $offer->image;
-
-        if($request->hasFile('image')) {
-
-            if($offer->image) {
-
-                Storage::disk('public')
-                    ->delete($offer->image);
-
+                $image = $request->file('image')
+                    ->store('hi_style_offers', 'public');
             }
 
-            $image = $request->file('image')
-                ->store('hi_style_offers', 'public');
+            HiStyleOffer::create([
 
+                'title' => $request->title,
+
+                'short_content' => $request->short_content,
+
+                'icon' => $request->icon,
+
+                'image' => $image,
+
+                'status' => $request->status ? 1 : 0
+
+            ]);
+
+            return redirect()
+                ->route('admin.hi-style-offers.index')
+                ->with('success', 'Offer Added Successfully');
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Something went wrong while adding the offer.');
         }
-
-        $offer->update([
-
-            'title' => $request->title,
-
-            'short_content' => $request->short_content,
-
-            'icon' => $request->icon,
-
-            'image' => $image,
-
-            'status' => $request->status ? 1 : 0
-
-        ]);
-
-        return redirect()
-            ->route('admin.hi_style_offers.index')
-            ->with('success', 'Offer Updated Successfully');
     }
 
+    /**
+     * Show edit form
+     */
+    public function edit($id)
+    {
+        try {
+
+            $offer = HiStyleOffer::findOrFail($id);
+
+            return view('admin.hi_style_offers.edit', compact('offer'));
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->route('admin.hi-style-offers.index')
+                ->with('error', 'Offer not found.');
+        }
+    }
+
+    /**
+     * Update existing offer
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+
+            $offer = HiStyleOffer::findOrFail($id);
+
+            $request->validate([
+
+                'title' => 'required|string|max:255',
+
+                'short_content' => 'nullable|string',
+
+                'icon' => 'nullable|string|max:255',
+
+                'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+            ], [
+
+                'title.required' => 'Title field is required.',
+
+                'title.max' => 'Title may not exceed 255 characters.',
+
+                'image.image' => 'Please upload a valid image file.',
+
+                'image.mimes' => 'Image must be jpg, jpeg, png or webp format.',
+
+                'image.max' => 'Image size must not exceed 2MB.',
+
+            ]);
+
+            $image = $offer->image;
+
+            if ($request->hasFile('image')) {
+
+                // Delete old image
+                if ($offer->image && Storage::disk('public')->exists($offer->image)) {
+
+                    Storage::disk('public')->delete($offer->image);
+                }
+
+                // Upload new image
+                $image = $request->file('image')
+                    ->store('hi_style_offers', 'public');
+            }
+
+            $offer->update([
+
+                'title' => $request->title,
+
+                'short_content' => $request->short_content,
+
+                'icon' => $request->icon,
+
+                'image' => $image,
+
+                'status' => $request->status ? 1 : 0
+
+            ]);
+
+            return redirect()
+                ->route('admin.hi-style-offers.index')
+                ->with('success', 'Offer Updated Successfully');
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Something went wrong while updating the offer.');
+        }
+    }
+
+    /**
+     * Delete offer
+     */
     public function destroy($id)
     {
-        $offer = HiStyleOffer::findOrFail($id);
+        try {
 
-        if($offer->image) {
+            $offer = HiStyleOffer::findOrFail($id);
 
-            Storage::disk('public')
-                ->delete($offer->image);
+            // Delete image
+            if ($offer->image && Storage::disk('public')->exists($offer->image)) {
 
+                Storage::disk('public')->delete($offer->image);
+            }
+
+            $offer->delete();
+
+            return response()->json([
+
+                'status' => true,
+
+                'message' => 'Offer Deleted Successfully'
+
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'Something went wrong while deleting.'
+
+            ], 500);
         }
-
-        $offer->delete();
-
-        return response()->json([
-            'message' => 'Deleted Successfully'
-        ]);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\HeaderFooterSetting;
 use App\Models\SocialSetting;
 use Illuminate\Support\Facades\View;
 use App\Models\ProductCategory;
+use App\Models\Page;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
             $socialSetting
         );
 
-         View::share(
+        View::share(
 
             'headerCategories',
 
@@ -46,6 +47,19 @@ class AppServiceProvider extends ServiceProvider
                 ->get()
 
         );
+
+        View::composer('*', function ($view) {
+
+            $view->with(
+                'dynamicPages',
+
+                Page::where('status', 1)
+                    ->latest()
+                    ->get()
+
+            );
+
+        });
     }
-    
+
 }

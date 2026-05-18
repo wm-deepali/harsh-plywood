@@ -38,69 +38,120 @@ class HrbController extends Controller
     {
         $request->validate([
 
-            'hero_heading' => 'nullable|max:255',
+            'hero_sub_heading' => 'nullable|string|max:255',
 
-            'hero_sub_heading' => 'nullable|max:255',
+            'hero_heading' => 'nullable|string|max:255',
 
-            'hero_description' => 'nullable',
+            'hero_description' => 'nullable|string',
 
-            'hero_button_text' => 'nullable|max:255',
+            'hero_button_text' => 'nullable|string|max:255',
 
-            'hero_button_link' => 'nullable|max:255',
+            'hero_button_link' => 'nullable|string|max:255',
+
+            'hero_button_2_text' => 'nullable|string|max:255',
+
+            'hero_button_2_link' => 'nullable|string|max:255',
 
             'hero_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
 
+        ], [
+
+            'hero_sub_heading.max' => 'Sub title may not be greater than 255 characters.',
+
+            'hero_heading.max' => 'Heading may not be greater than 255 characters.',
+
+            'hero_button_text.max' => 'Button 1 text may not be greater than 255 characters.',
+
+            'hero_button_link.max' => 'Button 1 link may not be greater than 255 characters.',
+
+            'hero_button_2_text.max' => 'Button 2 text may not be greater than 255 characters.',
+
+            'hero_button_2_link.max' => 'Button 2 link may not be greater than 255 characters.',
+
+            'hero_image.image' => 'Hero image must be an image.',
+
+            'hero_image.mimes' => 'Hero image must be JPG, JPEG, PNG or WEBP.',
+
+            'hero_image.max' => 'Hero image size must be less than 2MB.',
+
         ]);
 
-        $hrb = HrbPage::first();
+        try {
 
-        if (!$hrb) {
+            $hrb = HrbPage::first();
 
-            $hrb = new HrbPage();
+            if (!$hrb) {
 
-        }
-
-        $heroImage = $hrb->hero_image;
-
-        if ($request->hasFile('hero_image')) {
-
-            if ($hrb->hero_image) {
-
-                Storage::disk('public')
-                    ->delete($hrb->hero_image);
+                $hrb = new HrbPage();
 
             }
 
-            $heroImage = $request->file('hero_image')
-                ->store('hrb', 'public');
+            $heroImage = $hrb->hero_image;
+
+            // IMAGE UPLOAD
+            if ($request->hasFile('hero_image')) {
+
+                // DELETE OLD IMAGE
+                if (
+                    !empty($hrb->hero_image) &&
+                    Storage::disk('public')->exists($hrb->hero_image)
+                ) {
+
+                    Storage::disk('public')->delete($hrb->hero_image);
+
+                }
+
+                $heroImage = $request->file('hero_image')
+                    ->store('hrb', 'public');
+
+            }
+
+            HrbPage::updateOrCreate(
+
+                ['id' => $hrb->id ?? null],
+
+                [
+
+                    'hero_sub_heading' => $request->hero_sub_heading,
+
+                    'hero_heading' => $request->hero_heading,
+
+                    'hero_description' => $request->hero_description,
+
+                    // BUTTON 1
+                    'hero_button_text' => $request->hero_button_text,
+
+                    'hero_button_link' => $request->hero_button_link,
+
+                    // BUTTON 2
+                    'hero_button_2_text' => $request->hero_button_2_text,
+
+                    'hero_button_2_link' => $request->hero_button_2_link,
+
+                    'hero_image' => $heroImage
+
+                ]
+
+            );
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Hero Section Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
 
         }
-
-        HrbPage::updateOrCreate(
-
-            ['id' => $hrb->id ?? null],
-
-            [
-
-                'hero_heading' => $request->hero_heading,
-
-                'hero_sub_heading' => $request->hero_sub_heading,
-
-                'hero_description' => $request->hero_description,
-
-                'hero_button_text' => $request->hero_button_text,
-
-                'hero_button_link' => $request->hero_button_link,
-
-                'hero_image' => $heroImage
-
-            ]
-
-        );
-
-        return redirect()
-            ->back()
-            ->with('success', 'Hero Section Updated Successfully');
     }
 
     /*
@@ -108,7 +159,6 @@ class HrbController extends Controller
     | INTRO SECTION
     |--------------------------------------------------------------------------
     */
-
 
     public function introEdit()
     {
@@ -126,80 +176,126 @@ class HrbController extends Controller
     {
         $request->validate([
 
-            'intro_sub_title' => 'nullable|max:255',
+            'intro_sub_title' => 'nullable|string|max:255',
 
-            'intro_heading' => 'nullable|max:255',
+            'intro_heading' => 'nullable|string|max:255',
 
-            'intro_content' => 'nullable',
+            'intro_content' => 'nullable|string',
 
             'intro_image_1' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
 
             'intro_image_2' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
 
+        ], [
+
+            'intro_sub_title.max' => 'Sub title may not be greater than 255 characters.',
+
+            'intro_heading.max' => 'Heading may not be greater than 255 characters.',
+
+            'intro_image_1.image' => 'Image 1 must be an image.',
+
+            'intro_image_1.mimes' => 'Image 1 must be JPG, JPEG, PNG or WEBP.',
+
+            'intro_image_1.max' => 'Image 1 size must be less than 2MB.',
+
+            'intro_image_2.image' => 'Image 2 must be an image.',
+
+            'intro_image_2.mimes' => 'Image 2 must be JPG, JPEG, PNG or WEBP.',
+
+            'intro_image_2.max' => 'Image 2 size must be less than 2MB.',
+
         ]);
 
-        $hrb = HrbPage::first();
+        try {
 
-        if (!$hrb) {
+            $hrb = HrbPage::first();
 
-            $hrb = new HrbPage();
+            if (!$hrb) {
 
-        }
-
-        $image1 = $hrb->intro_image_1;
-        $image2 = $hrb->intro_image_2;
-
-        if ($request->hasFile('intro_image_1')) {
-
-            if ($hrb->intro_image_1) {
-
-                Storage::disk('public')
-                    ->delete($hrb->intro_image_1);
+                $hrb = new HrbPage();
 
             }
 
-            $image1 = $request->file('intro_image_1')
-                ->store('hrb', 'public');
+            $image1 = $hrb->intro_image_1;
 
-        }
+            $image2 = $hrb->intro_image_2;
 
-        if ($request->hasFile('intro_image_2')) {
+            // IMAGE 1
+            if ($request->hasFile('intro_image_1')) {
 
-            if ($hrb->intro_image_2) {
+                // DELETE OLD IMAGE
+                if (
+                    !empty($hrb->intro_image_1) &&
+                    Storage::disk('public')->exists($hrb->intro_image_1)
+                ) {
 
-                Storage::disk('public')
-                    ->delete($hrb->intro_image_2);
+                    Storage::disk('public')
+                        ->delete($hrb->intro_image_1);
+
+                }
+
+                $image1 = $request->file('intro_image_1')
+                    ->store('hrb', 'public');
 
             }
 
-            $image2 = $request->file('intro_image_2')
-                ->store('hrb', 'public');
+            // IMAGE 2
+            if ($request->hasFile('intro_image_2')) {
+
+                // DELETE OLD IMAGE
+                if (
+                    !empty($hrb->intro_image_2) &&
+                    Storage::disk('public')->exists($hrb->intro_image_2)
+                ) {
+
+                    Storage::disk('public')
+                        ->delete($hrb->intro_image_2);
+
+                }
+
+                $image2 = $request->file('intro_image_2')
+                    ->store('hrb', 'public');
+
+            }
+
+            HrbPage::updateOrCreate(
+
+                ['id' => $hrb->id ?? null],
+
+                [
+
+                    'intro_sub_title' => $request->intro_sub_title,
+
+                    'intro_heading' => $request->intro_heading,
+
+                    'intro_content' => $request->intro_content,
+
+                    'intro_image_1' => $image1,
+
+                    'intro_image_2' => $image2
+
+                ]
+
+            );
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Introduction Section Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
 
         }
-
-        HrbPage::updateOrCreate(
-
-            ['id' => $hrb->id ?? null],
-
-            [
-
-                'intro_sub_title' => $request->intro_sub_title,
-
-                'intro_heading' => $request->intro_heading,
-
-                'intro_content' => $request->intro_content,
-
-                'intro_image_1' => $image1,
-
-                'intro_image_2' => $image2
-
-            ]
-
-        );
-
-        return redirect()
-            ->back()
-            ->with('success', 'Introduction Section Updated Successfully');
     }
 
     /*
@@ -261,44 +357,78 @@ class HrbController extends Controller
     {
         $request->validate([
 
-            'contact_heading' => 'nullable|max:255',
+            'contact_heading' => 'nullable|string|max:255',
 
-            'contact_description' => 'nullable',
+            'contact_description' => 'nullable|string',
 
-            'contact_phone' => 'nullable|max:255',
+            'contact_phone' => 'nullable|string|max:255',
 
             'contact_email' => 'nullable|email|max:255'
 
+        ], [
+
+            'contact_heading.string' => 'Contact heading must be valid text.',
+
+            'contact_heading.max' => 'Contact heading may not be greater than 255 characters.',
+
+            'contact_phone.string' => 'Phone number must be valid text.',
+
+            'contact_phone.max' => 'Phone number may not be greater than 255 characters.',
+
+            'contact_email.email' => 'Please enter a valid email address.',
+
+            'contact_email.max' => 'Email may not be greater than 255 characters.',
+
+            'contact_description.string' => 'Description must be valid text.',
+
         ]);
 
-        $hrb = HrbPage::first();
+        try {
 
-        if (!$hrb) {
+            $hrb = HrbPage::first();
 
-            $hrb = new HrbPage();
+            if (!$hrb) {
+
+                $hrb = new HrbPage();
+
+            }
+
+            HrbPage::updateOrCreate(
+
+                ['id' => $hrb->id ?? null],
+
+                [
+
+                    'contact_heading' => $request->contact_heading,
+
+                    'contact_description' => $request->contact_description,
+
+                    'contact_phone' => $request->contact_phone,
+
+                    'contact_email' => $request->contact_email
+
+                ]
+
+            );
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Contact Section Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
 
         }
-
-        HrbPage::updateOrCreate(
-
-            ['id' => $hrb->id ?? null],
-
-            [
-
-                'contact_heading' => $request->contact_heading,
-
-                'contact_description' => $request->contact_description,
-
-                'contact_phone' => $request->contact_phone,
-
-                'contact_email' => $request->contact_email
-
-            ]
-
-        );
-
-        return redirect()
-            ->back()
-            ->with('success', 'Contact Section Updated Successfully');
     }
+
 }

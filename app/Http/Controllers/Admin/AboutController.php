@@ -47,57 +47,96 @@ class AboutController extends Controller
 
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
 
+        ], [
+
+            'heading.string' => 'Heading must be valid text.',
+            'heading.max' => 'Heading may not be greater than 255 characters.',
+
+            'sub_heading.string' => 'Sub heading must be valid text.',
+            'sub_heading.max' => 'Sub heading may not be greater than 255 characters.',
+
+            'experience_year.string' => 'Experience year must be valid text.',
+            'experience_year.max' => 'Experience year may not be greater than 50 characters.',
+
+            'experience_text.string' => 'Experience text must be valid text.',
+            'experience_text.max' => 'Experience text may not be greater than 255 characters.',
+
+            'image.image' => 'Please upload a valid image.',
+            'image.mimes' => 'Image must be JPG, JPEG, PNG or WEBP.',
+            'image.max' => 'Image size must be less than 2MB.',
+
         ]);
 
-        $section = AboutSection::firstOrCreate([
-            'type' => 'introduction'
-        ]);
+        try {
 
-        $image = $section->image;
+            $section = AboutSection::firstOrCreate([
+                'type' => 'introduction'
+            ]);
 
-        if ($request->hasFile('image')) {
+            $image = $section->image;
 
-            if (
-                $section->image &&
-                \Storage::disk('public')->exists($section->image)
-            ) {
-                \Storage::disk('public')->delete($section->image);
+            // IMAGE UPLOAD
+            if ($request->hasFile('image')) {
+
+                // DELETE OLD IMAGE
+                if (
+                    !empty($section->image) &&
+                    \Storage::disk('public')->exists($section->image)
+                ) {
+
+                    \Storage::disk('public')->delete($section->image);
+
+                }
+
+                $file = $request->file('image');
+
+                $filename =
+                    time() . '-' . $file->getClientOriginalName();
+
+                $image = $file->storeAs(
+                    'about',
+                    $filename,
+                    'public'
+                );
+
             }
 
-            $file = $request->file('image');
+            $section->update([
 
-            $filename = time() . '-' . $file->getClientOriginalName();
+                'heading' => $request->heading,
 
-            $image = $file->storeAs(
-                'about',
-                $filename,
-                'public'
-            );
+                'sub_heading' => $request->sub_heading,
+
+                'content' => $request->content,
+
+                'experience_year' => $request->experience_year,
+
+                'experience_text' => $request->experience_text,
+
+                'image' => $image,
+
+            ]);
+
+            return redirect()
+                ->route('admin.about.index')
+                ->with(
+                    'success',
+                    'Introduction Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
+
         }
-
-        $section->update([
-
-            'heading' => $request->heading,
-
-            'sub_heading' => $request->sub_heading,
-
-            'content' => $request->content,
-
-            'experience_year' => $request->experience_year,
-
-            'experience_text' => $request->experience_text,
-
-            'image' => $image,
-
-        ]);
-
-        return redirect()
-            ->route('admin.about.index')
-            ->with(
-                'success',
-                'Introduction Updated Successfully'
-            );
     }
+
     /*
     |--------------------------------------------------------------------------
     | HISTORY
@@ -128,32 +167,58 @@ class AboutController extends Controller
 
             'icon' => 'nullable|string|max:255',
 
-        ]);
+        ], [
 
-        $section = AboutSection::firstOrCreate([
-            'type' => 'history'
-        ]);
+            'year.string' => 'Year must be valid text.',
+            'year.max' => 'Year may not be greater than 50 characters.',
 
-        $section->update([
+            'heading.string' => 'Heading must be valid text.',
+            'heading.max' => 'Heading may not be greater than 255 characters.',
 
-            'year' => $request->year,
+            'icon.string' => 'Icon must be valid text.',
+            'icon.max' => 'Icon may not be greater than 255 characters.',
 
-            'heading' => $request->heading,
-
-            'content' => $request->content,
-
-            'icon' => $request->icon,
+            'content.string' => 'Content must be valid text.',
 
         ]);
 
-        return redirect()
-            ->route('admin.about.index')
-            ->with(
-                'success',
-                'History Updated Successfully'
-            );
+        try {
+
+            $section = AboutSection::firstOrCreate([
+                'type' => 'history'
+            ]);
+
+            $section->update([
+
+                'year' => $request->year,
+
+                'heading' => $request->heading,
+
+                'content' => $request->content,
+
+                'icon' => $request->icon,
+
+            ]);
+
+            return redirect()
+                ->route('admin.about.index')
+                ->with(
+                    'success',
+                    'History Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
+
+        }
     }
-
     /*
     |--------------------------------------------------------------------------
     | VISION
@@ -188,34 +253,67 @@ class AboutController extends Controller
 
             'point_3' => 'nullable|string|max:255',
 
+        ], [
+
+            'heading.string' => 'Heading must be valid text.',
+            'heading.max' => 'Heading may not be greater than 255 characters.',
+
+            'icon.string' => 'Icon must be valid text.',
+            'icon.max' => 'Icon may not be greater than 255 characters.',
+
+            'point_1.string' => 'Point 1 must be valid text.',
+            'point_1.max' => 'Point 1 may not be greater than 255 characters.',
+
+            'point_2.string' => 'Point 2 must be valid text.',
+            'point_2.max' => 'Point 2 may not be greater than 255 characters.',
+
+            'point_3.string' => 'Point 3 must be valid text.',
+            'point_3.max' => 'Point 3 may not be greater than 255 characters.',
+
+            'content.string' => 'Content must be valid text.',
+
         ]);
 
-        $section = AboutSection::firstOrCreate([
-            'type' => 'vision'
-        ]);
+        try {
 
-        $section->update([
+            $section = AboutSection::firstOrCreate([
+                'type' => 'vision'
+            ]);
 
-            'heading' => $request->heading,
+            $section->update([
 
-            'content' => $request->content,
+                'heading' => $request->heading,
 
-            'icon' => $request->icon,
+                'content' => $request->content,
 
-            'point_1' => $request->point_1,
+                'icon' => $request->icon,
 
-            'point_2' => $request->point_2,
+                'point_1' => $request->point_1,
 
-            'point_3' => $request->point_3,
+                'point_2' => $request->point_2,
 
-        ]);
+                'point_3' => $request->point_3,
 
-        return redirect()
-            ->route('admin.about.index')
-            ->with(
-                'success',
-                'Vision Updated Successfully'
-            );
+            ]);
+
+            return redirect()
+                ->route('admin.about.index')
+                ->with(
+                    'success',
+                    'Vision Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
+
+        }
     }
 
     /*
@@ -252,33 +350,67 @@ class AboutController extends Controller
 
             'point_3' => 'nullable|string|max:255',
 
+        ], [
+
+            'heading.string' => 'Heading must be valid text.',
+            'heading.max' => 'Heading may not be greater than 255 characters.',
+
+            'icon.string' => 'Icon must be valid text.',
+            'icon.max' => 'Icon may not be greater than 255 characters.',
+
+            'point_1.string' => 'Point 1 must be valid text.',
+            'point_1.max' => 'Point 1 may not be greater than 255 characters.',
+
+            'point_2.string' => 'Point 2 must be valid text.',
+            'point_2.max' => 'Point 2 may not be greater than 255 characters.',
+
+            'point_3.string' => 'Point 3 must be valid text.',
+            'point_3.max' => 'Point 3 may not be greater than 255 characters.',
+
+            'content.string' => 'Content must be valid text.',
+
         ]);
 
-        $section = AboutSection::firstOrCreate([
-            'type' => 'mission'
-        ]);
+        try {
 
-        $section->update([
+            $section = AboutSection::firstOrCreate([
+                'type' => 'mission'
+            ]);
 
-            'heading' => $request->heading,
+            $section->update([
 
-            'content' => $request->content,
+                'heading' => $request->heading,
 
-            'icon' => $request->icon,
+                'content' => $request->content,
 
-            'point_1' => $request->point_1,
+                'icon' => $request->icon,
 
-            'point_2' => $request->point_2,
+                'point_1' => $request->point_1,
 
-            'point_3' => $request->point_3,
+                'point_2' => $request->point_2,
 
-        ]);
+                'point_3' => $request->point_3,
 
-        return redirect()
-            ->route('admin.about.index')
-            ->with(
-                'success',
-                'Mission Updated Successfully'
-            );
+            ]);
+
+            return redirect()
+                ->route('admin.about.index')
+                ->with(
+                    'success',
+                    'Mission Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
+
+        }
     }
+
 }

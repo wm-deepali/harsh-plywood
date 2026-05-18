@@ -39,80 +39,134 @@ class AdminSettingController extends Controller
 
             'login_logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
 
+        ], [
+
+            'login_email.required' => 'Admin email is required.',
+            'login_email.email' => 'Please enter valid admin email.',
+
+            'password.min' => 'Password must be at least 6 characters.',
+            'password.confirmed' => 'Password confirmation does not match.',
+
+            'enquiry_email.email' => 'Please enter valid enquiry email.',
+
+            'profile.image' => 'Profile must be an image.',
+            'profile.mimes' => 'Profile image must be JPG, JPEG, PNG or WEBP.',
+            'profile.max' => 'Profile image max size is 2MB.',
+
+            'login_logo.image' => 'Logo must be an image.',
+            'login_logo.mimes' => 'Logo must be JPG, JPEG, PNG or WEBP.',
+            'login_logo.max' => 'Logo image max size is 2MB.',
+
         ]);
 
-        // Admin Login Update
-        $admin = Auth::user();
+        try {
 
-        $admin->email = $request->login_email;
+            // ADMIN UPDATE
+            $admin = Auth::user();
 
-        if ($request->filled('password')) {
+            if (!$admin) {
 
-            $admin->password = Hash::make($request->password);
+                return back()->with(
+                    'error',
+                    'Admin not authenticated.'
+                );
 
-        }
-
-        $admin->save();
-
-        // Settings Update
-        $data = AdminSetting::first();
-
-        if (!$data) {
-            $data = new AdminSetting();
-        }
-
-        // Profile Picture
-        if ($request->hasFile('profile')) {
-
-            if (
-                $data->profile &&
-                Storage::disk('public')->exists($data->profile)
-            ) {
-                Storage::disk('public')->delete($data->profile);
             }
 
-            $file = $request->file('profile');
+            $admin->email = $request->login_email;
 
-            $filename =
-                'profile-' . time() . '.' . $file->extension();
+            if ($request->filled('password')) {
 
-            $data->profile = $file->storeAs(
-                'settings',
-                $filename,
-                'public'
-            );
-        }
+                $admin->password = Hash::make($request->password);
 
-        // Login Logo
-        if ($request->hasFile('login_logo')) {
-
-            if (
-                $data->login_logo &&
-                Storage::disk('public')->exists($data->login_logo)
-            ) {
-                Storage::disk('public')->delete($data->login_logo);
             }
 
-            $file = $request->file('login_logo');
+            $admin->save();
 
-            $filename =
-                'logo-' . time() . '.' . $file->extension();
+            // SETTINGS
+            $data = AdminSetting::first();
 
-            $data->login_logo = $file->storeAs(
-                'settings',
-                $filename,
-                'public'
-            );
+            if (!$data) {
+
+                $data = new AdminSetting();
+
+            }
+
+            // PROFILE IMAGE
+            if ($request->hasFile('profile')) {
+
+                // Delete old image
+                if (
+                    !empty($data->profile) &&
+                    Storage::disk('public')->exists($data->profile)
+                ) {
+
+                    Storage::disk('public')->delete($data->profile);
+
+                }
+
+                $file = $request->file('profile');
+
+                $filename =
+                    'profile-' . time() . '.' . $file->extension();
+
+                $data->profile = $file->storeAs(
+                    'settings',
+                    $filename,
+                    'public'
+                );
+
+            }
+
+            // LOGIN LOGO
+            if ($request->hasFile('login_logo')) {
+
+                // Delete old logo
+                if (
+                    !empty($data->login_logo) &&
+                    Storage::disk('public')->exists($data->login_logo)
+                ) {
+
+                    Storage::disk('public')->delete($data->login_logo);
+
+                }
+
+                $file = $request->file('login_logo');
+
+                $filename =
+                    'logo-' . time() . '.' . $file->extension();
+
+                $data->login_logo = $file->storeAs(
+                    'settings',
+                    $filename,
+                    'public'
+                );
+
+            }
+
+            // ENQUIRY EMAIL
+            $data->enquiry_email = $request->enquiry_email;
+
+            $data->save();
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Admin Settings Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
+
         }
-
-        // Enquiry Email
-        $data->enquiry_email = $request->enquiry_email;
-
-        $data->save();
-
-        return back()->with(
-            'success',
-            'Admin Settings Updated Successfully'
-        );
     }
+
 }

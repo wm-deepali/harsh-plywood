@@ -44,63 +44,78 @@ class HomeAboutController extends Controller
 
         ]);
 
-        $section = HomeAboutSection::first();
+        try {
 
-        if (!$section) {
+            $section = HomeAboutSection::first();
 
-            $section = new HomeAboutSection();
+            if (!$section) {
 
-        }
+                $section = new HomeAboutSection();
 
-        $image = $section->image;
-
-        if ($request->hasFile('image')) {
-
-            if (
-                $section->image &&
-                Storage::disk('public')->exists($section->image)
-            ) {
-                Storage::disk('public')->delete($section->image);
             }
 
-            $file = $request->file('image');
+            $image = $section->image;
 
-            $filename =
-                time() . '-' .
-                $file->getClientOriginalName();
+            if ($request->hasFile('image')) {
 
-            $image = $file->storeAs(
-                'home-about',
-                $filename,
-                'public'
+                if (
+                    $section->image &&
+                    Storage::disk('public')->exists($section->image)
+                ) {
+
+                    Storage::disk('public')->delete($section->image);
+
+                }
+
+                $file = $request->file('image');
+
+                $filename =
+                    time() . '-' .
+                    $file->getClientOriginalName();
+
+                $image = $file->storeAs(
+                    'home-about',
+                    $filename,
+                    'public'
+                );
+            }
+
+            HomeAboutSection::updateOrCreate(
+                ['id' => $section->id ?? null],
+                [
+
+                    'sub_heading' => $request->sub_heading,
+
+                    'heading' => $request->heading,
+
+                    'description' => $request->description,
+
+                    'award_title' => $request->award_title,
+
+                    'award_icon' => $request->award_icon,
+
+                    'image' => $image,
+
+                ]
             );
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Home About Section Updated Successfully'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong. Please try again later.'
+                );
         }
-
-        $section->updateOrCreate(
-            ['id' => $section->id ?? null],
-            [
-
-                'sub_heading' => $request->sub_heading,
-
-                'heading' => $request->heading,
-
-                'description' => $request->description,
-
-                'award_title' => $request->award_title,
-
-                'award_icon' => $request->award_icon,
-
-                'image' => $image,
-
-            ]
-        );
-
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                'Home About Section Updated Successfully'
-            );
     }
 
     public function storeFeature(Request $request)
@@ -113,22 +128,35 @@ class HomeAboutController extends Controller
 
         ]);
 
-        HomeAboutFeature::create([
+        try {
 
-            'title' => $request->title,
+            HomeAboutFeature::create([
 
-            'icon' => $request->icon,
+                'title' => $request->title,
 
-            'status' => $request->has('status') ? 1 : 0
+                'icon' => $request->icon,
 
-        ]);
+                'status' => $request->has('status') ? 1 : 0
 
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                'Feature Added Successfully'
-            );
+            ]);
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Feature Added Successfully'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong. Please try again later.'
+                );
+        }
     }
 
     public function updateFeature(Request $request, $id)
@@ -141,36 +169,64 @@ class HomeAboutController extends Controller
 
         ]);
 
-        $feature = HomeAboutFeature::findOrFail($id);
+        try {
 
-        $feature->update([
+            $feature = HomeAboutFeature::findOrFail($id);
 
-            'title' => $request->title,
+            $feature->update([
 
-            'icon' => $request->icon,
+                'title' => $request->title,
 
-            'status' => $request->has('status') ? 1 : 0
+                'icon' => $request->icon,
 
-        ]);
+                'status' => $request->has('status') ? 1 : 0
 
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                'Feature Updated Successfully'
-            );
+            ]);
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Feature Updated Successfully'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong. Please try again later.'
+                );
+        }
     }
 
     public function deleteFeature($id)
     {
-        $feature = HomeAboutFeature::findOrFail($id);
+        try {
 
-        $feature->delete();
+            $feature = HomeAboutFeature::findOrFail($id);
 
-        return response()->json([
+            $feature->delete();
 
-            'message' => 'Deleted Successfully'
+            return response()->json([
 
-        ]);
+                'status' => true,
+
+                'message' => 'Deleted Successfully'
+
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'Something went wrong.'
+
+            ], 500);
+        }
     }
 }

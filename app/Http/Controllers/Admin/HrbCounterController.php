@@ -15,10 +15,13 @@ class HrbCounterController extends Controller
 
         $counters = HrbCounter::latest()->get();
 
-        return view('admin.hrb.counter-edit', compact(
-            'hrb',
-            'counters'
-        ));
+        return view(
+            'admin.hrb.counter-edit',
+            compact(
+                'hrb',
+                'counters'
+            )
+        );
     }
 
     /*
@@ -31,37 +34,68 @@ class HrbCounterController extends Controller
     {
         $request->validate([
 
-            'counter_heading' => 'nullable|max:255',
+            'counter_heading' => 'nullable|string|max:255',
 
-            'counter_sub_heading' => 'nullable|max:255'
+            'counter_sub_heading' => 'nullable|string|max:255'
+
+        ], [
+
+            'counter_heading.string' =>
+                'Counter heading must be valid text.',
+
+            'counter_heading.max' =>
+                'Counter heading may not be greater than 255 characters.',
+
+            'counter_sub_heading.string' =>
+                'Counter sub heading must be valid text.',
+
+            'counter_sub_heading.max' =>
+                'Counter sub heading may not be greater than 255 characters.'
 
         ]);
 
-        $hrb = HrbPage::first();
+        try {
 
-        if(!$hrb) {
+            $hrb = HrbPage::first();
 
-            $hrb = new HrbPage();
+            if (!$hrb) {
+
+                $hrb = new HrbPage();
+
+            }
+
+            HrbPage::updateOrCreate(
+
+                ['id' => $hrb->id ?? null],
+
+                [
+
+                    'counter_heading' => $request->counter_heading,
+
+                    'counter_sub_heading' => $request->counter_sub_heading
+
+                ]
+
+            );
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Counter Section Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
 
         }
-
-        HrbPage::updateOrCreate(
-
-            ['id' => $hrb->id ?? null],
-
-            [
-
-                'counter_heading' => $request->counter_heading,
-
-                'counter_sub_heading' => $request->counter_sub_heading
-
-            ]
-
-        );
-
-        return redirect()
-            ->back()
-            ->with('success', 'Counter Section Updated Successfully');
     }
 
     /*
@@ -74,29 +108,63 @@ class HrbCounterController extends Controller
     {
         $request->validate([
 
-            'counter_title' => 'required|max:255',
+            'counter_title' => 'required|string|max:255',
 
-            'counter_value' => 'required|max:255',
+            'counter_value' => 'required|string|max:255',
 
-            'icon' => 'nullable|max:255'
+            'icon' => 'nullable|string|max:255'
+
+        ], [
+
+            'counter_title.required' =>
+                'Counter title is required.',
+
+            'counter_title.max' =>
+                'Counter title may not be greater than 255 characters.',
+
+            'counter_value.required' =>
+                'Counter value is required.',
+
+            'counter_value.max' =>
+                'Counter value may not be greater than 255 characters.',
+
+            'icon.max' =>
+                'Icon class may not be greater than 255 characters.'
 
         ]);
 
-        HrbCounter::create([
+        try {
 
-            'counter_title' => $request->counter_title,
+            HrbCounter::create([
 
-            'counter_value' => $request->counter_value,
+                'counter_title' => $request->counter_title,
 
-            'icon' => $request->icon,
+                'counter_value' => $request->counter_value,
 
-            'status' => 1
+                'icon' => $request->icon,
 
-        ]);
+                'status' => 1
 
-        return redirect()
-            ->back()
-            ->with('success', 'Counter Added Successfully');
+            ]);
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Counter Added Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
+
+        }
     }
 
     /*
@@ -107,12 +175,30 @@ class HrbCounterController extends Controller
 
     public function deleteCounter($id)
     {
-        $counter = HrbCounter::findOrFail($id);
+        try {
 
-        $counter->delete();
+            $counter = HrbCounter::findOrFail($id);
 
-        return response()->json([
-            'message' => 'Deleted Successfully'
-        ]);
+            $counter->delete();
+
+            return response()->json([
+
+                'status' => true,
+
+                'message' => 'Deleted Successfully'
+
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'Something went wrong.'
+
+            ], 500);
+
+        }
     }
 }

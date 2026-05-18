@@ -34,6 +34,57 @@
 
         </div>
 
+        {{-- Alerts --}}
+        @if(session('success'))
+
+            <div class="alert alert-success alert-dismissible fade show">
+
+                {{ session('success') }}
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+            </div>
+
+        @endif
+
+        @if(session('error'))
+
+            <div class="alert alert-danger alert-dismissible fade show">
+
+                {{ session('error') }}
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+            </div>
+
+        @endif
+
+        @if ($errors->any())
+
+            <div class="alert alert-danger alert-dismissible fade show">
+
+                <ul class="mb-0">
+
+                    @foreach ($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                    @endforeach
+
+                </ul>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"></button>
+
+            </div>
+
+        @endif
+
         <div class="content-wrapper pb-4">
 
             <!-- MAIN SECTION -->
@@ -68,8 +119,18 @@
 
                                 <input type="text"
                                        name="sub_heading"
-                                       class="form-control"
+                                       class="form-control @error('sub_heading') is-invalid @enderror"
                                        value="{{ old('sub_heading', $section->sub_heading ?? '') }}">
+
+                                @error('sub_heading')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -81,8 +142,18 @@
 
                                 <input type="text"
                                        name="heading"
-                                       class="form-control"
+                                       class="form-control @error('heading') is-invalid @enderror"
                                        value="{{ old('heading', $section->heading ?? '') }}">
+
+                                @error('heading')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -96,11 +167,20 @@
 
                             <textarea name="description"
                                       id="editor"
-                                      class="form-control">{{ old('description', $section->description ?? '') }}</textarea>
+                                      class="form-control @error('description') is-invalid @enderror">{{ old('description', $section->description ?? '') }}</textarea>
+
+                            @error('description')
+
+                                <div class="invalid-feedback d-block">
+
+                                    {{ $message }}
+
+                                </div>
+
+                            @enderror
 
                         </div>
 
-                    
                         <div class="row mt-3">
 
                             <div class="col-md-6">
@@ -111,8 +191,18 @@
 
                                 <input type="text"
                                        name="award_title"
-                                       class="form-control"
+                                       class="form-control @error('award_title') is-invalid @enderror"
                                        value="{{ old('award_title', $section->award_title ?? '') }}">
+
+                                @error('award_title')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -124,9 +214,19 @@
 
                                 <input type="text"
                                        name="award_icon"
-                                       class="form-control"
+                                       class="form-control @error('award_icon') is-invalid @enderror"
                                        placeholder="fa-regular fa-star"
                                        value="{{ old('award_icon', $section->award_icon ?? '') }}">
+
+                                @error('award_icon')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -140,7 +240,17 @@
 
                             <input type="file"
                                    name="image"
-                                   class="form-control">
+                                   class="form-control @error('image') is-invalid @enderror">
+
+                            @error('image')
+
+                                <div class="invalid-feedback">
+
+                                    {{ $message }}
+
+                                </div>
+
+                            @enderror
 
                             <small class="text-muted">
 
@@ -204,9 +314,20 @@
 
                                 <input type="text"
                                        name="title"
-                                       class="form-control"
+                                       class="form-control @error('title') is-invalid @enderror"
                                        placeholder="Feature Title"
+                                       value="{{ old('title') }}"
                                        required>
+
+                                @error('title')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -214,8 +335,19 @@
 
                                 <input type="text"
                                        name="icon"
-                                       class="form-control"
-                                       placeholder="fa-solid fa-screwdriver-wrench">
+                                       class="form-control @error('icon') is-invalid @enderror"
+                                       placeholder="fa-solid fa-screwdriver-wrench"
+                                       value="{{ old('icon') }}">
+
+                                @error('icon')
+
+                                    <div class="invalid-feedback">
+
+                                        {{ $message }}
+
+                                    </div>
+
+                                @enderror
 
                             </div>
 
@@ -377,6 +509,16 @@
                             'Deleted!',
                             response.message,
                             'success'
+                        );
+
+                    },
+
+                    error: function () {
+
+                        Swal.fire(
+                            'Error!',
+                            'Something went wrong.',
+                            'error'
                         );
 
                     }

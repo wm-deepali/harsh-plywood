@@ -11,12 +11,25 @@ class HeaderFooterSettingController extends Controller
 {
     public function edit()
     {
-        $data = HeaderFooterSetting::first();
+        try {
 
-        return view(
-            'admin.settings.header_footer',
-            compact('data')
-        );
+            $data = HeaderFooterSetting::first();
+
+            return view(
+                'admin.settings.header_footer',
+                compact('data')
+            );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
+
+        }
     }
 
     public function update(Request $request)
@@ -39,75 +52,117 @@ class HeaderFooterSettingController extends Controller
 
             'copyright' => 'nullable|string|max:255',
 
+        ], [
+
+            'header_logo.image' => 'Header logo must be an image.',
+            'header_logo.mimes' => 'Header logo must be JPG, JPEG, PNG or WEBP.',
+            'header_logo.max' => 'Header logo max size is 2MB.',
+
+            'footer_logo.image' => 'Footer logo must be an image.',
+            'footer_logo.mimes' => 'Footer logo must be JPG, JPEG, PNG or WEBP.',
+            'footer_logo.max' => 'Footer logo max size is 2MB.',
+
+            'email.email' => 'Please enter a valid email address.',
+
+            'whatsapp.max' => 'WhatsApp number is too long.',
+            'mobile.max' => 'Mobile number is too long.',
+
+            'copyright.max' => 'Copyright text max length is 255 characters.',
+
         ]);
 
-        $data = HeaderFooterSetting::first();
+        try {
 
-        if (!$data) {
-            $data = new HeaderFooterSetting();
-        }
+            $data = HeaderFooterSetting::first();
 
-        // Header Logo
-        if ($request->hasFile('header_logo')) {
+            if (!$data) {
 
-            if (
-                $data->header_logo &&
-                Storage::disk('public')->exists($data->header_logo)
-            ) {
-                Storage::disk('public')->delete($data->header_logo);
+                $data = new HeaderFooterSetting();
+
             }
 
-            $file = $request->file('header_logo');
+            // HEADER LOGO
+            if ($request->hasFile('header_logo')) {
 
-            $filename =
-                'header-logo-' . time() . '.' . $file->extension();
+                if (
+                    !empty($data->header_logo) &&
+                    Storage::disk('public')->exists($data->header_logo)
+                ) {
 
-            $data->header_logo = $file->storeAs(
-                'settings',
-                $filename,
-                'public'
-            );
-        }
+                    Storage::disk('public')->delete($data->header_logo);
 
-        // Footer Logo
-        if ($request->hasFile('footer_logo')) {
+                }
 
-            if (
-                $data->footer_logo &&
-                Storage::disk('public')->exists($data->footer_logo)
-            ) {
-                Storage::disk('public')->delete($data->footer_logo);
+                $file = $request->file('header_logo');
+
+                $filename =
+                    'header-logo-' . time() . '.' . $file->extension();
+
+                $data->header_logo = $file->storeAs(
+                    'settings',
+                    $filename,
+                    'public'
+                );
+
             }
 
-            $file = $request->file('footer_logo');
+            // FOOTER LOGO
+            if ($request->hasFile('footer_logo')) {
 
-            $filename =
-                'footer-logo-' . time() . '.' . $file->extension();
+                if (
+                    !empty($data->footer_logo) &&
+                    Storage::disk('public')->exists($data->footer_logo)
+                ) {
 
-            $data->footer_logo = $file->storeAs(
-                'settings',
-                $filename,
-                'public'
-            );
+                    Storage::disk('public')->delete($data->footer_logo);
+
+                }
+
+                $file = $request->file('footer_logo');
+
+                $filename =
+                    'footer-logo-' . time() . '.' . $file->extension();
+
+                $data->footer_logo = $file->storeAs(
+                    'settings',
+                    $filename,
+                    'public'
+                );
+
+            }
+
+            // TEXT FIELDS
+            $data->whatsapp = $request->whatsapp;
+
+            $data->mobile = $request->mobile;
+
+            $data->email = $request->email;
+
+            $data->address = $request->address;
+
+            $data->short_content = $request->short_content;
+
+            $data->copyright = $request->copyright;
+
+            $data->save();
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Header & Footer Settings Updated Successfully.'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong: ' . $e->getMessage()
+                );
+
         }
-
-        $data->whatsapp = $request->whatsapp;
-
-        $data->mobile = $request->mobile;
-
-        $data->email = $request->email;
-
-        $data->address = $request->address;
-
-        $data->short_content = $request->short_content;
-
-        $data->copyright = $request->copyright;
-
-        $data->save();
-
-        return back()->with(
-            'success',
-            'Header & Footer Settings Updated Successfully'
-        );
     }
 }

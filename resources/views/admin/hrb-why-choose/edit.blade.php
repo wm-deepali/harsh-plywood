@@ -1,3 +1,5 @@
+{{-- resources/views/admin/hrb-why-choose/edit.blade.php --}}
+
 @include('admin.top-header')
 
 <div class="main-section">
@@ -6,114 +8,296 @@
 
     <div class="app-content content container-fluid">
 
-        <div class="card shadow-sm">
+        {{-- BREADCRUMB --}}
+        <div class="breadcrumbs-top d-flex align-items-center bg-light mb-3">
 
-            <div class="card-header">
-                <strong>Edit Item</strong>
-            </div>
+            <div class="breadcrumb-wrapper">
 
-            <div class="card-body">
+                <ol class="breadcrumb bg-transparent mb-0">
 
-                <form method="POST"
-                    enctype="multipart/form-data"
-                    action="{{ route('admin.hrb-why-choose.update', $item->id) }}">
+                    <li class="breadcrumb-item">
 
-                    @csrf
-                    @method('PUT')
+                        <a href="{{ route('admin.dashboard') }}">
 
-                    <div class="form-group">
-
-                        <label>Title</label>
-
-                        <input type="text"
-                            name="title"
-                            class="form-control"
-                            value="{{ old('title', $item->title) }}">
-
-                    </div>
-
-                    <div class="form-group mt-3">
-
-                        <label>Short Content</label>
-
-                        <textarea name="short_content"
-                            rows="5"
-                            class="form-control">{{ old('short_content', $item->short_content) }}</textarea>
-
-                    </div>
-
-                    <div class="form-group mt-3">
-
-                        <label>Icon Class</label>
-
-                        <input type="text"
-                            name="icon"
-                            class="form-control"
-                            value="{{ old('icon', $item->icon) }}">
-
-                    </div>
-
-                    <div class="form-group mt-3">
-
-                        <label>Image</label>
-
-                        <input type="file"
-                            name="image"
-                            class="form-control">
-
-                        @if($item->image)
-
-                            <div class="mt-3">
-
-                                <img src="{{ asset('storage/'.$item->image) }}"
-                                    width="100">
-
-                            </div>
-
-                        @endif
-
-                    </div>
-
-                    <div class="form-group mt-3">
-
-                        <div class="custom-control custom-checkbox">
-
-                            <input type="checkbox"
-                                name="status"
-                                id="status"
-                                class="custom-control-input"
-                                {{ $item->status ? 'checked' : '' }}>
-
-                            <label class="custom-control-label"
-                                for="status">
-
-                                Active
-
-                            </label>
-
-                        </div>
-
-                    </div>
-
-                    <div class="mt-4">
-
-                        <button type="submit"
-                            class="btn btn-success">
-
-                            Update Item
-
-                        </button>
-
-                        <a href="{{ route('admin.hrb-why-choose.index') }}"
-                            class="btn btn-secondary">
-
-                            Cancel
+                            Dashboard
 
                         </a>
 
-                    </div>
+                    </li>
 
-                </form>
+                    <li class="breadcrumb-item">
+
+                        <a href="{{ route('admin.hrb-why-choose.index') }}">
+
+                            Why Choose Us
+
+                        </a>
+
+                    </li>
+
+                    <li class="breadcrumb-item active">
+
+                        Edit Item
+
+                    </li>
+
+                </ol>
+
+            </div>
+
+        </div>
+
+        <div class="content-wrapper pb-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header">
+
+                    <strong>
+
+                        Edit Item
+
+                    </strong>
+
+                </div>
+
+                <div class="card-body">
+
+                    {{-- SUCCESS --}}
+                    @if(session('success'))
+
+                        <div class="alert alert-success alert-dismissible fade show">
+
+                            {{ session('success') }}
+
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="alert">
+
+                                &times;
+
+                            </button>
+
+                        </div>
+
+                    @endif
+
+                    {{-- ERROR --}}
+                    @if(session('error'))
+
+                        <div class="alert alert-danger alert-dismissible fade show">
+
+                            {{ session('error') }}
+
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="alert">
+
+                                &times;
+
+                            </button>
+
+                        </div>
+
+                    @endif
+
+                    {{-- VALIDATION --}}
+                    @if ($errors->any())
+
+                        <div class="alert alert-danger">
+
+                            <ul class="mb-0">
+
+                                @foreach ($errors->all() as $error)
+
+                                    <li>{{ $error }}</li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    @endif
+
+                    <form id="editForm"
+                          method="POST"
+                          enctype="multipart/form-data"
+                          action="{{ route('admin.hrb-why-choose.update', $item->id) }}">
+
+                        @csrf
+                        @method('PUT')
+
+                        {{-- TITLE --}}
+                        <div class="form-group">
+
+                            <label>
+
+                                Title
+
+                            </label>
+
+                            <input type="text"
+                                   name="title"
+                                   class="form-control @error('title') is-invalid @enderror"
+                                   value="{{ old('title', $item->title) }}"
+                                   placeholder="Enter title">
+
+                            @error('title')
+
+                                <span class="invalid-feedback d-block">
+
+                                    {{ $message }}
+
+                                </span>
+
+                            @enderror
+
+                        </div>
+
+                        {{-- CONTENT --}}
+                        <div class="form-group mt-3">
+
+                            <label>
+
+                                Short Content
+
+                            </label>
+
+                            <textarea name="short_content"
+                                      rows="5"
+                                      class="form-control @error('short_content') is-invalid @enderror"
+                                      placeholder="Enter short content">{{ old('short_content', $item->short_content) }}</textarea>
+
+                            @error('short_content')
+
+                                <span class="invalid-feedback d-block">
+
+                                    {{ $message }}
+
+                                </span>
+
+                            @enderror
+
+                        </div>
+
+                        {{-- ICON --}}
+                        <div class="form-group mt-3">
+
+                            <label>
+
+                                Icon Class
+
+                            </label>
+
+                            <input type="text"
+                                   name="icon"
+                                   class="form-control @error('icon') is-invalid @enderror"
+                                   value="{{ old('icon', $item->icon) }}"
+                                   placeholder="fa fa-home">
+
+                            @error('icon')
+
+                                <span class="invalid-feedback d-block">
+
+                                    {{ $message }}
+
+                                </span>
+
+                            @enderror
+
+                        </div>
+
+                        {{-- IMAGE --}}
+                        <div class="form-group mt-3">
+
+                            <label>
+
+                                Image
+
+                            </label>
+
+                            <input type="file"
+                                   name="image"
+                                   class="form-control @error('image') is-invalid @enderror">
+
+                            <small class="text-muted d-block mt-1">
+
+                                Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2MB
+
+                            </small>
+
+                            @error('image')
+
+                                <span class="invalid-feedback d-block">
+
+                                    {{ $message }}
+
+                                </span>
+
+                            @enderror
+
+                            @if(!empty($item->image))
+
+                                <div class="mt-3">
+
+                                    <img src="{{ asset('storage/'.$item->image) }}"
+                                         width="120"
+                                         class="img-thumbnail">
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                        {{-- STATUS --}}
+                        <div class="form-group mt-3">
+
+                            <div class="custom-control custom-checkbox">
+
+                                <input type="checkbox"
+                                       name="status"
+                                       id="status"
+                                       class="custom-control-input"
+                                       {{ old('status', $item->status) ? 'checked' : '' }}>
+
+                                <label class="custom-control-label"
+                                       for="status">
+
+                                    Active
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        {{-- BUTTONS --}}
+                        <div class="mt-4">
+
+                            <button type="submit"
+                                    id="saveBtn"
+                                    class="btn btn-success">
+
+                                <i class="fa fa-save"></i>
+
+                                Update Item
+
+                            </button>
+
+                            <a href="{{ route('admin.hrb-why-choose.index') }}"
+                               class="btn btn-secondary">
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
 
             </div>
 
@@ -124,3 +308,17 @@
 </div>
 
 @include('admin.footer')
+
+<script>
+
+    document.getElementById('editForm').addEventListener('submit', function ()
+    {
+        let btn = document.getElementById('saveBtn');
+
+        btn.disabled = true;
+
+        btn.innerHTML =
+            '<i class="fa fa-spinner fa-spin"></i> Updating...';
+    });
+
+</script>

@@ -41,65 +41,84 @@ class WhyChooseController extends Controller
 
         ]);
 
-        $section = WhyChooseSection::first();
+        try {
 
-        if (!$section) {
-            $section = new WhyChooseSection();
-        }
+            $section = WhyChooseSection::first();
 
-        $mainImage = $section->main_image;
+            if (!$section) {
 
-        if ($request->hasFile('main_image')) {
+                $section = new WhyChooseSection();
 
-            if (
-                $section->main_image &&
-                Storage::disk('public')->exists($section->main_image)
-            ) {
-                Storage::disk('public')->delete($section->main_image);
             }
 
-            $mainImage = $request->file('main_image')
-                ->store('why-choose', 'public');
-        }
+            $mainImage = $section->main_image;
 
-        $smallImage = $section->small_image;
+            if ($request->hasFile('main_image')) {
 
-        if ($request->hasFile('small_image')) {
+                if (
+                    $section->main_image &&
+                    Storage::disk('public')->exists($section->main_image)
+                ) {
 
-            if (
-                $section->small_image &&
-                Storage::disk('public')->exists($section->small_image)
-            ) {
-                Storage::disk('public')->delete($section->small_image);
+                    Storage::disk('public')->delete($section->main_image);
+
+                }
+
+                $mainImage = $request->file('main_image')
+                    ->store('why-choose', 'public');
             }
 
-            $smallImage = $request->file('small_image')
-                ->store('why-choose', 'public');
-        }
+            $smallImage = $section->small_image;
 
-        WhyChooseSection::updateOrCreate(
-            ['id' => $section->id ?? null],
-            [
+            if ($request->hasFile('small_image')) {
 
-                'sub_heading' => $request->sub_heading,
+                if (
+                    $section->small_image &&
+                    Storage::disk('public')->exists($section->small_image)
+                ) {
 
-                'heading' => $request->heading,
+                    Storage::disk('public')->delete($section->small_image);
 
-                'description' => $request->description,
+                }
 
-                'main_image' => $mainImage,
+                $smallImage = $request->file('small_image')
+                    ->store('why-choose', 'public');
+            }
 
-                'small_image' => $smallImage,
+            WhyChooseSection::updateOrCreate(
+                ['id' => $section->id ?? null],
+                [
 
-            ]
-        );
+                    'sub_heading' => $request->sub_heading,
 
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                'Section Updated Successfully'
+                    'heading' => $request->heading,
+
+                    'description' => $request->description,
+
+                    'main_image' => $mainImage,
+
+                    'small_image' => $smallImage,
+
+                ]
             );
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Section Updated Successfully'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong. Please try again later.'
+                );
+        }
     }
 
     public function storeFeature(Request $request)
@@ -116,26 +135,39 @@ class WhyChooseController extends Controller
 
         ]);
 
-        WhyChooseFeature::create([
+        try {
 
-            'position' => $request->position,
+            WhyChooseFeature::create([
 
-            'title' => $request->title,
+                'position' => $request->position,
 
-            'description' => $request->description,
+                'title' => $request->title,
 
-            'icon' => $request->icon,
+                'description' => $request->description,
 
-            'status' => $request->has('status') ? 1 : 0
+                'icon' => $request->icon,
 
-        ]);
+                'status' => $request->has('status') ? 1 : 0
 
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                'Feature Added Successfully'
-            );
+            ]);
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Feature Added Successfully'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong. Please try again later.'
+                );
+        }
     }
 
     public function updateFeature(Request $request, $id)
@@ -152,40 +184,68 @@ class WhyChooseController extends Controller
 
         ]);
 
-        $feature = WhyChooseFeature::findOrFail($id);
+        try {
 
-        $feature->update([
+            $feature = WhyChooseFeature::findOrFail($id);
 
-            'position' => $request->position,
+            $feature->update([
 
-            'title' => $request->title,
+                'position' => $request->position,
 
-            'description' => $request->description,
+                'title' => $request->title,
 
-            'icon' => $request->icon,
+                'description' => $request->description,
 
-            'status' => $request->has('status') ? 1 : 0
+                'icon' => $request->icon,
 
-        ]);
+                'status' => $request->has('status') ? 1 : 0
 
-        return redirect()
-            ->back()
-            ->with(
-                'success',
-                'Feature Updated Successfully'
-            );
+            ]);
+
+            return redirect()
+                ->back()
+                ->with(
+                    'success',
+                    'Feature Updated Successfully'
+                );
+
+        } catch (\Exception $e) {
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with(
+                    'error',
+                    'Something went wrong. Please try again later.'
+                );
+        }
     }
 
     public function deleteFeature($id)
     {
-        $feature = WhyChooseFeature::findOrFail($id);
+        try {
 
-        $feature->delete();
+            $feature = WhyChooseFeature::findOrFail($id);
 
-        return response()->json([
+            $feature->delete();
 
-            'message' => 'Deleted Successfully'
+            return response()->json([
 
-        ]);
+                'status' => true,
+
+                'message' => 'Deleted Successfully'
+
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'Something went wrong.'
+
+            ], 500);
+        }
     }
 }

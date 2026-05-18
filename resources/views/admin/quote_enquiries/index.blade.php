@@ -13,7 +13,7 @@
                     <li class="breadcrumb-item">
                         <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                     </li>
-                    <li class="breadcrumb-item active">Sales Enquiries</li>
+                    <li class="breadcrumb-item active">Quote Enquiries</li>
                 </ol>
             </div>
 
@@ -41,7 +41,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
-                                    <th>Subject</th>
+                                    <th>Message</th>
                                     <th>Date</th>
                                     <th>Action</th>
                                 </tr>
@@ -60,8 +60,8 @@
                                         <td>{{ $e->id }}</td>
                                         <td>{{ $e->name }}</td>
                                         <td>{{ $e->email }}</td>
-                                        <td>{{ $e->phone }}</td>
-                                        <td>{{ $e->subject }}</td>
+                                        <td>{{ $e->mobile }}</td>
+                                        <td>{{ $e->message }}</td>
                                         <td>{{ $e->created_at->format('d M Y') }}</td>
 
                                         <td>
@@ -117,7 +117,7 @@
         }).then(result => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/admin/sales-enquiries/" + id,
+                    url: "/admin/quote-enquiries/" + id,
                     type: "DELETE",
                     data: { _token: "{{ csrf_token() }}" },
                     success: function (res) {
@@ -152,7 +152,7 @@
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: "{{ route('admin.sales_enquiries.bulkDelete') }}",
+                    url: "{{ route('admin.quote-enquiries.bulkDelete') }}",
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",

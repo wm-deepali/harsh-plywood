@@ -18,6 +18,8 @@ class HiStylePage extends Model
 
         'hero_button_text',
         'hero_button_link',
+        'hero_button_2_text', 
+        'hero_button_2_link',
 
         'hero_image',
 

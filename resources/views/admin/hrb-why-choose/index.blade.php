@@ -1,3 +1,5 @@
+{{-- resources/views/admin/hrb-why-choose/index.blade.php --}}
+
 @include('admin.top-header')
 
 <div class="main-section">
@@ -6,6 +8,7 @@
 
     <div class="app-content content container-fluid">
 
+        {{-- BREADCRUMB --}}
         <div class="breadcrumbs-top d-flex align-items-center bg-light mb-3">
 
             <div class="breadcrumb-wrapper">
@@ -13,19 +16,29 @@
                 <ol class="breadcrumb bg-transparent mb-0">
 
                     <li class="breadcrumb-item">
+
                         <a href="{{ route('admin.dashboard') }}">
+
                             Dashboard
+
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item">
+
                         <a href="{{ route('admin.hrb.index') }}">
+
                             HRB Page
+
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item active">
+
                         Why Choose Us
+
                     </li>
 
                 </ol>
@@ -35,9 +48,10 @@
             <div class="ml-auto mr-2">
 
                 <a href="{{ route('admin.hrb-why-choose.create') }}"
-                    class="btn btn-primary">
+                   class="btn btn-primary">
 
                     <i class="fa fa-plus"></i>
+
                     Add Item
 
                 </a>
@@ -48,30 +62,107 @@
 
         <div class="content-wrapper pb-4">
 
-            <div class="card">
+            {{-- SUCCESS --}}
+            @if(session('success'))
+
+                <div class="alert alert-success alert-dismissible fade show">
+
+                    {{ session('success') }}
+
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert">
+
+                        &times;
+
+                    </button>
+
+                </div>
+
+            @endif
+
+            {{-- ERROR --}}
+            @if(session('error'))
+
+                <div class="alert alert-danger alert-dismissible fade show">
+
+                    {{ session('error') }}
+
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert">
+
+                        &times;
+
+                    </button>
+
+                </div>
+
+            @endif
+
+            <div class="card shadow-sm">
+
+                <div class="card-header d-flex align-items-center justify-content-between">
+
+                    <strong>
+
+                        All Items
+
+                    </strong>
+
+                    <span class="badge badge-primary">
+
+                        Total:
+                        {{ $items->total() }}
+
+                    </span>
+
+                </div>
 
                 <div class="card-body">
 
                     <div class="table-responsive">
 
-                        <table class="table table-bordered table-hover">
+                        <table class="table table-bordered table-hover align-middle">
 
                             <thead class="thead-light">
 
                                 <tr>
 
-                                    <th>ID</th>
+                                    <th width="70">
 
-                                    <th>Image</th>
+                                        ID
 
-                                    <th>Title</th>
+                                    </th>
 
-                                    <th>Icon</th>
+                                    <th width="100">
 
-                                    <th>Status</th>
+                                        Image
+
+                                    </th>
+
+                                    <th>
+
+                                        Title
+
+                                    </th>
+
+                                    <th>
+
+                                        Icon
+
+                                    </th>
 
                                     <th width="120">
+
+                                        Status
+
+                                    </th>
+
+                                    <th width="160">
+
                                         Action
+
                                     </th>
 
                                 </tr>
@@ -80,36 +171,63 @@
 
                             <tbody>
 
-                                @forelse($items as $item)
+                                @forelse($items ?? [] as $item)
 
                                     <tr id="row{{ $item->id }}">
 
                                         <td>
+
                                             {{ $item->id }}
+
                                         </td>
 
                                         <td>
 
-                                            @if($item->image)
+                                            @if(!empty($item->image))
 
                                                 <img src="{{ asset('storage/'.$item->image) }}"
-                                                    width="70">
+                                                     width="70"
+                                                     height="70"
+                                                     class="img-thumbnail"
+                                                     style="object-fit: cover;">
+
+                                            @else
+
+                                                <span class="text-muted">
+
+                                                    No Image
+
+                                                </span>
 
                                             @endif
 
                                         </td>
 
                                         <td>
-                                            {{ $item->title }}
+
+                                            <strong>
+
+                                                {{ $item->title }}
+
+                                            </strong>
+
                                         </td>
 
                                         <td>
 
-                                            @if($item->icon)
+                                            @if(!empty($item->icon))
 
                                                 <i class="{{ $item->icon }}"></i>
 
                                                 {{ $item->icon }}
+
+                                            @else
+
+                                                <span class="text-muted">
+
+                                                    N/A
+
+                                                </span>
 
                                             @endif
 
@@ -120,13 +238,17 @@
                                             @if($item->status)
 
                                                 <span class="badge badge-success">
+
                                                     Active
+
                                                 </span>
 
                                             @else
 
                                                 <span class="badge badge-danger">
+
                                                     Inactive
+
                                                 </span>
 
                                             @endif
@@ -136,15 +258,19 @@
                                         <td>
 
                                             <a href="{{ route('admin.hrb-why-choose.edit', $item->id) }}"
-                                                class="btn btn-sm btn-primary">
+                                               class="btn btn-sm btn-primary">
+
+                                                <i class="fa fa-pencil"></i>
 
                                                 Edit
 
                                             </a>
 
                                             <button type="button"
-                                                class="btn btn-sm btn-danger"
-                                                onclick="deleteItem({{ $item->id }})">
+                                                    class="btn btn-sm btn-danger"
+                                                    onclick="deleteItem({{ $item->id }})">
+
+                                                <i class="fa fa-trash"></i>
 
                                                 Delete
 
@@ -159,7 +285,7 @@
                                     <tr>
 
                                         <td colspan="6"
-                                            class="text-center">
+                                            class="text-center py-4 text-muted">
 
                                             No Data Found
 
@@ -172,6 +298,10 @@
                             </tbody>
 
                         </table>
+
+                    </div>
+
+                    <div class="mt-3">
 
                         {{ $items->links() }}
 
@@ -191,47 +321,69 @@
 
 <script>
 
-function deleteItem(id)
-{
-    Swal.fire({
+    function deleteItem(id)
+    {
+        Swal.fire({
 
-        title: 'Delete Item?',
+            title: 'Delete Item?',
 
-        icon: 'warning',
+            text: "This action cannot be undone.",
 
-        showCancelButton: true,
+            icon: 'warning',
 
-        confirmButtonColor: '#d33',
+            showCancelButton: true,
 
-        confirmButtonText: 'Yes Delete'
+            confirmButtonColor: '#d33',
 
-    })
+            confirmButtonText: 'Yes Delete'
 
-    .then((result) => {
+        })
 
-        if (result.isConfirmed) {
+        .then((result) => {
 
-            $.ajax({
+            if (result.isConfirmed) {
 
-                url: "{{ url('admin/hrb-why-choose') }}/" + id,
+                $.ajax({
 
-                type: "DELETE",
+                    url: "{{ url('admin/hrb-why-choose') }}/" + id,
 
-                data: {
-                    _token: "{{ csrf_token() }}"
-                },
+                    type: "DELETE",
 
-                success: function(res) {
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
 
-                    $("#row" + id).remove();
+                    success: function(res) {
 
-                }
+                        Swal.fire(
+                            'Deleted!',
+                            res.message,
+                            'success'
+                        );
 
-            });
+                        $("#row" + id).fadeOut(300, function () {
 
-        }
+                            $(this).remove();
 
-    });
-}
+                        });
+
+                    },
+
+                    error: function() {
+
+                        Swal.fire(
+                            'Error!',
+                            'Something went wrong.',
+                            'error'
+                        );
+
+                    }
+
+                });
+
+            }
+
+        });
+    }
 
 </script>

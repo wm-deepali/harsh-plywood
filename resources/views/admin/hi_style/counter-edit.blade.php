@@ -1,3 +1,5 @@
+{{-- resources/views/admin/hi_style/counter-edit.blade.php --}}
+
 @include('admin.top-header')
 
 <div class="main-section">
@@ -6,6 +8,7 @@
 
     <div class="app-content content container-fluid">
 
+        {{-- BREADCRUMB --}}
         <div class="breadcrumbs-top d-flex align-items-center bg-light mb-3">
 
             <div class="breadcrumb-wrapper">
@@ -13,19 +16,29 @@
                 <ol class="breadcrumb bg-transparent mb-0">
 
                     <li class="breadcrumb-item">
+
                         <a href="{{ route('admin.dashboard') }}">
+
                             Dashboard
+
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item">
+
                         <a href="{{ route('admin.hi-style.index') }}">
+
                             Hi Style Page
+
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item active">
+
                         Counter Section
+
                     </li>
 
                 </ol>
@@ -36,46 +49,146 @@
 
         <div class="content-wrapper pb-4">
 
+            {{-- SUCCESS --}}
+            @if(session('success'))
+
+                <div class="alert alert-success alert-dismissible fade show">
+
+                    {{ session('success') }}
+
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert">
+
+                        &times;
+
+                    </button>
+
+                </div>
+
+            @endif
+
+            {{-- ERROR --}}
+            @if(session('error'))
+
+                <div class="alert alert-danger alert-dismissible fade show">
+
+                    {{ session('error') }}
+
+                    <button type="button"
+                            class="close"
+                            data-dismiss="alert">
+
+                        &times;
+
+                    </button>
+
+                </div>
+
+            @endif
+
+            {{-- VALIDATION --}}
+            @if ($errors->any())
+
+                <div class="alert alert-danger">
+
+                    <ul class="mb-0">
+
+                        @foreach ($errors->all() as $error)
+
+                            <li>{{ $error }}</li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+
+            @endif
+
             {{-- SECTION FORM --}}
             <div class="card shadow-sm mb-4">
 
                 <div class="card-header">
-                    <strong>Counter Section</strong>
+
+                    <strong>
+
+                        Counter Section
+
+                    </strong>
+
                 </div>
 
                 <div class="card-body">
 
-                    <form method="POST"
-                        action="{{ route('admin.hi-style.counter.update') }}">
+                    <form id="sectionForm"
+                          method="POST"
+                          action="{{ route('admin.hi-style.counter.update') }}">
 
                         @csrf
 
+                        {{-- HEADING --}}
                         <div class="form-group">
 
-                            <label>Heading</label>
+                            <label>
+
+                                Heading
+
+                            </label>
 
                             <input type="text"
-                                name="counter_heading"
-                                class="form-control"
-                                value="{{ old('counter_heading', $hi_style->counter_heading ?? '') }}">
+                                   name="counter_heading"
+                                   class="form-control @error('counter_heading') is-invalid @enderror"
+                                   value="{{ old('counter_heading', $hi_style->counter_heading ?? '') }}"
+                                   placeholder="Enter heading">
+
+                            @error('counter_heading')
+
+                                <span class="invalid-feedback d-block">
+
+                                    {{ $message }}
+
+                                </span>
+
+                            @enderror
 
                         </div>
 
+                        {{-- SUB HEADING --}}
                         <div class="form-group mt-3">
 
-                            <label>Sub Heading</label>
+                            <label>
+
+                                Sub Heading
+
+                            </label>
 
                             <input type="text"
-                                name="counter_sub_heading"
-                                class="form-control"
-                                value="{{ old('counter_sub_heading', $hi_style->counter_sub_heading ?? '') }}">
+                                   name="counter_sub_heading"
+                                   class="form-control @error('counter_sub_heading') is-invalid @enderror"
+                                   value="{{ old('counter_sub_heading', $hi_style->counter_sub_heading ?? '') }}"
+                                   placeholder="Enter sub heading">
+
+                            @error('counter_sub_heading')
+
+                                <span class="invalid-feedback d-block">
+
+                                    {{ $message }}
+
+                                </span>
+
+                            @enderror
 
                         </div>
 
+                        {{-- BUTTON --}}
                         <div class="mt-4">
 
                             <button type="submit"
-                                class="btn btn-success">
+                                    id="sectionBtn"
+                                    class="btn btn-success">
+
+                                <i class="fa fa-save"></i>
 
                                 Update Section
 
@@ -93,58 +206,113 @@
             <div class="card shadow-sm">
 
                 <div class="card-header">
-                    <strong>Add Counter</strong>
+
+                    <strong>
+
+                        Add Counter
+
+                    </strong>
+
                 </div>
 
                 <div class="card-body">
 
-                    <form method="POST"
-                        action="{{ route('admin.hi-style.counter.store') }}">
+                    <form id="counterForm"
+                          method="POST"
+                          action="{{ route('admin.hi-style.counter.store') }}">
 
                         @csrf
 
                         <div class="row">
 
+                            {{-- COUNTER VALUE --}}
                             <div class="col-md-4">
 
                                 <div class="form-group">
 
-                                    <label>Counter Value</label>
+                                    <label>
+
+                                        Counter Value
+
+                                    </label>
 
                                     <input type="text"
-                                        name="counter_value"
-                                        class="form-control"
-                                        placeholder="25+">
+                                           name="counter_value"
+                                           class="form-control @error('counter_value') is-invalid @enderror"
+                                           value="{{ old('counter_value') }}"
+                                           placeholder="25+">
+
+                                    @error('counter_value')
+
+                                        <span class="invalid-feedback d-block">
+
+                                            {{ $message }}
+
+                                        </span>
+
+                                    @enderror
 
                                 </div>
 
                             </div>
 
+                            {{-- COUNTER TITLE --}}
                             <div class="col-md-4">
 
                                 <div class="form-group">
 
-                                    <label>Counter Title</label>
+                                    <label>
+
+                                        Counter Title
+
+                                    </label>
 
                                     <input type="text"
-                                        name="counter_title"
-                                        class="form-control"
-                                        placeholder="Years Experience">
+                                           name="counter_title"
+                                           class="form-control @error('counter_title') is-invalid @enderror"
+                                           value="{{ old('counter_title') }}"
+                                           placeholder="Years Experience">
+
+                                    @error('counter_title')
+
+                                        <span class="invalid-feedback d-block">
+
+                                            {{ $message }}
+
+                                        </span>
+
+                                    @enderror
 
                                 </div>
 
                             </div>
 
+                            {{-- ICON --}}
                             <div class="col-md-4">
 
                                 <div class="form-group">
 
-                                    <label>Icon Class</label>
+                                    <label>
+
+                                        Icon Class
+
+                                    </label>
 
                                     <input type="text"
-                                        name="icon"
-                                        class="form-control"
-                                        placeholder="fa fa-star">
+                                           name="icon"
+                                           class="form-control @error('icon') is-invalid @enderror"
+                                           value="{{ old('icon') }}"
+                                           placeholder="fa fa-star">
+
+                                    @error('icon')
+
+                                        <span class="invalid-feedback d-block">
+
+                                            {{ $message }}
+
+                                        </span>
+
+                                    @enderror
 
                                 </div>
 
@@ -152,12 +320,20 @@
 
                         </div>
 
-                        <button type="submit"
-                            class="btn btn-primary">
+                        {{-- BUTTON --}}
+                        <div class="mt-3">
 
-                            Add Counter
+                            <button type="submit"
+                                    id="counterBtn"
+                                    class="btn btn-primary">
 
-                        </button>
+                                <i class="fa fa-plus"></i>
+
+                                Add Counter
+
+                            </button>
+
+                        </div>
 
                     </form>
 
@@ -168,30 +344,61 @@
             {{-- COUNTERS TABLE --}}
             <div class="card shadow-sm mt-4">
 
-                <div class="card-header">
-                    <strong>All Counters</strong>
+                <div class="card-header d-flex align-items-center justify-content-between">
+
+                    <strong>
+
+                        All Counters
+
+                    </strong>
+
+                    <span class="badge badge-primary">
+
+                        Total:
+                        {{ $counters->count() }}
+
+                    </span>
+
                 </div>
 
                 <div class="card-body">
 
                     <div class="table-responsive">
 
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-hover align-middle">
 
-                            <thead>
+                            <thead class="thead-light">
 
                                 <tr>
 
-                                    <th>#</th>
+                                    <th width="70">
 
-                                    <th>Counter Value</th>
+                                        #
 
-                                    <th>Counter Title</th>
+                                    </th>
 
-                                    <th>Icon</th>
+                                    <th>
 
-                                    <th width="100">
+                                        Counter Value
+
+                                    </th>
+
+                                    <th>
+
+                                        Counter Title
+
+                                    </th>
+
+                                    <th>
+
+                                        Icon
+
+                                    </th>
+
+                                    <th width="120">
+
                                         Action
+
                                     </th>
 
                                 </tr>
@@ -205,15 +412,21 @@
                                     <tr id="row{{ $counter->id }}">
 
                                         <td>
+
                                             {{ $key + 1 }}
+
                                         </td>
 
                                         <td>
+
                                             {{ $counter->counter_value }}
+
                                         </td>
 
                                         <td>
+
                                             {{ $counter->counter_title }}
+
                                         </td>
 
                                         <td>
@@ -224,6 +437,14 @@
 
                                                 {{ $counter->icon }}
 
+                                            @else
+
+                                                <span class="text-muted">
+
+                                                    N/A
+
+                                                </span>
+
                                             @endif
 
                                         </td>
@@ -231,8 +452,10 @@
                                         <td>
 
                                             <button type="button"
-                                                class="btn btn-sm btn-danger"
-                                                onclick="deleteCounter({{ $counter->id }})">
+                                                    class="btn btn-sm btn-danger"
+                                                    onclick="deleteCounter({{ $counter->id }})">
+
+                                                <i class="fa fa-trash"></i>
 
                                                 Delete
 
@@ -247,7 +470,7 @@
                                     <tr>
 
                                         <td colspan="5"
-                                            class="text-center">
+                                            class="text-center py-4 text-muted">
 
                                             No Counters Found
 
@@ -277,11 +500,49 @@
 
 <script>
 
+/*
+|--------------------------------------------------------------------------
+| PREVENT DOUBLE SUBMIT
+|--------------------------------------------------------------------------
+*/
+
+document.getElementById('sectionForm').addEventListener('submit', function () {
+
+    let btn = document.getElementById('sectionBtn');
+
+    btn.disabled = true;
+
+    btn.innerHTML =
+        '<i class="fa fa-spinner fa-spin"></i> Updating...';
+
+});
+
+
+document.getElementById('counterForm').addEventListener('submit', function () {
+
+    let btn = document.getElementById('counterBtn');
+
+    btn.disabled = true;
+
+    btn.innerHTML =
+        '<i class="fa fa-spinner fa-spin"></i> Adding...';
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| DELETE COUNTER
+|--------------------------------------------------------------------------
+*/
+
 function deleteCounter(id)
 {
     Swal.fire({
 
         title: 'Delete Counter?',
+
+        text: "This action cannot be undone.",
 
         icon: 'warning',
 
@@ -309,7 +570,27 @@ function deleteCounter(id)
 
                 success: function(res) {
 
-                    $("#row" + id).remove();
+                    Swal.fire(
+                        'Deleted!',
+                        res.message,
+                        'success'
+                    );
+
+                    $("#row" + id).fadeOut(300, function () {
+
+                        $(this).remove();
+
+                    });
+
+                },
+
+                error: function() {
+
+                    Swal.fire(
+                        'Error!',
+                        'Something went wrong.',
+                        'error'
+                    );
 
                 }
 

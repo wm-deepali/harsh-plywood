@@ -8,6 +8,7 @@
 
     <div class="app-content content container-fluid">
 
+        {{-- BREADCRUMB --}}
         <div class="breadcrumbs-top d-flex align-items-center bg-light mb-3">
 
             <div class="breadcrumb-wrapper">
@@ -15,19 +16,29 @@
                 <ol class="breadcrumb bg-transparent mb-0">
 
                     <li class="breadcrumb-item">
+
                         <a href="{{ route('admin.dashboard') }}">
+
                             Dashboard
+
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item">
+
                         <a href="{{ route('admin.hrb.index') }}">
+
                             HRB Page
+
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item active">
+
                         Introduction Section
+
                     </li>
 
                 </ol>
@@ -41,110 +52,188 @@
             <div class="card shadow-sm">
 
                 <div class="card-header">
-                    <strong>Edit Introduction Section</strong>
+
+                    <strong>
+
+                        Edit Introduction Section
+
+                    </strong>
+
                 </div>
 
                 <div class="card-body">
 
-                    <form method="POST"
-                        enctype="multipart/form-data"
-                        action="{{ route('admin.hrb.intro.update') }}">
+                    {{-- SUCCESS --}}
+                    @if(session('success'))
+
+                        <div class="alert alert-success alert-dismissible fade show">
+
+                            {{ session('success') }}
+
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="alert">
+
+                                &times;
+
+                            </button>
+
+                        </div>
+
+                    @endif
+
+                    {{-- ERROR --}}
+                    @if(session('error'))
+
+                        <div class="alert alert-danger alert-dismissible fade show">
+
+                            {{ session('error') }}
+
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="alert">
+
+                                &times;
+
+                            </button>
+
+                        </div>
+
+                    @endif
+
+                    {{-- VALIDATION ERRORS --}}
+                    @if ($errors->any())
+
+                        <div class="alert alert-danger">
+
+                            <ul class="mb-0">
+
+                                @foreach ($errors->all() as $error)
+
+                                    <li>{{ $error }}</li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                    @endif
+
+                    {{-- INTRO FORM --}}
+                    <form id="introForm"
+                          method="POST"
+                          enctype="multipart/form-data"
+                          action="{{ route('admin.hrb.intro.update') }}">
 
                         @csrf
 
-                        @if ($errors->any())
-
-                            <div class="alert alert-danger">
-
-                                <ul class="mb-0">
-
-                                    @foreach ($errors->all() as $error)
-
-                                        <li>{{ $error }}</li>
-
-                                    @endforeach
-
-                                </ul>
-
-                            </div>
-
-                        @endif
-
+                        {{-- SUB TITLE --}}
                         <div class="form-group">
 
-                            <label>Sub Title</label>
+                            <label>
+
+                                Sub Title
+
+                            </label>
 
                             <input type="text"
-                                name="intro_sub_title"
-                                class="form-control"
-                                value="{{ old('intro_sub_title', $hrb->intro_sub_title ?? '') }}">
+                                   name="intro_sub_title"
+                                   class="form-control @error('intro_sub_title') is-invalid @enderror"
+                                   value="{{ old('intro_sub_title', $hrb->intro_sub_title ?? '') }}"
+                                   placeholder="Enter sub title">
 
                             @error('intro_sub_title')
 
-                                <small class="text-danger">
+                                <span class="invalid-feedback d-block">
+
                                     {{ $message }}
-                                </small>
+
+                                </span>
 
                             @enderror
 
                         </div>
 
+                        {{-- HEADING --}}
                         <div class="form-group mt-3">
 
-                            <label>Heading</label>
+                            <label>
+
+                                Heading
+
+                            </label>
 
                             <input type="text"
-                                name="intro_heading"
-                                class="form-control"
-                                value="{{ old('intro_heading', $hrb->intro_heading ?? '') }}">
+                                   name="intro_heading"
+                                   class="form-control @error('intro_heading') is-invalid @enderror"
+                                   value="{{ old('intro_heading', $hrb->intro_heading ?? '') }}"
+                                   placeholder="Enter heading">
 
                             @error('intro_heading')
 
-                                <small class="text-danger">
+                                <span class="invalid-feedback d-block">
+
                                     {{ $message }}
-                                </small>
+
+                                </span>
 
                             @enderror
 
                         </div>
 
+                        {{-- CONTENT --}}
                         <div class="form-group mt-3">
 
-                            <label>Content</label>
+                            <label>
+
+                                Content
+
+                            </label>
 
                             <textarea name="intro_content"
-                                rows="6"
-                                class="form-control">{{ old('intro_content', $hrb->intro_content ?? '') }}</textarea>
+                                      rows="6"
+                                      class="form-control @error('intro_content') is-invalid @enderror"
+                                      placeholder="Enter content">{{ old('intro_content', $hrb->intro_content ?? '') }}</textarea>
 
                             @error('intro_content')
 
-                                <small class="text-danger">
+                                <span class="invalid-feedback d-block">
+
                                     {{ $message }}
-                                </small>
+
+                                </span>
 
                             @enderror
 
                         </div>
 
+                        {{-- IMAGE 1 --}}
                         <div class="form-group mt-3">
 
-                            <label>Image 1</label>
+                            <label>
+
+                                Image 1
+
+                            </label>
 
                             <input type="file"
-                                name="intro_image_1"
-                                class="form-control">
+                                   name="intro_image_1"
+                                   class="form-control @error('intro_image_1') is-invalid @enderror">
 
-                            <small class="text-muted">
-                                Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+                            <small class="text-muted d-block mt-1">
+
+                                Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2MB
+
                             </small>
 
                             @error('intro_image_1')
 
-                                <br>
+                                <span class="invalid-feedback d-block">
 
-                                <small class="text-danger">
                                     {{ $message }}
-                                </small>
+
+                                </span>
 
                             @enderror
 
@@ -153,8 +242,8 @@
                                 <div class="mt-3">
 
                                     <img src="{{ asset('storage/' . $hrb->intro_image_1) }}"
-                                        width="120"
-                                        class="img-thumbnail">
+                                         width="120"
+                                         class="img-thumbnail">
 
                                 </div>
 
@@ -162,25 +251,32 @@
 
                         </div>
 
+                        {{-- IMAGE 2 --}}
                         <div class="form-group mt-3">
 
-                            <label>Image 2</label>
+                            <label>
+
+                                Image 2
+
+                            </label>
 
                             <input type="file"
-                                name="intro_image_2"
-                                class="form-control">
+                                   name="intro_image_2"
+                                   class="form-control @error('intro_image_2') is-invalid @enderror">
 
-                            <small class="text-muted">
-                                Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2 MB
+                            <small class="text-muted d-block mt-1">
+
+                                Allowed: JPG, JPEG, PNG, WEBP | Max Size: 2MB
+
                             </small>
 
                             @error('intro_image_2')
 
-                                <br>
+                                <span class="invalid-feedback d-block">
 
-                                <small class="text-danger">
                                     {{ $message }}
-                                </small>
+
+                                </span>
 
                             @enderror
 
@@ -189,8 +285,8 @@
                                 <div class="mt-3">
 
                                     <img src="{{ asset('storage/' . $hrb->intro_image_2) }}"
-                                        width="120"
-                                        class="img-thumbnail">
+                                         width="120"
+                                         class="img-thumbnail">
 
                                 </div>
 
@@ -198,17 +294,21 @@
 
                         </div>
 
+                        {{-- BUTTONS --}}
                         <div class="mt-4">
 
                             <button type="submit"
-                                class="btn btn-success">
+                                    id="saveBtn"
+                                    class="btn btn-success">
+
+                                <i class="fa fa-save"></i>
 
                                 Update Introduction
 
                             </button>
 
                             <a href="{{ route('admin.hrb.index') }}"
-                                class="btn btn-secondary">
+                               class="btn btn-secondary">
 
                                 Cancel
 
@@ -220,35 +320,45 @@
 
                     <hr class="my-4">
 
+                    {{-- FEATURES --}}
                     <h5 class="mb-3">
+
                         Introduction Features
+
                     </h5>
 
-                    {{-- ADD FEATURE FORM --}}
+                    {{-- ADD FEATURE --}}
                     <form method="POST"
-                        action="{{ route('admin.hrb.intro-feature.store') }}">
+                          action="{{ route('admin.hrb.intro-feature.store') }}">
 
                         @csrf
 
                         <div class="row">
 
+                            {{-- TITLE --}}
                             <div class="col-md-5">
 
                                 <div class="form-group">
 
-                                    <label>Feature Title</label>
+                                    <label>
+
+                                        Feature Title
+
+                                    </label>
 
                                     <input type="text"
-                                        name="title"
-                                        class="form-control"
-                                        placeholder="Eco Friendly"
-                                        value="{{ old('title') }}">
+                                           name="title"
+                                           class="form-control @error('title') is-invalid @enderror"
+                                           placeholder="Eco Friendly"
+                                           value="{{ old('title') }}">
 
                                     @error('title')
 
-                                        <small class="text-danger">
+                                        <span class="invalid-feedback d-block">
+
                                             {{ $message }}
-                                        </small>
+
+                                        </span>
 
                                     @enderror
 
@@ -256,23 +366,30 @@
 
                             </div>
 
+                            {{-- ICON --}}
                             <div class="col-md-5">
 
                                 <div class="form-group">
 
-                                    <label>Icon Class</label>
+                                    <label>
+
+                                        Icon Class
+
+                                    </label>
 
                                     <input type="text"
-                                        name="icon"
-                                        class="form-control"
-                                        placeholder="fa fa-leaf"
-                                        value="{{ old('icon') }}">
+                                           name="icon"
+                                           class="form-control @error('icon') is-invalid @enderror"
+                                           placeholder="fa fa-leaf"
+                                           value="{{ old('icon') }}">
 
                                     @error('icon')
 
-                                        <small class="text-danger">
+                                        <span class="invalid-feedback d-block">
+
                                             {{ $message }}
-                                        </small>
+
+                                        </span>
 
                                     @enderror
 
@@ -280,10 +397,11 @@
 
                             </div>
 
+                            {{-- BUTTON --}}
                             <div class="col-md-2 d-flex align-items-end">
 
                                 <button type="submit"
-                                    class="btn btn-primary w-100">
+                                        class="btn btn-primary w-100">
 
                                     Add
 
@@ -305,19 +423,27 @@
                                 <tr>
 
                                     <th width="80">
+
                                         #
+
                                     </th>
 
                                     <th>
+
                                         Title
+
                                     </th>
 
                                     <th>
+
                                         Icon
+
                                     </th>
 
                                     <th width="100">
+
                                         Action
+
                                     </th>
 
                                 </tr>
@@ -326,23 +452,28 @@
 
                             <tbody>
 
-                                @forelse($features as $key => $feature)
+                                @forelse($features ?? [] as $key => $feature)
 
                                     <tr id="featureRow{{ $feature->id }}">
 
                                         <td>
+
                                             {{ $key + 1 }}
+
                                         </td>
 
                                         <td>
+
                                             {{ $feature->title }}
+
                                         </td>
 
                                         <td>
 
-                                            @if($feature->icon)
+                                            @if(!empty($feature->icon))
 
                                                 <i class="{{ $feature->icon }}"></i>
+
                                                 {{ $feature->icon }}
 
                                             @endif
@@ -352,8 +483,8 @@
                                         <td>
 
                                             <button type="button"
-                                                class="btn btn-sm btn-danger"
-                                                onclick="deleteFeature({{ $feature->id }})">
+                                                    class="btn btn-sm btn-danger"
+                                                    onclick="deleteFeature({{ $feature->id }})">
 
                                                 Delete
 
@@ -396,8 +527,20 @@
 
 <script>
 
-    function deleteFeature(id) {
+    // PREVENT DOUBLE SUBMIT
+    document.getElementById('introForm').addEventListener('submit', function ()
+    {
+        let btn = document.getElementById('saveBtn');
 
+        btn.disabled = true;
+
+        btn.innerHTML =
+            '<i class="fa fa-spinner fa-spin"></i> Updating...';
+    });
+
+    // DELETE FEATURE
+    function deleteFeature(id)
+    {
         Swal.fire({
 
             title: 'Delete Feature?',
@@ -426,7 +569,23 @@
 
                     success: function(res) {
 
+                        Swal.fire(
+                            'Deleted!',
+                            res.message,
+                            'success'
+                        );
+
                         $("#featureRow" + id).remove();
+
+                    },
+
+                    error: function() {
+
+                        Swal.fire(
+                            'Error!',
+                            'Something went wrong.',
+                            'error'
+                        );
 
                     }
 
@@ -435,7 +594,6 @@
             }
 
         });
-
     }
 
 </script>

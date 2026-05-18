@@ -1936,6 +1936,7 @@ header .nav-link {
 .activepackegs .icons_packesSecond a {
     color: #fff !important;
     font-weight: 500;
+    text-align:start;
 }
 
 .activepackegs .icons_packesSecond a i {
@@ -1947,6 +1948,7 @@ header .nav-link {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    font-size:12px;
 }
 
 .activepackegs .consult-btn {
@@ -1972,6 +1974,7 @@ header .nav-link {
     border-radius: 50px;
     font-weight: 700;
     font-size: 16px;
+    color:white;
     transition: all 0.3s ease;
 }
 
@@ -1996,7 +1999,8 @@ header .nav-link {
     display: flex;
     flex-direction: column;
     gap: 18px;
-    margin-top: 3em;
+    /*margin-top: 3em;*/
+    margin-bottom:15px;
 }
 
 .icons_packesSecond a {
@@ -2654,6 +2658,8 @@ header .nav-link {
 
 
 
+
+
 /* =========================
    BLOG STYLES
 ========================= */
@@ -2675,21 +2681,25 @@ header .nav-link {
 
 .blog-image {
     position: relative;
-    height: 260px;
+    width: 100%;
+    /*height: 300px; */
+    height: 184px; 
+    
     overflow: hidden;
+    border-radius: 10px; /* Optional */
 }
 
 .blog-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Keeps image proportional */
+    display: block;
     transition: transform 0.6s ease;
 }
 
-.blog-card:hover .blog-image img {
-    transform: scale(1.1);
+.blog-image:hover img {
+    transform: scale(1.05);
 }
-
 .blog-date {
     position: absolute;
     bottom: 20px;
@@ -2717,7 +2727,7 @@ header .nav-link {
 }
 
 .blog-content {
-    padding: 30px;
+    padding: 20px;
 }
 
 .blog-meta {
@@ -3022,12 +3032,13 @@ header .nav-link {
     font-size: 14px;
     line-height: 1.9;
     color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 30px;
+    margin-bottom: 10px;
        font-weight: 600;
 }
 
 .footer-social-section {
     /* margin-top: 30px; */
+    position: relative;
 }
 
 .footer-social-title {
@@ -3039,31 +3050,108 @@ header .nav-link {
     display: block;
 }
 
+
+.footer_whatspp {
+    position: fixed;
+    right: 40px;
+    bottom: 25px;
+}
+
+.social-whatspp{
+      width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #25D366;
+    border: 3px solid #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 26px;
+    position: relative;
+    transition: all 0.4s ease;
+}
+
 .footer_links {
     display: flex;
     align-items: center;
     gap: 16px;
+    
 }
+
+
 
 .social-link {
     width: 48px;
     height: 48px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.12);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+   border: 2px solid rgba(255, 255, 255, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-size: 18px;
+    font-size: 20px;
+    position: relative;
     transition: all 0.4s ease;
 }
+
 
 .social-link:hover {
     background: #fff;
     color: var(--primary-color);
     border-color: #fff;
     transform: translateY(-4px);
+}
+
+/* Multiple blinking rings */
+.social-whatspp::before,
+.social-whatspp::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #25D366;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    animation: waveRing 3s infinite;
+}
+
+/* Second ring delay */
+.social-whatspp::after {
+    animation-delay: 1.5s;
+}
+
+/* Third ring */
+.social-whatspp span::before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #25D366;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    animation: waveRing 3s infinite;
+    animation-delay: 0.8s;
+}
+
+/* Hover */
+.social-link:hover {
+    transform: scale(1.1);
+}
+
+/* Slow expanding ring animation */
+@keyframes waveRing {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
 }
 
 /* Footer Menu Section */
@@ -3282,7 +3370,7 @@ header .nav-link {
 
 @media (max-width: 767px) {
     .footer_wrapper {
-        padding: 60px 0 0;
+        padding: 10px 0 0;
     }
 
     .footer-bottom-content {
@@ -3839,6 +3927,8 @@ header .nav-link {
     font-size: 14px;
 
     line-height: 1.8;
+    
+    text-align:justify;
 }
 
 
@@ -5301,9 +5391,33 @@ header .nav-link {
 
 /* Responsive adjustments */
 @media (max-width: 767px) {
-    .category-slider-wrapper {
-        padding: 0 45px !important;
-    }
+    
+    
+    .buttons_procuts button {
+    border: none;
+    background: none;
+    height: 30px;
+    padding: 0 28px;
+    border-radius: 40px;
+    color: #3c2f25;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.4s ease;
+}
+
+    .categorySwiper .swiper-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+}
+    
+ 
+
+  .prodcts_wrapper .category-slider-wrapper {
+    padding: 0 12px !important;
+}
 
     .category-next,
     .category-prev {
@@ -5312,3 +5426,302 @@ header .nav-link {
         font-size: 14px !important;
     }
 }
+
+
+
+
+
+
+/* Mobile Filter Button */
+.mobile-filter-toggle{
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: #97006f;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Overlay */
+.filter-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 999;
+}
+
+/* Drawer */
+.filter-drawer{
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    z-index: 1000;
+    transition: 0.3s ease;
+    overflow-y: auto;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+}
+
+/* Open State */
+.filter-drawer.active{
+    right: 0;
+}
+
+.filter-overlay.active{
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Header */
+.drawer-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    border-bottom: 1px solid #eee;
+}
+
+.drawer-header h5{
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.close-drawer{
+    border: none;
+    background: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* Body */
+.drawer-body{
+    padding: 15px;
+}
+
+/* Filter Buttons */
+.drawer-body .filter-btn{
+    width: 100%;
+    text-align: left;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background: #fff;
+    transition: 0.3s;
+    font-weight: 600;
+}
+
+.drawer-body .filter-btn.activebutton{
+    background: #97006f;
+    color: #fff;
+}
+
+/* Desktop */
+@media(min-width:768px){
+
+    .mobile-filter-toggle,
+    .filter-overlay,
+    .filter-drawer{
+        display: none;
+    }
+
+}
+
+
+
+/* =========================
+   PARENT WRAPPER
+========================= */
+.quoteDrawerWrapper{
+    position: relative;
+    font-family: Arial, sans-serif;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+
+/* =========================
+   OVERLAY
+========================= */
+.quoteDrawerOverlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s ease;
+    z-index: 999;
+}
+
+/* =========================
+   DRAWER PANEL
+========================= */
+.quoteDrawerPanel{
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 420px;
+    max-width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 9999999;
+    transition: 0.45s ease;
+    overflow-y: auto;
+    box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+}
+
+/* Active States */
+.quoteDrawerWrapper.active .quoteDrawerOverlay{
+    opacity: 1;
+    visibility: visible;
+}
+
+.quoteDrawerWrapper.active .quoteDrawerPanel{
+    right: 0;
+}
+
+/* =========================
+   CONTENT
+========================= */
+.quoteDrawerContent{
+    padding: 50px 35px;
+}
+
+.quoteDrawerTag {
+    display: inline-block;
+    background: #97006f21;
+    color: var(--primary-color);
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+.quoteDrawerHeading{
+    font-size: 34px;
+    line-height: 1.2;
+    margin-bottom: 15px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.quoteDrawerSubtitle{
+    font-size: 15px;
+    color: #64748b;
+    line-height: 1.7;
+    margin-bottom: 35px;
+}
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+.quoteDrawerClose {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--primary-color);
+    background: var(--primary-color);
+    font-size: 22px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    color: white;
+    
+}
+
+.quoteDrawerClose:hover{
+    background: white;
+    color:  var(--primary-color);
+    transform: rotate(90deg);
+}
+
+/* =========================
+   FORM
+========================= */
+.quoteDrawerForm{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.quoteDrawerField input, .quoteDrawerField textarea {
+    width: 100%;
+    border: 1px solid #eddbee;
+    border-radius: 16px;
+    padding: 16px 18px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.3s ease;
+    background: #f4e5f417;
+}
+
+.quoteDrawerField textarea{
+    height: 140px;
+    resize: none;
+}
+
+.quoteDrawerField input:focus,
+.quoteDrawerField textarea:focus{
+    border-color: #eddbee;
+    background: #f4e5f417;
+    box-shadow: 0 0 0 4px #eddbee;
+}
+
+/* =========================
+   SUBMIT BUTTON
+========================= */
+.quoteDrawerSubmit{
+    background:  var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.35s ease;
+}
+
+.quoteDrawerSubmit:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(37,99,235,0.25);
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+@media(max-width: 575px){
+
+    .quoteDrawerPanel{
+        width: 100%;
+    }
+
+    .quoteDrawerContent{
+        padding: 60px 22px 30px;
+    }
+
+    .quoteDrawerHeading{
+        font-size: 28px;
+    }
+
+}
+
+
+
+
